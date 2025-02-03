@@ -1,0 +1,34 @@
+.meta-card {
+  max-width: 500px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.meta-card__image img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}
+
+.meta-card__content {
+  padding: 16px;
+}
+
+.meta-card__logo img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+.meta-card__title {
+  margin: 8px 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.meta-card__description {
+  color: #666;
+  font-size: 14px;
+  line-height: 1.5;
+} 
