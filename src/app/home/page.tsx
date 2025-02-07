@@ -1,4 +1,4 @@
-import Link from 'next/link';
+"use client"
 import {FolderSync,Star} from "lucide-react"
 import {
   Avatar,
@@ -8,13 +8,6 @@ import {
 import {HoverLink} from "@/components/hoverCard"
 import { Button } from '@/components/ui/button';
 
- interface Cards {
-  Header:{
-    username:string,
-    title:string,
-    Avatar:string,
-  }
- }
  interface  Header{
   username:string,
   title:string,
@@ -46,6 +39,20 @@ const Header=({username,title,Avatar}:Header)=>{
 }
 const Footer=()=>{
   // 收藏，同步浏览器标签，查看
+  const GO=()=>{
+    window.postMessage({
+      action: 'callExtensionFunction',
+      params: { title: '草泥马', url: 'https://example1.com' }
+    },  window.location.origin);
+    
+    // 监听插件返回的结果
+    window.addEventListener('message', (event) => {
+      console.log('插件返回的数据:', event);
+      if (event.data.type === 'extensionResponse') {
+        console.log('插件返回:', event.data.result);
+      }
+    }); 
+  }
    return (
     <div className='   m-2 w-full justify-center flex items-center' >
       <Button className='text-white'>
@@ -54,7 +61,7 @@ const Footer=()=>{
 
 {/* // imp :出现加载动画 */}
 <Star className='icon w-8'></Star>
-<FolderSync className='icon w-8'></FolderSync>
+<FolderSync  onClick={()=>GO()} className='icon w-8'></FolderSync>
 
 </div>
     </div>
