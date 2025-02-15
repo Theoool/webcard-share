@@ -75,12 +75,11 @@ export default {
   			sm: 'calc(var(--radius) - 4px)'
   		},
 			textColor: {
-        'default': 'hsl(0, 0%, 0%)',        // #000000
+             // #000000
         'primary': 'hsl(0, 0%, 20%)',       // #333333
-        'secondary': 'hsl(0, 0%, 40%)',     // #666666
+        
         'light': 'hsl(0, 0%, 60%)',         // #999999
-        'disabled': 'hsl(0, 0%, 80%)',      // #cccccc
-        'placeholder': 'hsl(0, 0%, 60%)',   // #999999
+       
       },
   	}
   },
