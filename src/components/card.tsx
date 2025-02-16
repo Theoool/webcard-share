@@ -64,9 +64,11 @@ const Card = ({ header, content, footer }: CardProps) => {
       <Header {...header} />
       <div className="flex flex-col md:flex-row md:items-center gap-2">
   
-    <img className="md:h-[10rem] w-full md:w-auto  object-cover" src={content.imageUrl} alt="Content" />
+    <img className="md:h-[10rem] w-full md:w-auto 
+    
+    object-cover" src={content.imageUrl} alt="Content" />
 
-  <p className="text-[1.2rem]">{content.text}</p>
+  <p className="text-[1.2rem] ">{content.text}</p>
 </div>
       <Footer {...footer} />
     </div>

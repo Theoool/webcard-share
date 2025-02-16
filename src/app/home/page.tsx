@@ -1,11 +1,9 @@
 "use client"
 import { FolderSync, Star } from "lucide-react"
 import {Cardsbox} from '@/components/cardshare'
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { Separator } from "@/components/ui/separator"
- 
+
 import { useToast } from "@/hooks/use-toast"
-import {startTransition,  useState } from 'react'
+
 import { ToastAction } from "@/components/ui/toast"
 import {Link} from 'next-view-transitions'
 import {
@@ -89,13 +87,7 @@ const Footer = () => {
 
 
   }
-  const [tab, setTab] = useState('about');
-  function selectTab(nextTab:string) {
-    startTransition(() => {
-      // 在这里进行状态更新
-      setTab(nextTab);
-    });
-  }
+ 
   return (
     <div className='   m-2 w-full justify-center flex items-center' >
       <Button variant="default" className='text-white' >

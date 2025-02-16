@@ -134,13 +134,14 @@ body {
     transform: translate(0,-50%);
     top: 50%;
     
+    
   }
   .cardboxshow{
    box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.1);
    border-radius: 15px; 
   }
   .cardboxshow:hover{
-    box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 3px 8px 0 #00000033;
   }
   
 }

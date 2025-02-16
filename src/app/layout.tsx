@@ -39,17 +39,17 @@ export default function RootLayout({
     <html lang="en"  className={`${inter.variable}`}>
    <body  className="">
   
-   <SidebarProvider className="flex w-full">
+   {/* <SidebarProvider className="flex w-full"> */}
 
-      <AppSidebar />
-      <main  className="flex-1 px-2 py-3  min-h-screen">
+      {/* <AppSidebar /> */}
+      <main  className="flex-1  py-3  min-h-screen">
 <Toaster></Toaster>     
         <Header></Header>
-        <SidebarTrigger  className=" fixed center "/>  
+        {/* <SidebarTrigger  className=" fixed center "/>   */}
         {children}
       </main>
       
-    </SidebarProvider>
+    {/* </SidebarProvider> */}
    </body>
     </html>
     </ViewTransitions>
