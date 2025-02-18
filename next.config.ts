@@ -4,7 +4,7 @@ import type { Configuration } from 'webpack'
 const nextConfig = {
   // (Optional) Export as a static site
   // See https://nextjs.net.cn/docs/pages/building-your-application/deploying/static-exports#configuration
-  output: 'export', 
+  // output: 'export', 
   async rewrites() {
     return [
       {
@@ -20,6 +20,22 @@ const nextConfig = {
         destination: '/feed.xml',
       },
     ]
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'lh3.googleusercontent.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'avatars.githubusercontent.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'github.com',
+      },
+    ],
   },
   // Override the default webpack configuration
  

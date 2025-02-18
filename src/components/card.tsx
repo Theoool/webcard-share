@@ -14,8 +14,8 @@ function Header({ title, url, logo }: HeaderProps) {
   return (
     <div className="flex w-full gap-10 justify-between">
       <div className="flex w-full gap-10 items-center">
-        <img className="h-8" src={logo} alt={`${title} logo`} />
-        <a href={url} className="text-sm text-light">
+       { logo&&<img className="h-8" src={logo} alt={`${title} logo`} />}
+        <a href={url} className="text-sm line-clamp-1 text-light">
           {title}
         </a>
       </div>
@@ -60,15 +60,16 @@ function Footer({ source, time, onStarClick }: FooterProps) {
 
 const Card = ({ header, content, footer }: CardProps) => {
   return (
-    <div className="w-full min-h-[15rem] flex flex-col p-4 mt-2 cardboxshow">
+    <div className="w-full min-h-[15rem] flex flex-col p-4 mt-2 cardboxshow @container">
       <Header {...header} />
-      <div className="flex flex-col md:flex-row md:items-center gap-2">
-  
-    <img className="md:h-[10rem] w-full md:w-auto 
-    
-    object-cover" src={content.imageUrl} alt="Content" />
+      <div className="flex flex-col md:items-center leading-6  gap-2">
+       
+    {content.imageUrl.length>8&&<img className="md:h-[10rem] w-full md:w-auto  ease-linear 
+    object-cover" src={content.imageUrl} alt="Content" />}
 
-  <p className="text-[1.2rem] ">{content.text}</p>
+  <p className="text-[1rem] leading-2 ">{content.text.split('关键词')[0]}</p>
+  <hr></hr>
+  <p className="text-[1rem] leading-2">{content.text.split('关键词')[1]}</p>
 </div>
       <Footer {...footer} />
     </div>

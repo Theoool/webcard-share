@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Header from '@/components/Header'
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
-import { AppSidebar } from "@/components/app-sidebar"
+import SessionWrapper from '@/components/SessionWrapper';
+
 import {  Ma_Shan_Zheng as MA  } from "next/font/google";
 import { Toaster } from "@/components/ui/toaster"
 import {ViewTransitions} from 'next-view-transitions'
@@ -35,6 +35,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return ( 
+    // <SessionProvider session={session}>
+    // <Component {...pageProps} />
+ 
+<SessionWrapper>
     <ViewTransitions>
     <html lang="en"  className={`${inter.variable}`}>
    <body  className="">
@@ -53,5 +57,7 @@ export default function RootLayout({
    </body>
     </html>
     </ViewTransitions>
+    </SessionWrapper>
   );
+  
 }
