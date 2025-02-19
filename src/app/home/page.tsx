@@ -90,8 +90,8 @@ const Footer = () => {
  
   return (
     <div className='   m-2 w-full justify-center flex items-center' >
-      <Button variant="default" className='text-white' >
-      <Link href={'/home/about'}>查看更多</Link> </Button>
+      <Button variant="default" className='dark:text-black text-primary' >
+      <Link href={'/home/about'}> 查看更多</Link> </Button>
       <div className=' relative m-2  flex justify-end'>
 
         {/* // imp :出现加载动画 */}
@@ -119,7 +119,9 @@ const Body = () => {
     }]
   }
   return <div className='p-2'>
-    <div className=' relative w-full md:text-xl flex   gap-2 justify-around flex-wrap'>
+    <div className=' relative w-full md:text-xl flex 
+    
+    gap-2 justify-around flex-wrap'>
     
      {
       data.carddata.map((el,index)=>{
@@ -140,7 +142,9 @@ const CardS = () => {
  
 
   return (
-    <div className="relative  break-inside-avoid max-h-[60rem] cardboxshow flex flex-col">
+    <div className="relative
+     border-[1px]
+    break-inside-avoid max-h-[60rem] cardboxshow flex flex-col">
       <Header
         username='Theo'
         title="一招绝活走天下，曾经苦学数理化：数学和物理入门"
@@ -154,23 +158,16 @@ const CardS = () => {
 
 
 const page = () => {
-  return <div className="flex justify-center   pt-12 @container   ">
+  return <div className="flex justify-center    p-12 pt-6 @container   ">
     <div className=" w-full flex flex-col gap-2 ">
       <h1 className="text-[2.3rem]  ">挖掘网络的一切可能</h1>
       <h3 className="text-[1.5rem] font-medium">每日发现 </h3>
 
-      <div className=" columns-1 xl:columns-2 gap-2 space-y-4">
+      <div className=" columns-1 xl:columns-3 md:columns-2 gap-2 space-y-4">
      
         <CardS></CardS>
        
-        <div className='break-inside-avoid max-h-[60rem] h-[50rem] cardboxshow'>
-          21
-        </div>
-        <div className='break-inside-avoid max-h-[60rem] h-[20rem] cardboxshow'>
-          21
-        </div>
-        {/* <CardS></CardS> */}
-
+       
         <CardS></CardS>
        
       </div>

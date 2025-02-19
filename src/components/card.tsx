@@ -1,9 +1,13 @@
 'use client';
 import { ExternalLink, Star } from 'lucide-react';
+import { Badge } from "@/components/ui/badge"
+import { useSession } from "next-auth/react";
 import React from 'react';
 import { CardMenubar } from '@/components/menubar';
 import { Share } from '@/components/share';
+
 import clsx from 'clsx';
+import { addCard } from '@/lib/card/router';
 interface HeaderProps {
   title: string;
   url: string;
@@ -59,17 +63,36 @@ function Footer({ source, time, onStarClick }: FooterProps) {
 
 
 const Card = ({ header, content, footer }: CardProps) => {
+  const { data: session, } = useSession();
   return (
     <div className="w-full min-h-[15rem] flex flex-col p-4 mt-2 cardboxshow @container">
-      <Header {...header} />
+      <Header {...header}  />
       <div className="flex flex-col md:items-center leading-6  gap-2">
        
     {content.imageUrl.length>8&&<img className="md:h-[10rem] w-full md:w-auto  ease-linear 
     object-cover" src={content.imageUrl} alt="Content" />}
 
-  <p className="text-[1rem] leading-2 ">{content.text.split('关键词')[0]}</p>
+
+{/* 丨Node.js丨CommonJS丨模块系统丨依赖解析 */}
+  <p className="text-[1rem] leading-2 flex-w ">{content.text.split('关键词')[0]}</p>
   <hr></hr>
-  <p className="text-[1rem] leading-2">{content.text.split('关键词')[1]}</p>
+<div className='flex gap-2 flex-wrap p-2'>
+{
+ content.text.split('丨').map((e,index)=>{
+  return  index>0&&<Badge variant='outline'
+  onClick={()=>addCard({content:content.text.split('#关键词')[0],url:header.url,tags:content.text.split(' | '),
+image:content.imageUrl,
+title:header.title,
+
+  },session)}
+  key={e} className="text-[1rem]  cursor-pointer hover:bg-black/5
+    duration-1000
+
+  leading-2">{e}</Badge>
+ })
+  
+ }
+</div>
 </div>
       <Footer {...footer} />
     </div>

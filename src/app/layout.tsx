@@ -41,7 +41,7 @@ export default function RootLayout({
 <SessionWrapper>
     <ViewTransitions>
     <html lang="en"  className={`${inter.variable}`}>
-   <body  className="">
+   <body  className="dark:bg-black">
   
    {/* <SidebarProvider className="flex w-full"> */}
 
