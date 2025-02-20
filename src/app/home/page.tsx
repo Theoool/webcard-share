@@ -22,7 +22,7 @@ interface Header {
   Avatar: string,
 }
 
-export function AvatarDemo({ src, alt }: any) {
+export function Avatarbox({ src, alt }: any) {
   return (
     <Avatar className=' size-8'>
       <AvatarImage src={src} alt={alt} />
@@ -37,7 +37,7 @@ const Header = ({ username, title, Avatar }: Header) => {
 
       <span className=' text-nowrap truncate'>{title}</span>
       <div className='flex  items-center gap-2 text-base'>
-        <AvatarDemo src={Avatar} alt={username}></AvatarDemo>
+        <Avatarbox src={Avatar} alt={username}></Avatarbox>
         <span> {username}的收藏</span>
       </div>
     </div>

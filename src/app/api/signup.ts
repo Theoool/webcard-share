@@ -1,19 +1,18 @@
-import { useSession,} from "next-auth/react";
+
 interface User{
   email:string
   image:string,
   account?:any,
   username: string;}
 const signup = async (user:User) => {
-  const { data: session, } = useSession();
- 
+
   try {
     const response = await fetch(process.env.NEST_URL+'/auth/signup', {
       mode: 'cors',
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${session?.accessToken}`,
+        'Accept': 'application/json',
       },
       body: JSON.stringify({...user}),
     }).then((res)=>res.json());

@@ -1,5 +1,6 @@
 import NextAuth, { NextAuthOptions, Session } from "next-auth"
 import GithubProvider from 'next-auth/providers/github';
+
 import GoogleProvider from 'next-auth/providers/google';
 
 import {signup} from '@/app/api/signup'
@@ -46,16 +47,15 @@ export  const authOptions: NextAuthOptions = {
     }
   },
   providers: [
+  
+
     GithubProvider({
       clientId: `${process.env.GITHUB_ID}`,
       clientSecret: `${process.env.GITHUB_SECRET}`,
       httpOptions: {
         timeout: 160000,
       },
-      
      
-     
-      
     }),
     
     GoogleProvider({

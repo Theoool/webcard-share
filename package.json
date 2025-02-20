@@ -37,6 +37,7 @@
     "next": "15.1.7",
     "next-auth": "^4.24.11",
     "next-view-transitions": "^0.3.4",
+    "nodemailer": "^6.10.0",
     "puppeteer": "^24.2.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

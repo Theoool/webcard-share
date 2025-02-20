@@ -82,8 +82,6 @@ const addCard=async (data:carddata,session:any) => {
         
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${session.accessToken}`,
-        // authorization: `Bearer ${localStorage.getItem('token')}`,
-
       },
       body: JSON.stringify(data),
     });
