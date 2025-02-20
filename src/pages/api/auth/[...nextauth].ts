@@ -12,7 +12,7 @@ export  const authOptions: NextAuthOptions = {
     strategy:"jwt"
   },
   callbacks:{
-    async signIn({ user, account, profile, email, credentials }:any) {
+    async signIn({ user, account,  }:any) {
     const { accessToken, refreshToken}= await signup({
       username:user.name,
       email:user.email,
@@ -70,8 +70,6 @@ export  const authOptions: NextAuthOptions = {
   ],
 
 }
-// @see ./lib/auth
-export default NextAuth(authOptions)
-// 
 
-// export {handler as GET  , handler as  POST}
+export default NextAuth(authOptions)
+

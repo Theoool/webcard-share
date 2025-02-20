@@ -19,23 +19,21 @@ interface Dialoglist {
   ClickSubmit: () => void | Promise<void>; // 更明确的类型定义
 }
 
-export default function DialogBox({ children, title, ClickSubmit, name, Description }: Dialoglist) {
-
-
+export default function DialogBox({ children, title, name, Description }: Dialoglist) {
   return (
     <Dialog>
     <DialogTrigger asChild>
-     <Share2></Share2>
+    <h1>{name}</h1>
     </DialogTrigger>
     <DialogContent className="max-w-sm sm:max-w-md ">
       <DialogHeader>
-        <DialogTitle>分享合集</DialogTitle>
+        <DialogTitle>{title}</DialogTitle>
         <DialogDescription>
-       选择你喜欢的分享方式
+     {Description}
         </DialogDescription>
       </DialogHeader>
       <div>
-        默哀判断奇偶拉萨就可怕了  
+       {children}
       </div>
      
       <DialogFooter className="sm:justify-start">

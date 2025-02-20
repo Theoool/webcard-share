@@ -1,5 +1,5 @@
 'use client';
-import { ExternalLink, Star } from 'lucide-react';
+import { Star } from 'lucide-react';
 import { Badge } from "@/components/ui/badge"
 import { useSession } from "next-auth/react";
 import React from 'react';

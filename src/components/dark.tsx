@@ -14,8 +14,7 @@ import { useEffect, useState } from "react";
     
   },[]);
   const toggleDark=(event?: MouseEvent|any) =>{
-    console.log(event);
-    
+   
     // @ts-expect-error experimental API
       const isAppearanceTransition = document.startViewTransition
         && !window.matchMedia('(prefers-reduced-motion: reduce)').matches

@@ -5,7 +5,6 @@ interface User{
   account?:any,
   username: string;}
 const signup = async (user:User) => {
-
   try {
     const response = await fetch(process.env.NEST_URL+'/auth/signup', {
       mode: 'cors',

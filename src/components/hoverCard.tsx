@@ -42,7 +42,7 @@ export function HoverCardDemo({}) {
   )
 }
 export function HoverLink({url,name,avatar,Desc}:any) {
-  const img='https://cali.so/favicon.ico'
+  avatar=avatar??'https://cali.so/favicon.ico'
 
   return (
     <HoverCard>
@@ -54,7 +54,7 @@ export function HoverLink({url,name,avatar,Desc}:any) {
       <HoverCardContent className="w-80">
         <div className="flex justify-between space-x-4">
           <Avatar>
-            <AvatarImage src={img}  />
+            <AvatarImage src={avatar}  />
             <AvatarFallback>ZH</AvatarFallback>
           </Avatar>
           <div className="space-y-1">

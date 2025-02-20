@@ -1,8 +1,6 @@
 // import { useSession} from "next-auth/react";
 
-import { Session } from "inspector/promises";
 
-// const session=useSession()
 const getCardProps = async (url: string) => {
   try {
     const response = await fetch('http://localhost:3000/Card/url', {
@@ -30,32 +28,32 @@ const getCardProps = async (url: string) => {
     };
   }
 };
-const getSEO = async (url: string) => {
-  try {
-    const response = await fetch('http://localhost:3000/Card/url', {
-      mode: 'cors',
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ url:url }),
-    });
-    // 处理 HTTP 错误状态码 (如 404, 500 等)
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
+// const getSEO = async (url: string) => {
+//   try {
+//     const response = await fetch('http://localhost:3000/Card/url', {
+//       mode: 'cors',
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json',
+//       },
+//       body: JSON.stringify({ url:url }),
+//     });
+//     // 处理 HTTP 错误状态码 (如 404, 500 等)
+//     if (!response.ok) {
+//       throw new Error(`HTTP error! status: ${response.status}`);
+//     }
 
-    return await response.json();
-  } catch (error) {
-    // 统一错误处理
-    console.error('Fetch failed:', error);
-    // 返回标准化错误格式
-    return { 
-      success: false,
-      error: error instanceof Error ? error.message : 'Unknown error'
-    };
-  }
-};
+//     return await response.json();
+//   } catch (error) {
+//     // 统一错误处理
+//     console.error('Fetch failed:', error);
+//     // 返回标准化错误格式
+//     return { 
+//       success: false,
+//       error: error instanceof Error ? error.message : 'Unknown error'
+//     };
+//   }
+// };
 
 // {
 //   "UserFavoriteId": "cm73n6r7j0001xz27pj6o7wxs",

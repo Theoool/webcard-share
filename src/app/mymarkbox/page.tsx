@@ -1,12 +1,12 @@
 "use client";
-import { useSession, signIn, signOut } from "next-auth/react";
+import { useSession,  } from "next-auth/react";
 
 export default function Home() {
   const { data: session } = useSession();
   if (session) {
     return (
       <>
-        
+        <div>1打开了时间</div>
       </>
     );
     

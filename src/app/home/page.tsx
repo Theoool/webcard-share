@@ -11,18 +11,13 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "@/components/ui/avatar"
-
 import { Button } from '@/components/ui/button';
-
-
-
 interface Header {
   username: string,
   title: string,
   Avatar: string,
 }
-
-export function Avatarbox({ src, alt }: any) {
+const Avatarbox=({ src, alt }: any)=> {
   return (
     <Avatar className=' size-8'>
       <AvatarImage src={src} alt={alt} />
@@ -180,22 +175,6 @@ const page = () => {
 }
 
 
-// rss的功能就是 可以及时的跟新订阅源，不用每次都去访问网站，但是我要做到功能是用户通过rss来去访问网站，只是这个rss可以用户去编辑，
-// 我的网站是否需要支持去订阅rss源呢?
-// 用户可以引入一个更新源？
 
 
-{/* <div className="  leading-10 text-xxl">
-1.  随机推送  功能按钮<hr/>
-2. AI？标签搜索 or 宝藏挖掘<hr></hr>
-3. 网址推荐<hr></hr>
-4. 标签同步  功能按钮 同步到浏览器标签上  这个现在变成重点了<hr></hr>
-5. aI摘要  ！！！！<hr></hr>
-6. 网站/pdf托拽总结关键信息点，生成关联路径/思维导图/内容相似度？   功能按钮   AI重点关照对象<hr></hr>
-7. 用户登录 邮箱/github/谷歌 oauth<hr></hr>
-8. rss 订阅 这个需要想一个好的方式来完成订阅 <hr></hr>
-9. 社区贡献排行00 <hr></hr>
-10. 关于我们
-11. 分享卡片 寻找各种方式来完成
-</div> */}
 export default page

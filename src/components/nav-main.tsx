@@ -1,7 +1,7 @@
 "use client"
 
 import { ChevronRight, type LucideIcon } from "lucide-react"
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
+
 import {
   Collapsible,
   CollapsibleContent,

@@ -1,13 +1,12 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react"; // 假设使用 lucide-react 图标
 
-import { ReactElement, JSXElementConstructor, ReactNode, ReactPortal, useState, useEffect } from "react";
+import { ReactElement, JSXElementConstructor, ReactNode, ReactPortal, } from "react";
 import Card from "./card";
 import { Skeleton } from "@/components/ui/skeleton"
 
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { Separator } from "@/components/ui/separator"
- 
+
 // 容器动画
 const containerVariants = {
   open: { 
@@ -59,7 +58,7 @@ export function FullscreenPanel({ isOpen, onClose,data }:any) {
 注：所有优化建议均基于白帽SEO原则，实施周期建议控制在6-8周，预期可实现自然搜索流量增长120%-150%[4][3]
 `
  const strs: (string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined)[]=[]
-   str.split('\n').map((item,index)=>{
+   str.split('\n').map((item)=>{
     strs.push(item)
    }
   )

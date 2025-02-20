@@ -1,5 +1,5 @@
 "use client"
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FullscreenPanel } from "@/components/three";
 import { Button } from "@/components/ui/button";
 import {getCardProps} from '@/lib/card/router'
@@ -24,9 +24,9 @@ export default function Home() {
 onKeyDown={async e=>{
   if (e.code==='Enter'||e.key==='Enter') {  
      setshow(true)
-      let data= await getCardProps(value)
+      const PropsData= await getCardProps(value)
       
-      if (data) {
+      if (PropsData) {
           setdata({...data,url:value})
       } else{
         toast({

@@ -2,27 +2,16 @@
 import {Avatar,AvatarImage,AvatarFallback} from '@/components/ui/avatar'
 import Link from 'next/link'
 
-import { ListCollapse, Power, Search, Settings2 } from 'lucide-react'
+import { ListCollapse,Search,  } from 'lucide-react'
 
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 
-interface Dialoglist {
-  children: React.ReactNode;
-  name: React.ReactNode;
-  Description: string;
-  title: string;
-  ClickSubmit: () => void | Promise<void>; // 更明确的类型定义
-}
+// interface Dialoglist {
+//   children: React.ReactNode;
+//   name: React.ReactNode;
+//   Description: string;
+//   title: string;
+//   ClickSubmit: () => void | Promise<void>; // 更明确的类型定义
+// }
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -37,43 +26,18 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
  
-import { Label } from '@/components/ui/label'
+
 import { Input } from '@/components/ui/input'
-import { forwardRef, useEffect, useRef, useState } from 'react'
-export  function DialogBox({ children, title, ClickSubmit, name, Description }: Dialoglist) {
+import { useState } from 'react'
+import DialogBox from '../DialogBox'
 
-
-  return (
-    <Dialog>
-    <DialogTrigger asChild>
-  <div>添加</div>
-    </DialogTrigger>
-    <DialogContent className="max-w-sm sm:max-w-md ">
-      <DialogHeader>
-        <DialogTitle>分享合集</DialogTitle>
-        <DialogDescription>
-       选择你喜欢的分享方式
-        </DialogDescription>
-      </DialogHeader>
-     niashjdnika1
-      <DialogFooter className="sm:justify-start">
-        <DialogClose asChild>
-          <Button type="button" variant="secondary">
-            Close
-          </Button>
-        </DialogClose>
-      </DialogFooter>
-    </DialogContent>
-  </Dialog>
-  );
-}
 function Users(){
   
 
 
   //主要的作者，次要作者，链接可以点，hover会显示作者名字
   const [search,setSearch]=useState<boolean>(true)
-  const [inputValue,setinputValue]=useState<string>('')
+  // const [inputValue,setinputValue]=useState<string>('')
     return <div className='flex gap-10 justify-between w-full items-end'>
        <div className='flex  h-10   items-end   '>
       <Link href=''>

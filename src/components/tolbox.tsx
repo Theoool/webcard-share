@@ -20,7 +20,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useRef } from "react"
 import { ToastAction } from "@radix-ui/react-toast"
-import { useToast } from "@/hooks/use-toast"
+import { useToast as UseToast } from "@/hooks/use-toast"
 const bookmarks: any[] = [
   {
     title: '书签栏',
@@ -48,15 +48,12 @@ function DialogCloseButton()
 {
   const   router = useParams()
   const cardimage=useRef<HTMLDivElement|null>(null)
-  const currentUrl = `${window.location.origin}/home/${router.slug}`;
+  const currentUrl = `${window.location.origin}/home/${router!.slug}`;
   
   function saveAsPng() {
-    function filter (node:any) {
-      return (node.tagName !== 'i');
-  }
+ 
    if (cardimage.current) {
-    let dom=cardimage.current.cloneNode(true) as HTMLElement;
-    
+    const dom=cardimage.current.cloneNode(true) as HTMLElement;
     dom.style.width=cardimage.current.clientWidth*2+'px'
     dom.style.height=cardimage.current.clientHeight*2+'px'
     domtoimage.toPng(cardimage.current).then((dataUrl: string) => {
@@ -144,7 +141,7 @@ function tolbox() {
          //离线阅读 //pdf/html下载
     */}
 
-    const { toast } = useToast()
+    const { toast } = UseToast()
 
     const removeEventListenerMessage = () => {
       window.removeEventListener('message', handleEventMessage);

@@ -1,5 +1,5 @@
 "use sever"
-export default async function GET(request: Request) {
+export default async function GET() {
   return new Response("Hello, Next.js!");
 }
 
