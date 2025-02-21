@@ -1,14 +1,10 @@
 import type { Metadata } from "next";
 import Header from '@/components/Header'
 import SessionWrapper from '@/components/SessionWrapper';
-
 import {  Ma_Shan_Zheng as MA  } from "next/font/google";
 import { Toaster } from "@/components/ui/toaster"
 import {ViewTransitions} from 'next-view-transitions'
 import "./globals.css";
-
-
-
 // 1. 配置主字体
 const inter =MA({
   subsets: ['latin'],
@@ -35,25 +31,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return ( 
-    // <SessionProvider session={session}>
-    // <Component {...pageProps} />
- 
 <SessionWrapper>
     <ViewTransitions>
     <html lang="en"  className={`${inter.variable}`}>
    <body  className="dark:bg-black">
-  
-   {/* <SidebarProvider className="flex w-full"> */}
-
-      {/* <AppSidebar /> */}
       <main  className="flex-1  py-3  min-h-screen">
 <Toaster></Toaster>     
         <Header></Header>
-        {/* <SidebarTrigger  className=" fixed center "/>   */}
+      
         {children}
       </main>
-      
-    {/* </SidebarProvider> */}
    </body>
     </html>
     </ViewTransitions>

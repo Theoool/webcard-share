@@ -5,7 +5,6 @@ interface User{
   account?:any,
   username: string;}
 const signup = async (user:User) => {
-  try {
     const response = await fetch(process.env.NEST_URL+'/auth/signup', {
       mode: 'cors',
       method: 'POST',
@@ -14,18 +13,9 @@ const signup = async (user:User) => {
         'Accept': 'application/json',
       },
       body: JSON.stringify({...user}),
-    }).then((res)=>res.json());
-   
-    return await response;
-  } catch (error) {
-    // 统一错误处理
-    console.error('Fetch failed:', error);
-    // 返回标准化错误格式
-    return { 
-      success: false,
-      error: error instanceof Error ? error.message : 'Unknown error'
-    };
-  }
+    }).then((res)=>res.json())
+     await console.log(response);
+    return  response;
 };
 
-export { signup}
+export {signup}

@@ -2,17 +2,17 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react"; // 假设使用 lucide-react 图标
 
 import { ReactElement, JSXElementConstructor, ReactNode, ReactPortal, } from "react";
-import Card from "./card";
+import Card from "@/components/card/index";
 import { Skeleton } from "@/components/ui/skeleton"
-
 import { ScrollArea } from "@/components/ui/scroll-area"
+import SeoParser from "./SeoParser";
 
 // 容器动画
 const containerVariants = {
-  open: { 
+  open: {
     opacity: 1,
     scale: 1,
-    transition: { 
+    transition: {
       type: "spring",
       stiffness: 300,
       damping: 25
@@ -34,8 +34,8 @@ const backdropVariants = {
 };
 
 
-export function FullscreenPanel({ isOpen, onClose,data }:any) {
-  const str=`根据对https://www.bestblogs.dev/的分析，结合SEO与用户体验优化原则，提出以下建议：
+export function FullscreenPanel({ isOpen, onClose, data }: any) {
+  const str = `根据对https://www.bestblogs.dev/的分析，结合SEO与用户体验优化原则，提出以下建议：
 
 结构化数据增强
 建议在文章页面部署Schema.org的Article/BlogPosting结构化标记[4]，特别是针对技术类文章增加HowTo和CodeSample组件。这将提升Google精选摘要的抓取概率，预计可使搜索可见性提升30%[2]
@@ -57,135 +57,120 @@ export function FullscreenPanel({ isOpen, onClose,data }:any) {
 
 注：所有优化建议均基于白帽SEO原则，实施周期建议控制在6-8周，预期可实现自然搜索流量增长120%-150%[4][3]
 `
- const strs: (string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined)[]=[]
-   str.split('\n').map((item)=>{
+  const strs: (string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined)[] = []
+  str.split('\n').map((item) => {
     strs.push(item)
-   }
+  }
   )
- 
-
- 
-
   return (
-  <div >
-     
-     
-     {
-   
-  <AnimatePresence>
-      {isOpen &&  (
-      
-        <motion.div
-          className=" fixed  inset-0  
+    <div>
+      {
+
+        <AnimatePresence>
+          {isOpen && (
+
+            <motion.div
+              className=" fixed  inset-0  
           
            z-50"
-          variants={backdropVariants}
-          initial="closed"
-          animate="open"
-          exit="closed"
-        >
-          {
-            
-            <motion.div
-              className="absolute top-0 p-2 sm:p-10 bg-white dark:bg-black w-full h-full"
-              variants={containerVariants}
+              variants={backdropVariants}
               initial="closed"
               animate="open"
               exit="closed"
             >
-                 <ScrollArea className="h-full     ">
-              <div className="flex justify-between   px-2 sm:px-12">
-               <div className="flex flex-col gap-2">
-               <h1 className="text-xl">搜索url:{data.url}</h1>
-             
-               </div>
+              {
+
                 <motion.div
-                  whileHover={{ rotate: 360 }}
-                  transition={{ duration: 0.5 }}
+                  className="absolute top-0 p-2 sm:p-10 bg-white dark:bg-black w-full h-full"
+                  variants={containerVariants}
+                  initial="closed"
+                  animate="open"
+                  exit="closed"
                 >
-                  <X 
-                    className="cursor-pointer"
-                    onClick={onClose}
-                  />
-                </motion.div>
-              </div>
-             
-              
-              <motion.div 
-                className="flex w-full gap-2  h-full p-2"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ 
-                  opacity: 1, 
-                  y: 0,
-                  transition: { delay: 0.2 }
-                }}
-                exit={{ 
-                  opacity: 0,
-                  transition: { duration: 0.1 }
-                }}
-              >
-                         
-   
-    <div className="   gap-2 
+                  <ScrollArea className="h-full     ">
+                    <div className="flex justify-between   px-2 sm:px-12">
+                      <div className="flex flex-col gap-2">
+                        <h1 className="text-xl">搜索url:{data.url}</h1>
+
+                      </div>
+                      <motion.div
+                        whileHover={{ rotate: 360 }}
+                        transition={{ duration: 0.5 }}
+                      >
+                        <X
+                          className="cursor-pointer"
+                          onClick={onClose}
+                        />
+                      </motion.div>
+                    </div>
+
+
+                    <motion.div
+                      className="flex w-full gap-2  h-full p-2"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{
+                        opacity: 1,
+                        y: 0,
+                        transition: { delay: 0.2 }
+                      }}
+                      exit={{
+                        opacity: 0,
+                        transition: { duration: 0.1 }
+                      }}
+                    >
+
+
+                      <div className="   gap-2 
      md:flex-row flex-col 
     w-full h-full p-2
      flex 
      ">
-     
-      <div className="flex-1 h-full hidden xl:flex  ">
-        {
-          data.url ?<iframe className="w-full h-[85vh]" src={data.url}>
-  
-          </iframe>:<Skeleton className="w-full h-full" />
-        }
-      </div>
-      <div className="flex-1  h-[85vh] ">
-    
-     { data.finalSummary?<Card
-    header={{
-      title: data.meta.title,
-      url: data.meta.image,
-      logo: data.meta.logo
-    }}
-    content={{
-      imageUrl: data.meta.image,
-      text: data.finalSummary
-    }}
-    footer={{
-      source: "webshare.com",
-      time: Date.now().toString()
-    }}
-  />:<Skeleton className="w-full h-[85vh]" /> }
-       
-      </div>
-      <div className="flex-1   h-full cardboxshow ">
-       {strs?<div className="p-2 ">
-       <h3 className="text-[18px]">{strs[0]}</h3>
-        {strs.map((item,index)=>{
-          if (index===0) {
-            return <div key={index}></div>
-          }
-          return <p  key={index} className=" text-[16px]">{item}</p>
-        })} 
-       </div>:<Skeleton className="w-full h-[85vh]" />
-}
-      </div>
-    </div>
-                {/* iframe 和 Card 内容 */}
-              </motion.div>
-              </ScrollArea>
-            </motion.div>
-            
-          }
-        </motion.div>
-        
-      )}
-      
-    </AnimatePresence>
-    
+                        <div className="flex-1 h-full hidden xl:flex  ">
+                          {
+                            data.url ? <iframe className="w-full h-[85vh]" src={data.url}>
 
-    }
-   
-  </div>
+                            </iframe> : <Skeleton className="w-full h-[85vh]" />
+                          }
+                        </div>
+                        <div className="flex-1  h-[85vh] ">
+
+                          {data.meta ? <Card
+                            header={{
+                              title: data.meta.title,
+                              url: data.meta.image,
+                              logo: data.meta.logo
+                            }}
+                            content={{
+                              imageUrl: data.meta.image,
+                              text: data.finalSummary
+                            }}
+                            footer={{
+                              source: "webshare.com",
+                              time: Date.now().toString()
+                            }}
+                          /> : <Skeleton className="w-full h-[85vh]" />}
+
+                        </div>
+                        <div className="flex-1    h-full cardboxshow ">
+                          
+                         <SeoParser  url={data.url}></SeoParser>
+                        </div>
+                      </div>
+                      {/* iframe 和 Card 内容 */}
+                    </motion.div>
+                  </ScrollArea>
+                </motion.div>
+
+              }
+            </motion.div>
+
+          )}
+
+        </AnimatePresence>
+
+
+      }
+
+    </div>
   );
 }

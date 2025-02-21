@@ -86,7 +86,7 @@ const Footer = () => {
   return (
     <div className='   m-2 w-full justify-center flex items-center' >
       <Button variant="default" className='dark:text-black text-primary' >
-      <Link href={'/home/about'}> 查看更多</Link> </Button>
+      <Link href={'/about'}> 查看更多</Link> </Button>
       <div className=' relative m-2  flex justify-end'>
 
         {/* // imp :出现加载动画 */}

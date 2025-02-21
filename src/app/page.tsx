@@ -27,7 +27,7 @@ onKeyDown={async e=>{
       const PropsData= await getCardProps(value)
       
       if (PropsData) {
-          setdata({...data,url:value})
+          setdata({...PropsData,url:value})
       } else{
         toast({
           title: "输入错误或无法连接到该网页",
