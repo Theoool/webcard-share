@@ -1,6 +1,8 @@
 // import { useSession} from "next-auth/react";
 
 
+
+
 const getCardProps = async (url: string) => {
   try {
     const response = await fetch('http://localhost:3000/Card/url', {
@@ -72,14 +74,16 @@ interface carddata{
   content:string
 }
 const addCard=async (data:carddata,session:any) => {
+  console.log(session);
+  
+  
   try {
     const response = await fetch('http://localhost:3000/Card', {
       mode: 'cors',
       method: 'POST',
       headers: {
-        
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${session.accessToken}`,
+        'Authorization': `Bearer ${session}`,
       },
       body: JSON.stringify(data),
     });

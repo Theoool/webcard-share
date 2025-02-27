@@ -6,7 +6,6 @@ declare module "next-auth" {
   interface Session {
     accessToken?: string; // 你的自定义属性
     provider?:any
-    
   }
   
 

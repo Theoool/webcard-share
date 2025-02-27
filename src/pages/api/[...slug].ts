@@ -1,12 +1,9 @@
-
 import type { NextApiRequest, NextApiResponse } from 'next';
 import httpProxy from 'http-proxy';
-
 // 排除代理的特殊路由
 const EXCLUDE_ROUTES = [
-  '/cards'
+  // '/cards'
 ];
-
 // 单例代理实例
 const proxy:any = httpProxy.createProxyServer({
   target: process.env.NESTJS_API_URL,
@@ -37,7 +34,6 @@ export default async function handler(
     if (req.method === 'OPTIONS') {
       return res.status(200).end();
     }
-
     // 检查是否排除路由
     const requestPath = req.url || '/';
     if (EXCLUDE_ROUTES.some(route => requestPath.startsWith(`/api${route}`))) {
@@ -48,7 +44,7 @@ export default async function handler(
     }
 
     // 转发时保留原始路径（移除/api前缀）
-    const originalUrl = requestPath.replace(/^\/api/, '');
+    const originalUrl = requestPath;
     
     return new Promise((resolve) => {
       proxy.web(req, res, { 

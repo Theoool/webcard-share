@@ -62,28 +62,13 @@ const data={
    
   },]
 }
-
-
-// function Footer(){
-//     {/* //删除  //邀请 //分享 卡片二维码  //RSS //添加   
-//         // 公开/私密   导出/导入（插件功能）  //阅读  //标注（以后再更新）
-//         //拖拽Ai，网页对比，网页思维导图
-//          //离线阅读 //pdf/html下载
-//     */}
-
-//  return <div className='h-[5vh]'>
-
-
-//  </div>
-// }
-
 export default function Page() {
   return  <div className=" @container animate-fade-down  flex-10 p2 m2 flex
   flex-col sm:flex-row
   justify-center">
   
 <div className="flex-grow-1  hidden sm:flex">1</div> 
-     <div className="flex-grow-2 flex flex-col xl:w-[58%]  md:w-[70%]  w-full    m-2">
+     <div className="flex-grow-2 flex flex-col xl:w-[58%]  md:w-[60%]  w-full    m-2">
    <div className='flex   justify-center text-xl w-full flex-wrap'>
        
    {data.title}

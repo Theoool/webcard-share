@@ -35,11 +35,21 @@ export default function RootLayout({
     <ViewTransitions>
     <html lang="en"  className={`${inter.variable}`}>
    <body  className="dark:bg-black">
-      <main  className="flex-1  py-3  min-h-screen">
+   
+      <main  className="flex-1  w-full   py-3  min-h-screen">
 <Toaster></Toaster>     
-        <Header></Header>
+        <Header></Header> 
       
         {children}
+
+       
+        <div className="w-[100vw]  flex justify-center items-center text-2xl  flex-col 
+       
+        min-h-[200vh]  dark:text-white ">
+          <p>一个URL，一个web，一个插件，一个AI生成</p> 
+          <p>管理你的浏览器标签收藏</p> 
+ 
+        </div>
       </main>
    </body>
     </html>

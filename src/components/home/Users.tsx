@@ -32,11 +32,8 @@ import { useState } from 'react'
 import DialogBox from '../DialogBox'
 
 function Users(){
-  
-
-
   //主要的作者，次要作者，链接可以点，hover会显示作者名字
-  const [search,setSearch]=useState<boolean>(true)
+  const [search,setSearch]=useState<boolean>(false)
   // const [inputValue,setinputValue]=useState<string>('')
     return <div className='flex gap-10 justify-between w-full items-end'>
        <div className='flex  h-10   items-end   '>
@@ -46,18 +43,7 @@ function Users(){
         <AvatarFallback>CN</AvatarFallback>
        </Avatar>
       </Link>
-      <div className='flex  w-full flex-row-reverse transform justify-end'>
-    {
-      [0,1,2,3].map((e)=>{
-        return   <Link href=''  key={e}  className='w-1 mx-2 ' >
-        <Avatar  className=' hover:w-8 hover:h-8 transform duration-75  w-7 h-7'  >
-       <AvatarImage   src="https://github.com/shadcn.png" />
-        <AvatarFallback>CN</AvatarFallback>
-       </Avatar>
-      </Link>
-      })
-    }
-      </div>
+      
   
     </div>
     
@@ -88,10 +74,12 @@ function Users(){
       <DropdownMenuLabel>更多的功能</DropdownMenuLabel>
       <DropdownMenuSeparator />
       
-      <DropdownMenuItem  onClick={(event)=>{
-         event.preventDefault(); 
-      }}>
-      <DialogBox name={<DropdownMenuItem>添加</DropdownMenuItem>}
+     
+      <DialogBox name={<DropdownMenuItem
+       onClick={(event)=>{
+        event.preventDefault(); 
+     }}
+      >添加</DropdownMenuItem>}
        Description='添加更多的图片Card' 
        ClickSubmit={()=>{
     
@@ -101,7 +89,7 @@ function Users(){
   
   <div>1</div>
       </DialogBox>
-      </DropdownMenuItem>
+      
       <DropdownMenuItem>团队</DropdownMenuItem>
       <DropdownMenuItem>订阅</DropdownMenuItem>
       <DropdownMenuItem>设置</DropdownMenuItem>

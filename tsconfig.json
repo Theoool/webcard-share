@@ -25,6 +25,7 @@
   },
   "include": ["next-env.d.ts",
   "src/types/**/*.d.ts", // 包含自定义类型
+
   "**/*.ts", "**/*.tsx", 
   "src/components/**/*.ts", 
   ".next/types/**/*.ts"],

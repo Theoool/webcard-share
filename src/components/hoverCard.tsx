@@ -48,7 +48,7 @@ export function HoverLink({url,name,avatar,Desc}:any) {
     <HoverCard>
       {/* <a href=></a> */}
       <HoverCardTrigger asChild>
-        <Link  href={url}>{name}</Link>
+        <Link  href={url} className="text-sm font-thin font-serif">{name}</Link>
      
       </HoverCardTrigger>
       <HoverCardContent className="w-80">

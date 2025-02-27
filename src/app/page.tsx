@@ -10,6 +10,34 @@ export default function Home() {
   const [show,setshow]=useState(false)
   const [data,setdata]=useState<any>('a')
   const { toast } = useToast()
+  const [Tip,changeTip]=useState([{
+    text:'默认模式',
+    bol:true
+  },{
+    text:'宣传文案',
+    bol:false
+  },{
+    text:'纯净模式',
+    bol:false
+  },{
+    text:'页面预览',
+    bol:true
+  },{
+    text:'SEO建议',
+    bol:true
+  }])
+  const changeTipModle=({I,text,bol})=>{
+
+        let newTip=Tip.map((e,index)=>{
+          if (index===I) {
+            e.bol=!bol
+          }
+          return e
+        }) 
+        changeTip([...newTip])
+        
+      }
+  
  const Get=()=>{
   const a= fetch('http://localhost:8080/api', {}).then(res=>res.json())
   return a
@@ -47,11 +75,19 @@ onKeyDown={async e=>{
   className="font-mono w-2/3 px-2 rounded-md text-md
    border-black dark:border-purple-300 dark:bg-black dark:text-primary border-[1px] mt-2"
 />
- <div className=" w-2/3 flex gap-10 p-3 justify-center">
- <Button  variant='outline'>文章</Button>
- <Button variant='outline'>网页</Button>
- <Button variant='outline'>视频</Button>
- <Button variant='outline'>音乐</Button>
+ <div className=" w-2/3 flex gap-x-10 gap-y-2 flex-wrap p-3 justify-center">
+ {
+  Tip.map((e,index)=>{
+    return !e.bol?<Button key={index}  variant='outline' 
+    onClick={()=>changeTipModle({I:index,...e})}
+    >{e.text}</Button>:<Button key={index}
+    onClick={()=>changeTipModle({I:index,...e})}
+    variant='outline' className=" 
+     bg-green-200/15
+     
+    text-green-800  border-green-800">{e.text}</Button>
+  })
+ }
  </div>
     
         </div>

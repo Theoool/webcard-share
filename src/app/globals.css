@@ -136,6 +136,7 @@ body {
     
     
   }
+  
   .cardboxshow{
    box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.1);
    border-radius: 15px; 
@@ -144,4 +145,15 @@ body {
     box-shadow: 0 3px 8px 0 #00000033;
   }
   
+}
+
+
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
 }

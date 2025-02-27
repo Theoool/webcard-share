@@ -12,6 +12,7 @@ import {
   AvatarImage,
 } from "@/components/ui/avatar"
 import { Button } from '@/components/ui/button';
+import { ButtonD } from "@/components/Button/button"
 interface Header {
   username: string,
   title: string,
@@ -19,7 +20,7 @@ interface Header {
 }
 const Avatarbox=({ src, alt }: any)=> {
   return (
-    <Avatar className=' size-8'>
+    <Avatar className=' size-5'>
       <AvatarImage src={src} alt={alt} />
       <AvatarFallback>CN</AvatarFallback>
     </Avatar>
@@ -30,10 +31,11 @@ const Header = ({ username, title, Avatar }: Header) => {
   return <div className="p-2 flex  w-full gap-2 ">
     <div className="w-full  flex-col  md:text-2xl flex gap-2">
 
-      <span className=' text-nowrap truncate'>{title}</span>
-      <div className='flex  items-center gap-2 text-base'>
+      <h1 className=' text-nowrap truncate  text-[18px]'>{title}</h1>
+      <div className='flex  items-center justify-end  gap-2 text-base'>
+      <span>  {username}</span> 
         <Avatarbox src={Avatar} alt={username}></Avatarbox>
-        <span> {username}的收藏</span>
+        
       </div>
     </div>
 
@@ -85,8 +87,10 @@ const Footer = () => {
  
   return (
     <div className='   m-2 w-full justify-center flex items-center' >
-      <Button variant="default" className='dark:text-black text-primary' >
-      <Link href={'/about'}> 查看更多</Link> </Button>
+      
+      <Link href={'/about'}> 
+      <ButtonD >查看更多</ButtonD>
+      </Link>
       <div className=' relative m-2  flex justify-end'>
 
         {/* // imp :出现加载动画 */}
@@ -139,6 +143,7 @@ const CardS = () => {
   return (
     <div className="relative
      border-[1px]
+     
     break-inside-avoid max-h-[60rem] cardboxshow flex flex-col">
       <Header
         username='Theo'
@@ -160,6 +165,7 @@ const page = () => {
 
       <div className=" columns-1 xl:columns-3 md:columns-2 gap-2 space-y-4">
      
+        <CardS></CardS>
         <CardS></CardS>
        
        

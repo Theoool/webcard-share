@@ -7,6 +7,7 @@ import Footer from '@/components/card/footer'
 import { motion } from 'framer-motion';
 import { addCard } from '@/lib/card/router';
 import {useSession} from 'next-auth/react'
+import  {  Session } from "next-auth"
 
 interface HeaderProps {
   title: string;
@@ -30,7 +31,7 @@ function Header({ title, url, logo }: HeaderProps) {
 const Card = ({ header, content, footer }: CardProps) => {
   const [isdelete, setisdelete] = React.useState(false)
   const [keytext, setkeytext] = React.useState('')
-  const session= useSession()
+  const session = useSession()
   console.log(session);
   
   const [from, setfrom] = React.useState({
@@ -51,11 +52,25 @@ const Card = ({ header, content, footer }: CardProps) => {
       }
     }
   }
+  const createrouter= async ()=>{
+    const data=await  fetch('/api/cards',{
+     body:JSON.stringify({ UserFavoriteId:'cm7bfshx5000244c0icx9wwoi',
+      image:content.imageUrl||'',
+      tags:from.text,
+      title:header.title,
+      url:'https://lucide.dev/icons/?search=add',
+      content:content.text.split('关键词')[0]})  
+    })
+     console.log(data);
+     
+  }
   return (
     <div className="w-full min-h-[15rem] flex flex-col p-4 mt-2 cardboxshow @container">
       <Header {...header} />
       <div
        onClick={ async ()=>{
+        console.log(session);
+        
      await addCard(
           {
             UserFavoriteId:'cm7bfshx5000244c0icx9wwoi',
@@ -65,7 +80,7 @@ const Card = ({ header, content, footer }: CardProps) => {
             url:'https://lucide.dev/icons/?search=add',
             content:content.text.split('关键词')[0]
           },
-          session.data
+        session
          )
        }}
       className="flex flex-col md:items-center leading-6  gap-2">

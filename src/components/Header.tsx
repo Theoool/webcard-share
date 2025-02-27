@@ -4,6 +4,7 @@ import { Link } from "next-view-transitions";
 import { useSession } from "next-auth/react";
 import  DarkModeBtn  from "@/components/dark";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
+import { ButtonD } from "./Button/button";
 export default function Home() {
   const { data: session, } = useSession();
   return (
@@ -15,16 +16,20 @@ export default function Home() {
         </div>
       
       <div className=" mr-2 sm:mr-10  flex gap-2 items-center " >
+   
+      <DarkModeBtn></DarkModeBtn>
+      
+
       {
-         session&&<Avatar className=' rounded-xl size-8'>
+        
+         session?<Avatar className=' rounded-xl size-8'>
         <AvatarImage className=" rounded-full" src={session.user?.image as string} alt={session.user?.name as string} />
         <AvatarFallback>CN</AvatarFallback>
-      </Avatar>
+      </Avatar>: <ButtonD className=" border-0 cursor-pointer text-sm font-serif dark:text-white">Sign up</ButtonD> 
       }
        <span className="mr-2  hidden sm:block  dark:text-primary "
         >{session?.user?.name}</span> 
-       
-       <DarkModeBtn></DarkModeBtn>
+    
         
       
 
