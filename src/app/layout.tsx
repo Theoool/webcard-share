@@ -3,8 +3,11 @@ import Header from '@/components/Header'
 import SessionWrapper from '@/components/SessionWrapper';
 import {  Ma_Shan_Zheng as MA  } from "next/font/google";
 import { Toaster } from "@/components/ui/toaster"
+
 import {ViewTransitions} from 'next-view-transitions'
 import "./globals.css";
+
+import ScrollText from "@/components/home/ScrolText";
 // 1. 配置主字体
 const inter =MA({
   subsets: ['latin'],
@@ -12,6 +15,8 @@ const inter =MA({
   variable: '--font-inter',
   weight: "400"
 })
+
+
 
 
 export const metadata: Metadata = {
@@ -30,6 +35,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  
   return ( 
 <SessionWrapper>
     <ViewTransitions>
@@ -43,14 +49,37 @@ export default function RootLayout({
         {children}
 
        
-        <div className="w-[100vw]  flex justify-center items-center text-2xl  flex-col 
        
-        min-h-[200vh]  dark:text-white ">
-          <p>一个URL，一个web，一个插件，一个AI生成</p> 
-          <p>管理你的浏览器标签收藏</p> 
- 
-        </div>
+         <ScrollText></ScrollText>
+         <div className="w-full h-[150vh] flex justify-center gap-10 p-10 items-center flex-wrap">
+ <div className="w-[35rem] h-[35rem]  border-[hsl(214,8%,84%)] border
+ bg-gradient-to-b from-[hsl(0,0%,100%)] to-[hsl(240,9%,97%)] flex  items-center flex-col py-16 
+ ">
+ <span className=" transform text-xl">这是我的一个完整项目</span>
+ <span className=" transform text-xl">kau</span>
+ <span className=" transform text-xl">这是我的第一个项目</span>
+ <span className=" transform text-xl">这是我的第一个项目</span>
+ <span className=" transform text-xl">这是我的第一个项目</span>
+
+ </div>
+ <div className="w-[35rem] h-[35rem]  border-[hsl(214,8%,84%)] border
+ bg-gradient-to-b from-[hsl(0,0%,100%)] to-[hsl(240,9%,97%)]
+ "></div>
+ <div className="w-[35rem] h-[35rem]  border-[hsl(214,8%,84%)] border
+ bg-gradient-to-b from-[hsl(0,0%,100%)] to-[hsl(240,9%,97%)]
+ "></div>
+ <div className="w-[35rem] h-[35rem]  border-[hsl(214,8%,84%)] border
+ bg-gradient-to-b from-[hsl(0,0%,100%)] to-[hsl(240,9%,97%)]
+ "></div>
+
+
+         </div>
+       
+        
       </main>
+      <footer className="text-blue-400 text-center text-md w-full ">
+        this is Theo first llm project 
+      </footer>
    </body>
     </html>
     </ViewTransitions>

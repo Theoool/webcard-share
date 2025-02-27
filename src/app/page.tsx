@@ -44,7 +44,7 @@ export default function Home() {
  }
   return (
 
-    <div className=" text-3xl  h-[70vh] flex  items-center justify-center">
+    <div className=" text-3xl  h-[95vh] flex  items-center justify-center">
      <div  className="flex  flex-col items-center w-full">
      <h1 className="w-full text-center p-4  font-sans" onClick={()=>Get()}>键入网址，创建属于你的网页合集</h1>
      <input 
