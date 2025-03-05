@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Description } from "@radix-ui/react-toast";
+import { Favicon } from "favicon-stealer";
 import { Link } from "lucide-react";
 import { useSession, signIn, signOut } from "next-auth/react";
 import Image from "next/image";
@@ -12,16 +13,15 @@ const Linkcard = () => {
     name: 'Anthony Fu',
     Description: '>Hey, I am Anthony Fu, a fanatical open sourceror.'
   }
-  return <div className="cardboxshow w-full h-28 m-2 dark:bg-black bg-white justify-between border-2 border-primary *:
-  gap-8
+  return <div className="cardboxshow w-full h-28 m-2 bg-background justify-between border border-primary *:
+  gap-8  hover:rounded-sm 
   flex items-center rounded-sm p-4   md:w-[35rem]">
    
 
-    <img
-      src='https://cdn.sanity.io/images/i81ys0da/production/97e7e66cd17f100ca05f2d2c4d0482431a61d8cd-512x512.png'
-
-      alt=""
-      className=" border-2 border-black  w-20 rounded-md h-22 "
+    <Favicon
+      url='chat.openai.com'
+      
+      className=" border-2 border-black  w-32 rounded-md h-22 "
     />
 
     <div>
@@ -40,7 +40,7 @@ export default function Home() {
 
   if (!session) {
     return (
-      <div className="w-full h-screen flex flex-col mt-10 px-20  items-center">
+      <div className="w-full  h-auto  flex flex-col mt-10 px-4  p-4 items-center">
         <div className="w-20 h-20 relative mb-4 flex flex-col gap-2">
           <img
             src='https://cdn.sanity.io/images/i81ys0da/production/8835e0796d05e110862f182f8a1f3850ac249d18-2000x2000.png'

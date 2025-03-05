@@ -8,6 +8,7 @@ import {ViewTransitions} from 'next-view-transitions'
 import "./globals.css";
 
 import ScrollText from "@/components/home/ScrolText";
+import { DeviconNestjs, DeviconNextjs, LogosDockerIcon, LogosMicrosoftEdge } from "@/components/icon/icon";
 // 1. 配置主字体
 const inter =MA({
   subsets: ['latin'],
@@ -40,7 +41,8 @@ export default function RootLayout({
 <SessionWrapper>
     <ViewTransitions>
     <html lang="en"  className={`${inter.variable}`}>
-   <body  className="dark:bg-black">
+   <body  className="bg-background flex flex-col">
+     
    
       <main  className="flex-1  w-full   py-3  min-h-screen">
 <Toaster></Toaster>     
@@ -50,36 +52,9 @@ export default function RootLayout({
 
        
        
-         <ScrollText></ScrollText>
-         <div className="w-full h-[150vh] flex justify-center gap-10 p-10 items-center flex-wrap">
- <div className="w-[35rem] h-[35rem]  border-[hsl(214,8%,84%)] border
- bg-gradient-to-b from-[hsl(0,0%,100%)] to-[hsl(240,9%,97%)] flex  items-center flex-col py-16 
- ">
- <span className=" transform text-xl">这是我的一个完整项目</span>
- <span className=" transform text-xl">kau</span>
- <span className=" transform text-xl">这是我的第一个项目</span>
- <span className=" transform text-xl">这是我的第一个项目</span>
- <span className=" transform text-xl">这是我的第一个项目</span>
-
- </div>
- <div className="w-[35rem] h-[35rem]  border-[hsl(214,8%,84%)] border
- bg-gradient-to-b from-[hsl(0,0%,100%)] to-[hsl(240,9%,97%)]
- "></div>
- <div className="w-[35rem] h-[35rem]  border-[hsl(214,8%,84%)] border
- bg-gradient-to-b from-[hsl(0,0%,100%)] to-[hsl(240,9%,97%)]
- "></div>
- <div className="w-[35rem] h-[35rem]  border-[hsl(214,8%,84%)] border
- bg-gradient-to-b from-[hsl(0,0%,100%)] to-[hsl(240,9%,97%)]
- "></div>
-
-
-         </div>
-       
         
       </main>
-      <footer className="text-blue-400 text-center text-md w-full ">
-        this is Theo first llm project 
-      </footer>
+      
    </body>
     </html>
     </ViewTransitions>

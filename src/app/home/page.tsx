@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/avatar"
 import { Button } from '@/components/ui/button';
 import { ButtonD } from "@/components/Button/button"
+import MarkBooksBox from "@/components/MarkBooksBox"
 interface Header {
   username: string,
   title: string,
@@ -38,7 +39,6 @@ const Header = ({ username, title, Avatar }: Header) => {
         
       </div>
     </div>
-
   </div>
 
 }
@@ -124,8 +124,7 @@ const Body = () => {
     
      {
       data.carddata.map((el,index)=>{
-        return  <Cardsbox  key={index} data={el}
-        ></Cardsbox>
+        return  <MarkBooksBox key={index} title={'创意的时刻'} src={''} user={'https://github.com/shadcn.png'} ></MarkBooksBox>
       })
      }
    
@@ -142,29 +141,33 @@ const CardS = () => {
 
   return (
     <div className="relative
-     border-[1px]
-     
-    break-inside-avoid max-h-[60rem] cardboxshow flex flex-col">
-      <Header
+      
+     flex flex-col">
+      {/* <Header
         username='Theo'
         title="一招绝活走天下，曾经苦学数理化：数学和物理入门"
         Avatar="https://github.com/shadcn.png"
-      />
+      /> */}
       <Body />
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };
 
 
 const page = () => {
-  return <div className="flex justify-center    p-12 pt-6 @container   ">
+  return <div className="flex justify-center     pt-6 @container   ">
     <div className=" w-full flex flex-col gap-2 ">
       <h1 className="text-[2.3rem]  ">挖掘网络的一切可能</h1>
       <h3 className="text-[1.5rem] font-medium">每日发现 </h3>
 
-      <div className=" columns-1 xl:columns-3 md:columns-2 gap-2 space-y-4">
+      <div className=" columns-1 sm:columns-2 xl:columns-4 md:columns-3 gap-2 space-y-4">
      
+        <CardS></CardS>
+        <CardS></CardS>
+        <CardS></CardS>
+        <CardS></CardS>
+        <CardS></CardS>
         <CardS></CardS>
         <CardS></CardS>
        

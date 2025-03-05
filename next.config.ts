@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 
 const nextConfig = {
+  
 
   async rewrites() {
     return [
@@ -37,5 +38,6 @@ const nextConfig = {
   // Override the default webpack configuration
  
 }
+
 
 module.exports = nextConfig

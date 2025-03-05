@@ -114,6 +114,9 @@ body {
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+    --text-first:var(--text-DEFAULT)
+
+    
   }
 
   .dark {
@@ -125,6 +128,7 @@ body {
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+    --text-first:var(--text-disabled)
   }
 }
 
@@ -143,6 +147,9 @@ body {
   }
   .cardboxshow:hover{
     box-shadow: 0 3px 8px 0 #00000033;
+  }
+  .parent:hover :nth-child(1) {
+    display: block;
   }
   
 }

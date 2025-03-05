@@ -24,7 +24,7 @@ export function HoverCardDemo({}) {
             <AvatarImage src="https://github.com/vercel.png" />
             <AvatarFallback>VC</AvatarFallback>
           </Avatar>
-          <div className="space-y-1">
+          <div className="space-y-1 ">
             <h4 className="text-sm font-semibold">@nextjs</h4>
             <p className="text-sm">
               The React Framework – created and maintained by @vercel.

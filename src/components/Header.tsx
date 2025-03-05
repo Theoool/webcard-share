@@ -8,7 +8,7 @@ import { ButtonD } from "./Button/button";
 export default function Home() {
   const { data: session, } = useSession();
   return (
-   <div className="flex w-full text-black  dark:bg-black  h-12  sm:text-xl  justify-between   items-center font-bold  rounded-full ">
+   <div className="flex w-full text-black absolute top-2 z-50   h-12  text-md sm:text-xl  justify-between   items-center font-bold  rounded-full ">
     <div className="flex gap-10 ml-10">
      <Link href="/" className="dark:text-primary  underline-offset-4  hover:underline"  >主页</Link>
      <Link href="/mymarkbox" className="dark:text-primary  underline-offset-4  hover:underline"  >我的收藏</Link>

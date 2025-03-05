@@ -1,7 +1,7 @@
 // components/AnimatedText.tsx
 'use client';
 
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 
 const phrases = [
@@ -25,9 +25,9 @@ export default function AnimatedText() {
     <div 
       ref={containerRef}
       className="min-h-[300vh] bg-gradient-to-b
-      text-black
+      dark:text-red-50
       
-      dark:from-[#0a0a0a] to-[#0a0a0a]"
+      dark:from-background dark:to-[#0a0a0a]"
     >
       <div className="sticky top-0 h-screen flex items-center justify-center">
         <div className="max-w-4xl px-4 text-center text-sm" >
@@ -47,10 +47,22 @@ export default function AnimatedText() {
 
 function TextBlock({ phrase, range, progress }) {
   const opacity = useTransform(progress, range, [0, 1]);
+   const [isDark, setIsDark] = useState(true);
+    useEffect(() => {
+      const root = window.document.documentElement;
+      const initialIsDark = localStorage.getItem("isDarkMode") === "true";
+      setIsDark(initialIsDark);
+     
+    },[]);
   const color = useTransform(
     progress,
     range,
     ['hsl(214,8%,84%)', 'hsl(0, 0%, 0%)']
+  );
+  const darkcolor = useTransform(
+    progress,
+    range,
+    ['hsl(255,8%,0%)', 'hsl(100, 100%, 100%)']
   );
 
   const chars = phrase.split('');
@@ -63,8 +75,16 @@ function TextBlock({ phrase, range, progress }) {
       {chars.map((char, i) => (
         <motion.span
           key={i}
-          style={{ 
+          style={isDark?{ 
             color,
+            display: 'inline-block',
+            transform: useTransform(
+              progress,
+              range,
+              [`translateY(${i % 2 ? '40px' : '-40px'})`, 'translateY(0px)']
+            )
+          }:{ 
+            color:darkcolor,
             display: 'inline-block',
             transform: useTransform(
               progress,

@@ -78,6 +78,7 @@ export default {
         'primary': 'rgba(255, 255, 245, 0.86)',
 				'darkbackround':'rgb(27,27,31)',       // #333333
         'light': 'hsl(0, 0%, 60%)',         // #999999
+				'textfirst':'var(--text-first)'
        
       },
   	}
