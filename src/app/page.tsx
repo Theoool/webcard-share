@@ -9,6 +9,11 @@ import { DeviconNextjs, DeviconNestjs, LogosDockerIcon, LogosMicrosoftEdge } fro
 import ScrollText from "@/components/home/ScrolText";
 import FaviconMode from "@/components/icon/favicon";
 import { Input } from "@/components/ui/input";
+function isURL(str) {
+  // 定义匹配 http:// 或 https:// 开头的 URL 的正则表达式
+  const regex = /^(https?:\/\/)[^\s/$.?#].[^\s]*$/;
+  return regex.test(str);
+}
 export default function Home() {
   const [value,setvalue]=useState('')
   const [show,setshow]=useState(false)
@@ -61,10 +66,9 @@ export default function Home() {
      <Input 
 
 onKeyDown={async e=>{
-  if (e.code==='Enter'||e.key==='Enter') {  
+  if ((e.code==='Enter'||e.key==='Enter')&&isURL(value)) {  
      setshow(true)
       const PropsData= await getCardProps(value)
-      
       if (PropsData) {
           setdata({...PropsData,url:value})
       } else{
@@ -111,6 +115,7 @@ onKeyDown={async e=>{
   isOpen={show}
   data={data}
   onClose={()=>{
+    setdata('null')
     setshow(false)
   }}
   ></FullscreenPanel>

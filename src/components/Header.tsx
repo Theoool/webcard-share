@@ -8,13 +8,14 @@ import { ButtonD } from "./Button/button";
 export default function Home() {
   const { data: session, } = useSession();
   return (
-   <div className="flex w-full text-black absolute top-2 z-50   h-12  text-md sm:text-xl  justify-between   items-center font-bold  rounded-full ">
+   <nav className="flex w-full text-black  z-50   h-12  text-md sm:text-xl  justify-between   items-center font-bold  rounded-full ">
+  
     <div className="flex gap-10 ml-10">
      <Link href="/" className="dark:text-primary  underline-offset-4  hover:underline"  >主页</Link>
      <Link href="/mymarkbox" className="dark:text-primary  underline-offset-4  hover:underline"  >我的收藏</Link>
      <Link href="/home" className="dark:text-primary      underline-offset-4  hover:underline"  >广场</Link>
         </div>
-      
+     
       <div className=" mr-2 sm:mr-10  flex gap-2 items-center " >
    
       <DarkModeBtn></DarkModeBtn>
@@ -35,7 +36,7 @@ export default function Home() {
 
      
       </div>
-   </div>
+   </nav>
   )
 }
 

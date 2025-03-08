@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, startTransition } from "react";
+import { useState, startTransition, useEffect } from "react";
 import { Button } from "./ui/button";
 import { Skeleton } from "./ui/skeleton";
 import { parseSeoAction } from "@/lib/seo-actions";
@@ -49,23 +49,12 @@ const SeoParser = ({ url }: SeoParserProps) => {
       setIsLoading(false);
     }
   };
+  useEffect( ()=>{
+    handleParse()
+  },[url])
 
   return (
-    <div className="space-y-4 p-6 border rounded-lg bg-card">
-      <div className="flex items-center gap-4">
-        <Button 
-          onClick={handleParse}
-          disabled={isLoading}
-          variant="default"
-          size="sm"
-        >
-          {isLoading ? "解析中..." : "解析 SEO"}
-        </Button>
-        {error && (
-          <p className="text-sm text-destructive">{error}</p>
-        )}
-      </div>
-
+    <div className="space-y-4  border rounded-lg bg-card">
       {data ? (
         <div className="p-4 bg-background rounded-md border">
           <pre className="text-sm font-mono whitespace-pre-wrap break-words">

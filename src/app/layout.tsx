@@ -3,6 +3,7 @@ import Header from '@/components/Header'
 import SessionWrapper from '@/components/SessionWrapper';
 import {  Ma_Shan_Zheng as MA  } from "next/font/google";
 import { Toaster } from "@/components/ui/toaster"
+import { QueryClientProvider } from '../lib/QueryClientProvider';
 
 import {ViewTransitions} from 'next-view-transitions'
 import "./globals.css";
@@ -40,6 +41,7 @@ export default function RootLayout({
   return ( 
 <SessionWrapper>
     <ViewTransitions>
+   
     <html lang="en"  className={`${inter.variable}`}>
    <body  className="bg-background flex flex-col">
      
@@ -47,9 +49,9 @@ export default function RootLayout({
       <main  className="flex-1  w-full   py-3  min-h-screen">
 <Toaster></Toaster>     
         <Header></Header> 
-      
+        <QueryClientProvider >
         {children}
-
+        </QueryClientProvider>
        
        
         
@@ -57,6 +59,7 @@ export default function RootLayout({
       
    </body>
     </html>
+    
     </ViewTransitions>
     </SessionWrapper>
   );

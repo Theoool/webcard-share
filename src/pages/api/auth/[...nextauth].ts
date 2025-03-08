@@ -10,7 +10,7 @@ export  const authOptions: NextAuthOptions = {
     async signIn({ account, profile }) {
       if (account?.provider === 'github' || account?.provider === 'google') {
         // 调用NestJS后端同步用户
-        const res = await fetch(`${process.env.NEST_URL}/auth/callback`, {
+        const res:any = await fetch(`${process.env.NEST_URL}/auth/callback`, {
           method: 'POST',
           body: JSON.stringify({
             provider: account.provider,
@@ -21,39 +21,23 @@ export  const authOptions: NextAuthOptions = {
           headers: {
             'Content-Type': 'application/json'
           }
-        })
-       
+        }).then(res=>res.json())
+        account.accesstoken=res.accessToken
+        account.refreshtoken=res.refreshToken
         
-        if (!res.ok) return false
+        if (!res.accessToken) return false
       }
       return true
     },
-    // async signIn({ user, account, }:any) {
-    // const { accessToken, refreshToken,user:User}= await signup({
-    //   username:user.name,
-    //   email:user.email,
-    //   image:user.image,
-    //   account:account
-    // })
-    //   if (accessToken) {
-    //     account.accessToken=accessToken
-    //     account.refreshToken=refreshToken
-    //     account.id=User.id
-    //     return true
-    //   } else {
-      
-    //     return false
     
-    //   }
-    // },
+
+  
     async jwt({ token, account }:any) {
      
        if (account) {
         token.provider = account.provider
-        token.accessToken = account.accessToken
-       
-        token.refreshToken = account.refreshToken;
-
+        token.accessToken = account.accesstoken
+        token.refreshToken = account.refreshtoken;
        
        }
      
@@ -64,8 +48,9 @@ export  const authOptions: NextAuthOptions = {
      
       session.provider = token.provider
       session.accessToken = token.accessToken;
-      console.log("session", session);
-      
+      session.refreshToken = token.refreshToken;
+console.log(session);
+
       return session;
     }
   },

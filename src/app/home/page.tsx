@@ -42,65 +42,6 @@ const Header = ({ username, title, Avatar }: Header) => {
   </div>
 
 }
-const Footer = () => {
-  const { toast } = useToast()
-
-  const removeEventListenerMessage = () => {
-    window.removeEventListener('message', handleEventMessage);
-  };
-  const handleEventMessage = (event: any) => {
-    if (event.data.type === 'extensionResponse') {
-      toast({
-        title: "收藏成功",
-        type: "background",
-        description: "Friday, February 10, 2023 at 5:57 PM",
-        action: (
-          <ToastAction altText="Goto schedule to undo">了解</ToastAction>
-        ),
-      });
-    } else {
-      toast({
-        title: "收藏成功",
-        description: "Friday, February 10, 2023 at 5:57 PM",
-        duration: 3000,
-        action: (
-          <ToastAction altText="Goto schedule to undo">了解</ToastAction>
-        ),
-      });
-      removeEventListenerMessage()
-
-    }
-  };
-  // 收藏，同步浏览器标签，查看
-  const GO = (bookmarks: any) => {
-
-    window.postMessage({
-      action: 'callExtensionFunction',
-      params: bookmarks
-    }, window.location.origin);
-
-    window.addEventListener('message', handleEventMessage);
-
-
-
-  }
- 
-  return (
-    <div className='   m-2 w-full justify-center flex items-center' >
-      
-      <Link href={'/about'}> 
-      <ButtonD >查看更多</ButtonD>
-      </Link>
-      <div className=' relative m-2  flex justify-end'>
-
-        {/* // imp :出现加载动画 */}
-        <Star className='icon w-8'></Star>
-        <FolderSync onClick={() => GO('1')} className='icon w-8'></FolderSync>
-
-      </div>
-    </div>
-  )
-}
 
 
 const Body = () => {
@@ -124,7 +65,7 @@ const Body = () => {
     
      {
       data.carddata.map((el,index)=>{
-        return  <MarkBooksBox key={index} title={'创意的时刻'} src={''} user={'https://github.com/shadcn.png'} ></MarkBooksBox>
+        return  <MarkBooksBox card={[]} key={index} title={'创意的时刻'} src={''} user={'https://github.com/shadcn.png'} ></MarkBooksBox>
       })
      }
    
@@ -136,20 +77,12 @@ const Body = () => {
 }
 
 
-const CardS = () => {
- 
-
+export const CardS = () => {
   return (
-    <div className="relative
-      
-     flex flex-col">
-      {/* <Header
-        username='Theo'
-        title="一招绝活走天下，曾经苦学数理化：数学和物理入门"
-        Avatar="https://github.com/shadcn.png"
-      /> */}
+    <div className="relative flex flex-col">
+     
       <Body />
-      {/* <Footer /> */}
+     
     </div>
   );
 };

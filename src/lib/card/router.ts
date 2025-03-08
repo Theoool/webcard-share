@@ -1,4 +1,4 @@
-// import { useSession} from "next-auth/react";
+import { useSession} from "next-auth/react";
 
 
 
@@ -30,41 +30,7 @@ const getCardProps = async (url: string) => {
     };
   }
 };
-// const getSEO = async (url: string) => {
-//   try {
-//     const response = await fetch('http://localhost:3000/Card/url', {
-//       mode: 'cors',
-//       method: 'POST',
-//       headers: {
-//         'Content-Type': 'application/json',
-//       },
-//       body: JSON.stringify({ url:url }),
-//     });
-//     // 处理 HTTP 错误状态码 (如 404, 500 等)
-//     if (!response.ok) {
-//       throw new Error(`HTTP error! status: ${response.status}`);
-//     }
 
-//     return await response.json();
-//   } catch (error) {
-//     // 统一错误处理
-//     console.error('Fetch failed:', error);
-//     // 返回标准化错误格式
-//     return { 
-//       success: false,
-//       error: error instanceof Error ? error.message : 'Unknown error'
-//     };
-//   }
-// };
-
-// {
-//   "UserFavoriteId": "cm73n6r7j0001xz27pj6o7wxs",
-//   "image": "https://lf-web-assets.juejin.cn/obj/juejin-web/xitu_juejin_web/static/favicons/apple-touch-icon.png",
-//   "tags": [],
-//   "title": "十分钟入门prisma",
-//   "url": "https://juejin.cn/post/7231152303583100988#heading-10",
-//   "content": "本文介绍了如何在 Koa 中使用 Prisma 配合 MySQL 数据库实现数据的增删改查。包括安装依赖、初始化环境、初始化 Prisma、生成 Prisma Client 及 CRUD 操作的实现和注意事项，并总结了 Prisma 的基本使用流程"
-// }
 interface carddata{
   UserFavoriteId?:string,
   image:string,
@@ -72,11 +38,28 @@ interface carddata{
   title:string,
   url:string,
   content:string
+
 }
-const addCard=async (data:carddata,session:any) => {
-  console.log(session);
-  
-  
+const InRefreshtoken=async ()=>{
+  const { data: session, status, update } = useSession()
+console.log(session);
+
+  const response = await fetch('http://localhost:3000/auth/Refreshtoken', {
+    mode: 'cors',
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body:JSON.stringify({
+        refreshToken:session?.refreshToken
+    })
+  }).then(()=>response.json())
+  if (response.accessToken) {
+    update({ accessToken: response.accessToken })
+  }
+}
+const addCard=async (data:carddata,session:any) => { 
+  // const { data: sessiona, status, update } = useSession()
   try {
     const response = await fetch('http://localhost:3000/Card', {
       mode: 'cors',
@@ -86,8 +69,10 @@ const addCard=async (data:carddata,session:any) => {
         'Authorization': `Bearer ${session}`,
       },
       body: JSON.stringify(data),
-    });
-
+    }).then(()=>response.json())
+    if (response.code='TOKEN_EXPIRED') {
+      InRefreshtoken()
+    }
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -99,8 +84,37 @@ const addCard=async (data:carddata,session:any) => {
     };
   }
 
+
 }
+// http://localhost:3000/UserFavorites/FirstFavorite
 
-
-
-export { getCardProps,addCard}
+const getUserFistFavorite=async (token:any)=>{
+  console.log(token);
+  
+  try {
+    const response = await fetch('http://localhost:3000/UserFavorites/FirstFavorite', {
+      mode: 'cors',
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+        
+      },
+    }).then(res=>res.json());
+    if (response.code='TOKEN_EXPIRED') {
+      InRefreshtoken()
+    }
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    console.log(response.json());
+    
+    return await response.json();
+  } catch (error) {
+    return { 
+      success: false,
+      error: error
+    };
+  }
+}
+export { getCardProps,addCard,getUserFistFavorite}
