@@ -1,3 +1,4 @@
+import { toast } from "@/hooks/use-toast";
 import { useSession} from "next-auth/react";
 
 
@@ -30,6 +31,33 @@ const getCardProps = async (url: string) => {
     };
   }
 };
+// const gettag = async (url: string) => {
+//   try {
+//     const response = await fetch('http://localhost:3000/tag/:id', {
+//       mode: 'cors',
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json',
+//       },
+//       body: JSON.stringify({ url:url }),
+//     });
+
+//     // 处理 HTTP 错误状态码 (如 404, 500 等)
+//     if (!response.ok) {
+//       throw new Error(`HTTP error! status: ${response.status}`);
+//     }
+
+//     return await response.json();
+//   } catch (error) {
+//     // 统一错误处理
+//     console.error('Fetch failed:', error);
+//     // 返回标准化错误格式
+//     return { 
+//       success: false,
+//       error: error instanceof Error ? error.message : 'Unknown error'
+//     };
+//   }
+// };
 
 interface carddata{
   UserFavoriteId?:string,
@@ -88,33 +116,31 @@ const addCard=async (data:carddata,session:any) => {
 }
 // http://localhost:3000/UserFavorites/FirstFavorite
 
-const getUserFistFavorite=async (token:any)=>{
-  console.log(token);
+ const PostCreate= async (data,token)=>{
+  console.log(data);
   
-  try {
-    const response = await fetch('http://localhost:3000/UserFavorites/FirstFavorite', {
+    const res=await fetch(`http://localhost:3000/UserFavorites/createFavorite`,{
       mode: 'cors',
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
-        
+      method: 'POST',
+      headers:{
+         'Content-Type': 'application/json',    
+       Authorization: `Bearer ${token}` 
       },
-    }).then(res=>res.json());
-    if (response.code='TOKEN_EXPIRED') {
-      InRefreshtoken()
+      body:JSON.stringify(data)
+    })
+    if (!res.ok) {
+       toast({
+        title: "Uh oh! 发生了一些错误.",
+        description: "There was a problem with your request.",
+        // action: <ToastAction altText="Try again" onClick={()=>PostCreate(data,token)}>Try again</ToastAction>,
+      })
+    }else{
+     toast({
+        title: "创建成功",
+        description: "There was a problem with your request.",
+      })
+      return data
     }
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    console.log(response.json());
-    
-    return await response.json();
-  } catch (error) {
-    return { 
-      success: false,
-      error: error
-    };
   }
-}
-export { getCardProps,addCard,getUserFistFavorite}
+  
+export { getCardProps,addCard,PostCreate}

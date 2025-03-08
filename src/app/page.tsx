@@ -99,9 +99,7 @@ onKeyDown={async e=>{
     onClick={()=>changeTipModle({I:index,...e})}
     >{e.text}</Button>:<Button key={index}
     onClick={()=>changeTipModle({I:index,...e})}
-    variant='outline' className=" 
-    
-     
+    variant='outline' className="  
     bg-[#4a7ef6]/40 ">{e.text}</Button>
   })
  }
