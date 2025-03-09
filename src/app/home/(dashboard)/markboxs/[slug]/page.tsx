@@ -1,5 +1,4 @@
 'use client'
-import { ComboboxDemo } from "@/components/combobox";
 import { ArcticonsDeepl, BiRssFill, MaterialSymbolsDownload2OutlineRounded } from "@/components/icon/icon";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -40,14 +39,11 @@ export default  function Page(
     // enabled: !!session,
   });
   const [expandedId, setExpandedId] = useState(null);
-  const [value,setValue] = useState(router!.slug);
 
   return <div className="dark:text-white flex justify-center">
-  
     {
       isLoading?<div  style={{'viewTransitionName':`${router!.slug}`}} className="md:max-w-[40rem] lg:max-w-[40rem]  w-full mt-2  gap-2 px-2">
         <h1 className="w-full cursor-pointer text-xl  text-center "><Skeleton className="w-36"></Skeleton>  </h1>
- 
       {/* <h1   className="w-full cursor-pointer text-xl  text-center ">{data.title}</h1> */}
       <div className="flex  justify-between">
       <div className="flex gap-2">
@@ -56,6 +52,7 @@ export default  function Page(
       <AvatarFallback>CN</AvatarFallback>
     </Avatar>
    <Skeleton className=" w-20"> </Skeleton>
+
       </div>
        <span className="text-sm">
         <Badge className="bg-red-400 text-white">私密</Badge>
@@ -64,7 +61,6 @@ export default  function Page(
       </div>
       </div>:   <div  style={{'viewTransitionName':`${router!.slug}`}} className="md:max-w-[40rem] lg:max-w-[40rem]  w-full mt-2  gap-2 px-2">
       <h1   className="w-full cursor-pointer text-xl  text-center ">{data.title}</h1>
-      <ComboboxDemo title={data.title}></ComboboxDemo>
       <div className="flex  justify-between">
       <div className="flex gap-2">
       <Avatar className=' size-7'>
@@ -86,7 +82,7 @@ export default  function Page(
       {data.card.map((meta) => (
         <motion.div
           key={meta.id}
-          className="bg-gray-100 dark:bg-black
+        className="bg-gray-100 dark:bg-black
 dark:shadow-white dark:shadow-sm 
             grid-cols-subgrid
           p-4 rounded-lg shadow-lg cursor-pointer relative overflow-hidden"

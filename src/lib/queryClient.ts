@@ -17,18 +17,21 @@ const processQueue = (error: any, token?: string) => {
   failedQueue = [];
 };
 
+const urlArray=['/Card/new','/Card/all']
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       queryFn: async ({ queryKey }) => { 
         const [url] = queryKey as [string];
+       if ( urlArray.includes(url)) {
+        return await fetchApi(url);
+       }else{
         const session = await import('next-auth/react').then((mod) => mod.getSession());
         if (!session) throw new Error('Unauthorized');
         const token = session.accessToken;
         try {
           return await fetchApi(url, {
             headers: { Authorization: `Bearer ${token}` },
-            
           });
         } catch (error: any) {
           if (error.status === 401 && !isRefreshing) {
@@ -75,8 +78,12 @@ export const queryClient = new QueryClient({
           }
           throw error;
         }
+       }
+        
       },
+   
       retry: false,
     },
+  
   },
 });
