@@ -2,37 +2,55 @@
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogOverlay, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription, DrawerFooter, DrawerClose } from "@/components/ui/drawer";
-
-import { FilePlus } from "lucide-react";
+import { Delete, FilePlus, Trash } from "lucide-react";
 import Link from "next/link";
 import { useMediaQuery } from "@react-hook/media-query";
 import { usePathname } from "next/navigation"
-import React, { useState } from "react";
+import React, { useState, } from "react";
 import { Input } from "@/components/ui/input";
 import { clsx as cn, } from "clsx"
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { useQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
-import { Toast, ToastAction } from "@/components/ui/toast";
-import { toast } from "@/hooks/use-toast";
 import { PostCreate } from "@/lib/card/router";
-
+import { useBox } from '@/contexts/box-context';
 export default function header(){
   const pathname = usePathname()
-  return  <div className="xl:px-20 mt-2 flex  justify-end items-center gap-2  text-xl" >
+  const {setdelete,Delete}=useBox()
+  return  <div className="xl:px-20 mt-2 flex  justify-end items-center gap-4  text-xl" >
   <Button className="text-xl text-textfirst "  variant={'link'}>
     <Link href={'/mymarkbox'}>书签</Link>
   </Button>
+
       <Button className="text-xl text-textfirst "  variant={'link'}
       
       >  <Link href={'/mymarkbox/markboxs'}>收藏夹</Link></Button>
+{ pathname?.includes('/mymarkbox')&&<Button variant={'outline'}
+ onClick={(e) => {
+  setdelete(!Delete)
+ }}
 
-<DrawerDialogDemo> <div className="flex items-center p-1  ">
+ className={cn(
+  
+  !Delete ? "" : "bg-green-500/20 text-green-200"
+)}
+> <div className="flex items-center p-1   "> 
      {
-      pathname?.includes('/mymarkbox/markboxs')&&   <span><FilePlus className=" icon cursor-pointer text-[#c5ddd3]" size={25}></FilePlus></span>
+     <span><Trash
+    
+     className=" icon cursor-pointer " size={25}></Trash></span>
+     }
+     </div></Button>
+}
+{ pathname?.includes('/mymarkbox/markboxs')&&<DrawerDialogDemo> <div className="flex items-center p-1  ">
+     {
+     <span><FilePlus
+     
+     className=" icon cursor-pointer text-[#c5ddd3]" size={25}></FilePlus></span>
      }
      </div></DrawerDialogDemo>
+}
+
     
   </div>
 }

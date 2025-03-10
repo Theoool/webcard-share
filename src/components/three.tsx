@@ -108,7 +108,7 @@ export function FullscreenPanel({ isOpen, onClose, data }: any) {
                         </div>
                         <div className="flex-1  h-[85vh] ">
 
-                          {data.meta ? <Card
+                          {data.meta && <Card
                           dis={true}
                             header={{
                               title: data.meta.title,
@@ -123,7 +123,7 @@ export function FullscreenPanel({ isOpen, onClose, data }: any) {
                               source: "webshare.com",
                               time: Date.now().toString()
                             }}
-                          /> : <Skeleton className="w-full h-[85vh]" />}
+                          /> }
 
                         </div>
                         <div className="flex-1    h-full cardboxshow ">

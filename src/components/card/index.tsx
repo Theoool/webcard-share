@@ -66,16 +66,15 @@ function Header({ title, url, logo }: HeaderProps) {
 }
 const Card = ({ header, content, footer,dis=false }: CardProps) => {
   const [isdelete, setisdelete] = React.useState(false)
-  const [keytext, setkeytext] = React.useState('')
+  const [keytext, setkeytext] = React.useState('sad1')
   const { data: session, } = useSession();
-
   const [from, setfrom] = React.useState({
-    ...content, text: content.tags?content.tags:content.text.split('丨').filter((e, index) => index > 0)
+     ...content,
+     text: content.tags?content.
+     tags:content.text.split('丨').filter((e, index) => index > 0)
   })
   const Changekey = (aAd: boolean, str?: string, index?: number) => {
     if (aAd) {
-      console.log("shanc", index);
-
       setfrom({ ...from, text: from.text.filter((a, i) => i !== index) })
     } else {
       const keys = from.text
@@ -88,29 +87,17 @@ const Card = ({ header, content, footer,dis=false }: CardProps) => {
     }
   }
  
- if (dis) {
+
   
   return (
     <div className="w-full min-h-[15rem]   flex flex-col p-4 mt-2 cardboxshow 
     dark:shadow-xl dark:shadow-white
     @container">
+      
       <Header {...header} />
      
       <div
-       onClick={ async ()=>{
-     await addCard(
-          {
-            UserFavoriteId:'cm7bfshx5000244c0icx9wwoi',
-            image:content.imageUrl||'',
-            tags:from.text,
-            title:header.title,
-            url:header.url,
-            content:content.text.split('关键词')[0],
-            
-          },
-        session?.accessToken
-         )
-       }}
+
       className="flex flex-col md:items-center leading-6  gap-2">
 {/* {content.imageUrl} */}
        {content.imageUrl&&<img className="md:h-[10rem] w-full md:w-auto  ease-linear  
@@ -119,7 +106,7 @@ const Card = ({ header, content, footer,dis=false }: CardProps) => {
         <p className="text-[1rem] leading-2 flex-w ">{content.text.split('关键词')[0]}</p>
         <hr></hr>
        
-        {isdelete && (
+       
   <motion.div
     initial={{ y: 20, opacity: 0, scale: 0.95 }}
     animate={{ 
@@ -142,12 +129,15 @@ const Card = ({ header, content, footer,dis=false }: CardProps) => {
         ease: "easeIn" 
       }
     }}
-    className=' text-center'
+    className=' text-center  '
     transition={{ type: "spring", stiffness: 250 }}
   >
     <Input 
+    
       value={keytext}
       onKeyDown={(e) => {
+        console.log(e);
+        
         if (e.key === 'Enter') {
           Changekey(false, keytext)
         }
@@ -155,11 +145,11 @@ const Card = ({ header, content, footer,dis=false }: CardProps) => {
       onChange={(event) => setkeytext(event.target.value)}
       // 添加输入框的微交互
       className="focus-visible:ring-2 w-[18rem]
-      text-center
+      text-center 
       ring-blue-500 transition-all"
     />
   </motion.div>
-)}
+
         <div className='flex gap-2  items-start'>
           <Keywords text={from.text} isdelete={isdelete} click={Changekey}></Keywords>
           <PencilOff className=' text-xl cursor-pointer' onClick={() => {
@@ -167,34 +157,17 @@ const Card = ({ header, content, footer,dis=false }: CardProps) => {
           }}></PencilOff>
         </div>
       </div>
-      <Footer {...footer} />
+      <Footer content={
+        {
+          image:content.imageUrl||'',
+          tags:from.text,
+          title:header.title,
+          url:header.url,
+          content:content.text.split('#关键词')[0].split('摘要内容')[1]
+        }
+      } />
     </div>
   )
- }else{
-  return (
-    <div className="w-full min-h-[15rem]
-       dark:shadow-sm dark:shadow-white
-    flex flex-col p-4 mt-2 cardboxshow @container">
-      <Header {...header} />
-      <div
-      
-      className="flex flex-col md:items-center leading-6  gap-2">
 
-       {content.imageUrl&&<img className="md:h-[10rem] w-full md:w-auto  ease-linear  
-    object-cover"  loading="lazy" src={content.imageUrl}  alt="Content" /> } 
-
-        <p className="text-[1rem] leading-2 flex-w ">{content.text.split('关键词')[0]}</p>
-        <hr></hr>
-       
-     
-        <div className='flex gap-2  items-start'>
-          <Keywords text={from.text} isdelete={isdelete} click={Changekey}></Keywords>
-          
-        </div>
-      </div>
-      <Footer {...footer} />
-    </div>
-  )
- }
 };
 export default Card;

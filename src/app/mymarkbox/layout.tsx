@@ -1,5 +1,6 @@
 
 import type { Metadata } from "next";
+import { BoxProvider } from '@/contexts/box-context';
 import { Link, ViewTransitions } from "next-view-transitions";
 
 import H from './boxheader'
@@ -11,11 +12,12 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 
-  return  <div>
+  return <BoxProvider> <div>
     <H></H>
       <ViewTransitions>
       {children}
       </ViewTransitions>
      </div>
+     </BoxProvider>
   
 }

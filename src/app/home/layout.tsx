@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-
-
+import {BoxProvider} from "@/contexts/box-context";
 
 export const metadata: Metadata = {
   title: "webcard-share",
@@ -12,8 +11,10 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return  <div>
+  return <BoxProvider>
+  <div>
         {children}
      </div>
+     </BoxProvider>
   
 }

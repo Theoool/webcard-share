@@ -17,7 +17,6 @@ export default function MyFavorites() {
   const [expandedId, setExpandedId] = useState(null);
   if (isLoading) return <div className="w-full h-auto p-10">加载中...</div>;
   if (error) return <div className="w-full h-auto p-10">错误: {JSON.stringify(error)}</div>;
-
   return (
     <div className="w-full h-auto md:p-10 p-2 relative">
    

@@ -1,5 +1,5 @@
 "use client"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FullscreenPanel } from "@/components/three";
 import { Button } from "@/components/ui/button";
 import {getCardProps} from '@/lib/card/router'
@@ -9,6 +9,7 @@ import { DeviconNextjs, DeviconNestjs, LogosDockerIcon, LogosMicrosoftEdge } fro
 import ScrollText from "@/components/home/ScrolText";
 import FaviconMode from "@/components/icon/favicon";
 import { Input } from "@/components/ui/input";
+import { Progress } from "@/components/ui/progress";
 function isURL(str) {
   // 定义匹配 http:// 或 https:// 开头的 URL 的正则表达式
   const regex = /^(https?:\/\/)[^\s/$.?#].[^\s]*$/;
@@ -17,8 +18,22 @@ function isURL(str) {
 export default function Home() {
   const [value,setvalue]=useState('')
   const [show,setshow]=useState(false)
-  const [data,setdata]=useState<any>('a')
+  const [Data,setdata]=useState<any>(null)
+  const [success,setsuccess]=useState(false)
   const { toast } = useToast()
+  const [progress, setProgress] = useState(0)
+ 
+  useEffect(() => {
+    if (success) {
+      setProgress(100)
+      const timer = setTimeout(() => {
+        setsuccess(false)
+      }, 2000)
+      return () => clearTimeout(timer)
+    } else {
+      setProgress(0)
+    }
+  }, [success])
   const [Tip,changeTip]=useState([{
     text:'默认模式',
     bol:true
@@ -36,7 +51,6 @@ export default function Home() {
     bol:true
   }])
   const changeTipModle=({I,text,bol})=>{
-
         let newTip=Tip.map((e,index)=>{
           if (index===I) {
             e.bol=!bol
@@ -46,32 +60,23 @@ export default function Home() {
         changeTip([...newTip])
         
       }
-  
- const Get=()=>{
-  const a= fetch('http://localhost:8080/api', {}).then(res=>res.json())
-  return a
- }
   return (
     <div>
       
-    <div className=" text-3xl  h-[100vh] flex  items-center justify-center">
+    <div className=" text-3xl  h-[100vh] flex  mt-10  sm:mt-32  md:mt-[25vh] justify-center">
      <div  className="flex  flex-col items-center w-full">
-     <div className="w-full text-center p-4 flex flex-col  font-sans " onClick={()=>Get()}>
+     <div className="w-full text-center p-4 flex flex-col  font-sans " >
     <span>发现、分享、连接</span>
     <span className="  bg-clip-text  text-transparent bg-gradient-to-r from-purple-400 to-[#4a7ef6]">打造你的数字世界</span>
      </div>
-     <div className="text-[1.2rem] ">
+     <div className="text-[1.2rem] p-2 text-center ">
      一键提取网页精华，Seo优化分析,智能分类整理，将宝藏与世界分享
      </div>
      <Input 
-
 onKeyDown={async e=>{
   if ((e.code==='Enter'||e.key==='Enter')&&isURL(value)) {  
-     setshow(true)
-      const PropsData= await getCardProps(value)
-      if (PropsData) {
-          setdata({...PropsData,url:value})
-      } else{
+      const {data,success}= await getCardProps(value)
+      if (!success) {
         toast({
           title: "输入错误或无法连接到该网页",
           description: Date.now(),
@@ -79,6 +84,9 @@ onKeyDown={async e=>{
             <ToastAction altText="Goto schedule to undo">OK</ToastAction>
           ),
         })
+      } else{
+        await  setdata({...data,url:value})
+        await setshow(true)
       }
 }}}
   onChange={ (event)=>{
@@ -92,6 +100,7 @@ onKeyDown={async e=>{
   w-2/3  rounded-md 
     dark:bg-black dark:text-primary border-[1px] mt-2"
 />
+
  <div className=" w-2/3 flex gap-x-10 gap-y-2 flex-wrap p-3 justify-center">
  {
   Tip.map((e,index)=>{
@@ -111,7 +120,7 @@ onKeyDown={async e=>{
 
   <FullscreenPanel 
   isOpen={show}
-  data={data}
+  data={Data}
   onClose={()=>{
     setdata('null')
     setshow(false)
