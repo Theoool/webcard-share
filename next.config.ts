@@ -4,6 +4,7 @@ const nextConfig = {
   experimental: {
     viewTransition: true,
   },
+  
   async rewrites() {
     return [
       {

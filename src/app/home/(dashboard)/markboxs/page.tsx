@@ -2,7 +2,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSession } from "next-auth/react";
 import { useQuery } from "@tanstack/react-query";
-// import second from 'r'
+
 import { useState } from 'react';
 
 import MarkBooksBox from '@/components/MarkBooksBox';

@@ -22,7 +22,7 @@ const LinkView=({url,title})=>{
    <Linkhearf href={url}><ButtonD>view</ButtonD></Linkhearf>
   </div>
 }
-export function HoverCardDemo({cards}:{cards:any[]}) {
+ function HoverCardDemo({cards}:{cards:any[]}) {
   return (
     <HoverCard>
       <HoverCardTrigger asChild>
