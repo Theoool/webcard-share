@@ -38,9 +38,8 @@ export default function Home() {
       <div className="w-full  h-auto  flex flex-col mt-10 px-4  p-4 items-center">
         <div className="w-20 h-20 relative mb-4 flex flex-col gap-2">
           <img
-            src={session.user?.image!}
-
-            alt={session.user?.name!}
+            src={session.user?.image??""}
+            alt={session.user?.name??""}
             className="object-cover rounded-full"
           />
 

@@ -1,36 +1,18 @@
 'use client'
-import { ComboboxDemo } from "@/components/combobox";
-import { ArcticonsDeepl, BiRssFill, MaterialSymbolsDownload2OutlineRounded } from "@/components/icon/icon";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useQuery } from "@tanstack/react-query";
-import { Favicon } from "favicon-stealer";
-import { motion, AnimatePresence } from "framer-motion";
+
 import { LinkIcon, Copy, Brain, LucideRss, Download } from "lucide-react";
 
 import { useParams,useRouter} from 'next/navigation'
-// import { useRouter} from 'next/router'
+
 import { useEffect, useState } from "react";
 import { BookMark } from "@/components/BookMark";
-
-
-export function TooltipDemo({children,text}) {
-  return (
-    <TooltipProvider>
-      <Tooltip>
-        <TooltipTrigger asChild>
-         <div> {children}</div>
-        </TooltipTrigger>
-        <TooltipContent className=" text-white dark:text-darkbackround">
-          <p>{text}</p>
-        </TooltipContent>
-      </Tooltip>
-    </TooltipProvider>
-  )
-}
+import TooltipDemo from "@/components/TooltipDemo";
 export default  function Page(
 ) {
   const router=useParams()

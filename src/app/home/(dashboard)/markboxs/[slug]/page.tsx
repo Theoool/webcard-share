@@ -1,5 +1,6 @@
 'use client'
 import { ArcticonsDeepl, BiRssFill, MaterialSymbolsDownload2OutlineRounded } from "@/components/icon/icon";
+import TooltipDemo from "@/components/TooltipDemo";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -15,20 +16,7 @@ import { useParams,useRouter} from 'next/navigation'
 import { useState } from "react";
 
 
-export function TooltipDemo({children,text}) {
-  return (
-    <TooltipProvider>
-      <Tooltip>
-        <TooltipTrigger asChild>
-         <div> {children}</div>
-        </TooltipTrigger>
-        <TooltipContent className=" text-white dark:text-darkbackround">
-          <p>{text}</p>
-        </TooltipContent>
-      </Tooltip>
-    </TooltipProvider>
-  )
-}
+
 export default  function Page(
 ) {
   const router=useParams()

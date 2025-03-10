@@ -1,5 +1,4 @@
-
-import { BookMark } from "@/app/mymarkbox/(dashboard)/page";
+'use clent'
 import { addCard } from "@/lib/card/router";
 import { Bookmark, Share, Star } from "lucide-react";
 import { useSession } from "next-auth/react";

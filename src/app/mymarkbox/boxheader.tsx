@@ -14,7 +14,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useSession } from "next-auth/react";
 import { PostCreate } from "@/lib/card/router";
 import { useBox } from '@/contexts/box-context';
-export default function header(){
+export default function Header(){
   const pathname = usePathname()
   const {setdelete,Delete}=useBox()
   return  <div className="xl:px-20 mt-2 flex  justify-end items-center gap-4  text-xl" >

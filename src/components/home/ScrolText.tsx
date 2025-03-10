@@ -47,13 +47,9 @@ export default function AnimatedText() {
 
 function TextBlock({ phrase, range, progress }) {
   const opacity = useTransform(progress, range, [0, 1]);
-   const [isDark, setIsDark] = useState(true);
-    useEffect(() => {
-      const root = window.document.documentElement;
-      const initialIsDark = localStorage.getItem("isDarkMode") === "true";
-      setIsDark(initialIsDark);
-     
-    },[]);
+  const [isDark, setIsDark] = useState(true);
+  
+  // 将 useTransform 移到顶层
   const color = useTransform(
     progress,
     range,
@@ -64,8 +60,16 @@ function TextBlock({ phrase, range, progress }) {
     range,
     ['hsl(255,8%,0%)', 'hsl(100, 100%, 100%)']
   );
-
   const chars = phrase.split('');
+  // 为每个字符创建变换
+  const transformArray = useTransform(
+    progress,
+    range,
+    chars.map((_, i) => [`translateY(${i % 2 ? '40px' : '-40px'})`, 'translateY(0px)'])
+  );
+
+
+ 
 
   return (
     <motion.div 
@@ -75,26 +79,21 @@ function TextBlock({ phrase, range, progress }) {
       {chars.map((char, i) => (
         <motion.span
           key={i}
-          style={isDark?{ 
+          style={isDark ? { 
             color,
             display: 'inline-block',
-            transform: useTransform(
-              progress,
-              range,
-              [`translateY(${i % 2 ? '40px' : '-40px'})`, 'translateY(0px)']
-            )
-          }:{ 
-            color:darkcolor,
+            transform: transformArray[i]
+          } : { 
+            color: darkcolor,
             display: 'inline-block',
-            transform: useTransform(
-              progress,
-              range,
-              [`translateY(${i % 2 ? '40px' : '-40px'})`, 'translateY(0px)']
-            )
+            transform: transformArray[i]
           }}
           className="will-change-transform"
-        >{['信','息','茧','房'].includes(char)? <div className='text-purple-500' > {char === ' ' ? '\u00A0' : char}</div>: <div className='' > {char === ' ' ? '\u00A0' : char}</div>}
-        
+        >
+          {['信','息','茧','房'].includes(char) ? 
+            <div className='text-purple-500'>{char === ' ' ? '\u00A0' : char}</div> : 
+            <div>{char === ' ' ? '\u00A0' : char}</div>
+          }
         </motion.span>
       ))}
     </motion.div>

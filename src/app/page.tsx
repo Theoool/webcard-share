@@ -51,7 +51,7 @@ export default function Home() {
     bol:true
   }])
   const changeTipModle=({I,text,bol})=>{
-        let newTip=Tip.map((e,index)=>{
+        const newTip=Tip.map((e,index)=>{
           if (index===I) {
             e.bol=!bol
           }
