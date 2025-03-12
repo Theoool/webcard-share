@@ -1,20 +1,12 @@
 'use client'
-import { motion, AnimatePresence } from 'framer-motion';
-import { useSession } from "next-auth/react";
 import { useQuery } from "@tanstack/react-query";
-import { Favicon } from "favicon-stealer";
-import { Copy, Link as LinkIcon, Search } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
-import { useState, useEffect } from 'react';
 import { BookMark } from '@/components/BookMark';
-
 export default function MyFavorites() {
   const { data, error, isLoading } = useQuery<any>({
     queryKey: ['/Card/new'],
     staleTime: 5 * 60 * 1000,
-
   });
+ 
   if (isLoading) return <div className="w-full h-auto p-10">加载中...</div>;
   if (error) return <div className="w-full h-auto p-10">错误: {JSON.stringify(error)}</div>;
   return (

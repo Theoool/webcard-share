@@ -27,6 +27,8 @@ export const queryClient = new QueryClient({
         return await fetchApi(url);
        }else{
         const session = await import('next-auth/react').then((mod) => mod.getSession());
+       console.log(session);
+       
         if (!session) throw new Error('Unauthorized');
         const token = session.accessToken;
         try {

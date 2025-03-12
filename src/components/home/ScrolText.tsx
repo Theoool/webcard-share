@@ -1,101 +1,54 @@
 // components/AnimatedText.tsx
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion } from 'framer-motion';
 
-const phrases = [
-  "一个web，一个插件",
-  
-  "书签管理 or 网页工具",
-  "我们容纳所有的 AI",
-  "用快捷的方式收纳丰富的知识",
- `用简单的浏览打破牢固的信息茧房`,
- 
-];
-
-export default function AnimatedText() {
-  const containerRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ['start end', 'end start']
-  });
-
+export default function HeroSection() {
   return (
-    <div 
-      ref={containerRef}
-      className="min-h-[300vh] bg-gradient-to-b
-      dark:text-red-50
-      
-      dark:from-background dark:to-[#0a0a0a]"
-    >
-      <div className="sticky top-0 h-screen flex items-center justify-center">
-        <div className="max-w-4xl px-4 text-center text-sm" >
-          {phrases.map((phrase, i) => (
-            <TextBlock 
-              key={i}
-              phrase={phrase} 
-              range={[i * 0.15, (i + 1) * 0.15]}
-              progress={scrollYProgress}
-            />
-          ))}
-        </div>
+    <div className="min-h-[80vh] bg-gradient-to-b from-background to-background/80 dark:from-background dark:to-background/90">
+      <div className="h-full flex flex-col items-center justify-center px-4 py-16 space-y-6">
+        <motion.h1
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.8, ease: 'easeOut' }}
+          className="text-4xl md:text-5xl lg:text-6xl font-bold text-center"
+        >
+          打破信息茧房
+        </motion.h1>
+        <motion.p
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.2, ease: 'easeOut' }}
+          className="text-xl md:text-2xl text-muted-foreground text-center max-w-2xl"
+        >
+          探索无限可能，连接知识世界
+        </motion.p>
       </div>
     </div>
   );
 }
 
-function TextBlock({ phrase, range, progress }) {
-  const opacity = useTransform(progress, range, [0, 1]);
-  const [isDark, setIsDark] = useState(true);
-  
-  // 将 useTransform 移到顶层
-  const color = useTransform(
-    progress,
-    range,
-    ['hsl(214,8%,84%)', 'hsl(0, 0%, 0%)']
-  );
-  const darkcolor = useTransform(
-    progress,
-    range,
-    ['hsl(255,8%,0%)', 'hsl(100, 100%, 100%)']
-  );
+function TextBlock({ phrase, progress }) {
   const chars = phrase.split('');
-  // 为每个字符创建变换
-  const transformArray = useTransform(
-    progress,
-    range,
-    chars.map((_, i) => [`translateY(${i % 2 ? '40px' : '-40px'})`, 'translateY(0px)'])
-  );
-
-
- 
+  const baseDelay = 0.1;
 
   return (
-    <motion.div 
-      className="text-2xl md:text-3xl xl:text-4xl font-bold mb-5"
-      style={{ opacity }}
-    >
+    <div className="flex justify-center items-center space-x-1">
       {chars.map((char, i) => (
         <motion.span
           key={i}
-          style={isDark ? { 
-            color,
-            display: 'inline-block',
-            transform: transformArray[i]
-          } : { 
-            color: darkcolor,
-            display: 'inline-block',
-            transform: transformArray[i]
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{
+            duration: 0.5,
+            delay: baseDelay * i,
+            ease: [0.6, -0.05, 0.01, 0.99]
           }}
-          className="will-change-transform"
+          className={`inline-block ${char === '茧' ? 'text-primary' : ''}`}
         >
-          {['信','息','茧','房'].includes(char) ? 
-            <div className='text-purple-500'>{char === ' ' ? '\u00A0' : char}</div> : 
-            <div>{char === ' ' ? '\u00A0' : char}</div>
-          }
+          {char}
         </motion.span>
       ))}
-    </motion.div>
+    </div>
   );
 }

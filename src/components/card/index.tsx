@@ -67,7 +67,6 @@ function Header({ title, url, logo }: HeaderProps) {
 const Card = ({ header, content, footer,dis=false }: CardProps) => {
   const [isdelete, setisdelete] = React.useState(false)
   const [keytext, setkeytext] = React.useState('sad1')
-  const { data: session, } = useSession();
   const [from, setfrom] = React.useState({
      ...content,
      text: content.tags?content.
@@ -86,22 +85,15 @@ const Card = ({ header, content, footer,dis=false }: CardProps) => {
       }
     }
   }
- 
-
-  
   return (
     <div className="w-full min-h-[15rem]   flex flex-col p-4 mt-2 cardboxshow 
     dark:shadow-xl dark:shadow-white
     @container">
-      
       <Header {...header} />
-     
       <div
-
       className="flex flex-col md:items-center leading-6  gap-2">
-{/* {content.imageUrl} */}
        {content.imageUrl&&<img className="md:h-[10rem] w-full md:w-auto  ease-linear  
-    object-cover"  loading="lazy" src={content.imageUrl}  alt="Content" /> } 
+    object-cover" referrerPolicy="no-referrer"  loading="lazy" src={content.imageUrl}  alt="Content" /> } 
 
         <p className="text-[1rem] leading-2 flex-w ">{content.text.split('关键词')[0]}</p>
         <hr></hr>
@@ -129,15 +121,14 @@ const Card = ({ header, content, footer,dis=false }: CardProps) => {
         ease: "easeIn" 
       }
     }}
-    className=' text-center  '
+    className=' text-center relative '
     transition={{ type: "spring", stiffness: 250 }}
   >
-    <Input 
-    
+   {isdelete && <Input 
+     type="text"
       value={keytext}
       onKeyDown={(e) => {
         console.log(e);
-        
         if (e.key === 'Enter') {
           Changekey(false, keytext)
         }
@@ -145,10 +136,12 @@ const Card = ({ header, content, footer,dis=false }: CardProps) => {
       onChange={(event) => setkeytext(event.target.value)}
       // 添加输入框的微交互
       className="focus-visible:ring-2 w-[18rem]
-      text-center 
+      text-center  z-30
       ring-blue-500 transition-all"
     />
+}
   </motion.div>
+    
 
         <div className='flex gap-2  items-start'>
           <Keywords text={from.text} isdelete={isdelete} click={Changekey}></Keywords>

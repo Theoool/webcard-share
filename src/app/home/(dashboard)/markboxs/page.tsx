@@ -9,6 +9,9 @@ import MarkBooksBox from '@/components/MarkBooksBox';
 
 export default function MyFavorites() {
   const { data: session } = useSession();
+  if (!session) {
+    return null
+  }
   const { data, error, isLoading } = useQuery<any>({
     queryKey: ['/UserFavorites/getuserall'],
     staleTime: 5 * 60 * 1000,

@@ -45,10 +45,10 @@ export default function RootLayout({
     <html lang="en"  className={`${inter.variable}`}>
    <body  className="bg-background flex flex-col">
      
-   
-      <main  className="flex-1  w-full   py-3  min-h-screen">
+   <Header></Header> 
+      <main  className="flex-1  w-full     min-h-screen">
 <Toaster></Toaster>     
-        <Header></Header> 
+        
         <QueryClientProvider >
         {children}
         </QueryClientProvider>

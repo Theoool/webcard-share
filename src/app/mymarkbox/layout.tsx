@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { BoxProvider } from '@/contexts/box-context';
 import { Link, ViewTransitions } from "next-view-transitions";
 
-import H from './boxheader'
+import H from '../../components/boxheader'
 
 export const metadata: Metadata = {
   title: "webcard-share",

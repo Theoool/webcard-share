@@ -3,13 +3,13 @@ import { toast } from "@/hooks/use-toast";
 import { useMediaQueries } from "@react-hook/media-query";
 import { Favicon } from "favicon-stealer";
 import { motion, AnimatePresence } from "framer-motion";
-import { TrashIcon, LinkIcon, Copy, Bookmark } from "lucide-react";
+import { TrashIcon, LinkIcon, Copy, Bookmark, Maximize } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { ComboboxDemo } from "./combobox";
 import { Badge } from "./ui/badge";
 
-export const  BookMark=({meta,bol=true,onDelete,matchesbol=true})=>{
+export const  BookMark=({meta,bol=true,onDelete,matchesbol=true,container=true})=>{
   const [expandedId, setExpandedId] = useState(null);
   const { Delete } = useBox();
   const [show, Setshow] = useState(false);
@@ -161,7 +161,7 @@ export const  BookMark=({meta,bol=true,onDelete,matchesbol=true})=>{
       </motion.div>
     ) : <div></div>}
   </div>
-  {!matches.width&&matchesbol? <AnimatePresence>
+  {(!matches.width&&matchesbol)&&container? <AnimatePresence>
     {expandedId === meta.id && show && (
       <motion.div
       data-expanded="true"
@@ -206,6 +206,7 @@ export const  BookMark=({meta,bol=true,onDelete,matchesbol=true})=>{
             <Copy className="w-5 h-5 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100" />
             {session && <ComboboxDemo title={'我的合集'} ID={ID} Clickfunction={SetIdFirst} />}
             {session && <Bookmark onClick={updatacard} className="w-5 h-5 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100" />}
+            {session && <Maximize onClick={updatacard} className="w-5 h-5 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100" />}
           </div>
         </div>
       </motion.div>
@@ -262,6 +263,7 @@ export const  BookMark=({meta,bol=true,onDelete,matchesbol=true})=>{
             <Copy className="w-5 h-5 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100" />
             {session && <ComboboxDemo title={'我的合集'} ID={ID} Clickfunction={SetIdFirst} />}
             {session && <Bookmark onClick={updatacard} className="w-5 h-5 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100" />}
+            {session && <Maximize onClick={updatacard} className="w-5 h-5 text-gray-600 dark:text-gray-300 hover:text-gray-800  dark:hover:text-gray-100" />}
           </div>
         </div>
       </motion.div>

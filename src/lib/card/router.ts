@@ -54,7 +54,7 @@ const addCard=async (data:carddata,session:any) => {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${session}`,
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify({...data}),
     }).then(()=>response.json())
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
