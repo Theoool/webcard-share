@@ -4,12 +4,12 @@ import SessionWrapper from '@/components/SessionWrapper';
 import {  Ma_Shan_Zheng as MA  } from "next/font/google";
 import { Toaster } from "@/components/ui/toaster"
 import { QueryClientProvider } from '../lib/QueryClientProvider';
-
+import {CardProvider} from '@/contexts/card-context'
 import {ViewTransitions} from 'next-view-transitions'
 import "./globals.css";
+import { motion } from "framer-motion";
 
-import ScrollText from "@/components/home/ScrolText";
-import { DeviconNestjs, DeviconNextjs, LogosDockerIcon, LogosMicrosoftEdge } from "@/components/icon/icon";
+
 // 1. 配置主字体
 const inter =MA({
   subsets: ['latin'],
@@ -34,34 +34,34 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  modal,
 }: Readonly<{
   children: React.ReactNode;
+  modal: React.ReactNode;
 }>) {
   
   return ( 
-<SessionWrapper>
-    <ViewTransitions>
-   
-    <html lang="en"  className={`${inter.variable}`}>
-   <body  className="bg-background flex flex-col">
+    <CardProvider >
+    <SessionWrapper>
+      <ViewTransitions>
+       
+        <html lang="en" className={`${inter.variable}`}>
+          <body className="bg-[#f8f9fa] dark:bg-black   flex flex-col">
+            <Header></Header> 
+            <main className="flex-1 w-full min-h-screen">
+              <Toaster></Toaster>     
+              <QueryClientProvider>
+                {children}
+              </QueryClientProvider>
+              {modal}
+              <div id="modal-root"></div>
+            </main>
+          </body>
+        </html>
+       
      
-   <Header></Header> 
-      <main  className="flex-1  w-full     min-h-screen">
-<Toaster></Toaster>     
-        
-        <QueryClientProvider >
-        {children}
-        </QueryClientProvider>
-       
-       
-        
-      </main>
-      
-   </body>
-    </html>
-    
-    </ViewTransitions>
+      </ViewTransitions>
     </SessionWrapper>
+    </CardProvider>
   );
-  
 }

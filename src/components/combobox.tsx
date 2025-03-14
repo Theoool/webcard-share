@@ -15,35 +15,42 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useQuery } from "@tanstack/react-query";
 
-export function ComboboxDemo({ title,ID,Clickfunction=(id)=>{} }) {
+export function ComboboxDemo({ title, ID, Clickfunction = (id) => {} }) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState(ID);
   const { data, error, isLoading } = useQuery<any>({
     queryKey: ["/UserFavorites/GetAllFavoriteId"],
     onSuccess(data) {
-      console.log("This is data" ,data);
-      if (ID==='') {
+      console.log("This is data", data);
+      if (!data?.data) return; // 数据为空时直接返回
+      
+      if (ID === '') {
         setValue(data.data.find((framework) => framework.title === title)?.title);
-      }else{
+      } else {
         setValue(data.data.find((framework) => framework.id === ID)?.title);
       }
-      
     },
     staleTime: 5 * 60 * 1000,
   });
-  React.useEffect(() => {
-    if (!isLoading) {
-      setValue(data.data.find((framework) => framework.id === ID)?.title);
-    }
-  }, [isLoading, data, ID]);
+
   // 加载中时显示占位符
   if (isLoading) {
     return <div>Loading...</div>;
   }
-  // if (!isLoading) {
-  //   setValue(data.data.find((framework) => framework.id === ID)?.title);
-  // }
- 
+
+  // 数据为空或无效时显示空状态
+  if (!data?.data || data.data.length === 0) {
+    return (
+      <Button
+        variant="outline"
+        className="w-[200px] justify-between"
+        disabled
+      >
+        No data available
+      </Button>
+    );
+  }
+
   return (
     <Popover open={open && !isLoading} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -64,34 +71,27 @@ export function ComboboxDemo({ title,ID,Clickfunction=(id)=>{} }) {
           <CommandInput placeholder="Search framework..." />
           <CommandList>
             <CommandEmpty>No framework found.</CommandEmpty>
-        
-              <CommandGroup
-                
-              >
-                {data.data.map((framework) => {
-                  return (
-                    <CommandItem
-
-                      key={framework.id}
-                      value={framework.title}
-                      onSelect={(currentValue) => {
-                        setValue(currentValue === value ? "" : currentValue);
-                        Clickfunction(framework.id)
-                        setOpen(false);
-                      }}
-                    >
-                      <Check
-                        className={cn(
-                          "mr-2 h-4 w-4",
-                          value === framework.title ? "opacity-100" : "opacity-0"
-                        )}
-                      />
-                      {framework.title}
-                    </CommandItem>
-                  );
-                })}
-              </CommandGroup>
-          
+            <CommandGroup>
+              {data.data.map((framework) => (
+                <CommandItem
+                  key={framework.id}
+                  value={framework.title}
+                  onSelect={(currentValue) => {
+                    setValue(currentValue === value ? "" : currentValue);
+                    Clickfunction(framework.id);
+                    setOpen(false);
+                  }}
+                >
+                  <Check
+                    className={cn(
+                      "mr-2 h-4 w-4",
+                      value === framework.title ? "opacity-100" : "opacity-0"
+                    )}
+                  />
+                  {framework.title}
+                </CommandItem>
+              ))}
+            </CommandGroup>
           </CommandList>
         </Command>
       </PopoverContent>

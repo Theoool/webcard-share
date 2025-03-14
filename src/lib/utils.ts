@@ -63,3 +63,14 @@ export function downloadBookmarks(bookmarks: Bookmark[], fileName: string, forma
   link.click();
   window.URL.revokeObjectURL(url);
 }
+
+// 防抖函数
+export function debounce(func: (...args: any[]) => void, wait: number) {
+  let timeout: NodeJS.Timeout | null = null;
+  const debounced = (...args: any[]) => {
+    if (timeout) clearTimeout(timeout);
+    timeout = setTimeout(() => func.apply(undefined, args), wait);
+  };
+  debounced.cancel = () => timeout && clearTimeout(timeout);
+  return debounced;
+}

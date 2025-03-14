@@ -1,9 +1,10 @@
 
 import type { Metadata } from "next";
 import { BoxProvider } from '@/contexts/box-context';
-import { Link, ViewTransitions } from "next-view-transitions";
+import {  ViewTransitions } from "next-view-transitions";
 
 import H from '../../components/boxheader'
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "webcard-share",
@@ -14,6 +15,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
   return <BoxProvider> <div>
     <H></H>
+    
+   
       <ViewTransitions>
       {children}
       </ViewTransitions>

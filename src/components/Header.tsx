@@ -121,7 +121,7 @@ export default function Home() {
   const { data: session, } = useSession();
   const router= useRouter()
   return (
-   <nav className="flex p-2  w-full text-black  gap-2  z-50 h-14  text-md sm:text-xl  justify-between   items-center font-bold  rounded-full ">
+   <nav className="flex p-2  w-full text-black   gap-2  z-50 h-14  text-md sm:text-xl  justify-between   items-center font-bold  rounded-full ">
     <div className=" gap-10 ml-10 hidden md:flex">
      <Link href="/" className="dark:text-primary  underline-offset-4  hover:underline"  >主页</Link>
      <Link href="/mymarkbox" className="dark:text-primary  underline-offset-4  hover:underline"  >我的收藏</Link>
@@ -140,8 +140,10 @@ export default function Home() {
         <AvatarImage className=" rounded-full" src={session.user?.image as string} alt={session.user?.name as string} />
         <AvatarFallback>CN</AvatarFallback>
       </Avatar> <span className="mr-2  hidden md:block sm:block  dark:text-primary "
-        >{session?.user?.name}</span> 
-         </div>: <ButtonD className=" border-0 cursor-pointer text-sm font-serif dark:text-white">Sign up</ButtonD> 
+          >{session?.user?.name}</span> 
+          </div>: <Button variant={'outline'}
+        onClick={()=>router.push('/login')}
+         className=" border-0 cursor-pointer text-sm font-serif dark:text-white">Login</Button> 
       }
        
     

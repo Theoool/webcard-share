@@ -7,7 +7,7 @@ import { useToast } from "@/hooks/use-toast"
 import { ToastAction } from "@/components/ui/toast"
 import { DeviconNextjs, DeviconNestjs, LogosDockerIcon, LogosMicrosoftEdge } from "@/components/icon/icon";
 import ScrollText from "@/components/home/ScrolText";
-import FaviconMode from "@/components/icon/favicon";
+
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
 function isURL(str) {
@@ -15,76 +15,98 @@ function isURL(str) {
   const regex = /^(https?:\/\/)[^\s/$.?#].[^\s]*$/;
   return regex.test(str);
 }
+
+interface DataModel {
+  //Seo建议
+  SeoOpen:boolean
+  //网页预览
+  WebOpen:boolean
+  //纯净模式
+  promotionalOpen:boolean
+  //宣传文案
+  pristine:boolean
+  //生成封面
+  coverOpen:boolean
+  //智能摘要
+  summaryOpen:boolean
+  //智能标签
+  tagOpen:boolean
+  //网页生成
+  HtmlOpen:boolean
+}
 export default function Home() {
   const [value,setvalue]=useState('')
   const [show,setshow]=useState(false)
-  const [Data,setdata]=useState<any>(null)
   const [success,setsuccess]=useState(false)
-  const { toast } = useToast()
+  const [Data,setData]=useState<DataModel>({
+    //Seo建议
+    SeoOpen:false,
+    //网页预览
+    WebOpen:false,
+    //纯净模式
+    promotionalOpen:false,
+    //宣传文案
+    pristine:true,
+    //生成封面
+    coverOpen:true,
+    //智能摘要
+    summaryOpen:false,
+    //智能标签
+    tagOpen:false,
+    //网页生成
+    HtmlOpen:false
+  })
   const [progress, setProgress] = useState(0)
-  const [isValidUrl, setIsValidUrl] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
 
-  const validateUrl = (value) => {
-    const isValid = isURL(value)
-    setIsValidUrl(isValid)
-    return isValid
-  }
-
-  const handleUrlSubmit = async () => {
-    if (!isValidUrl || isLoading) return
-    
-    setIsLoading(true)
-    setProgress(33)
-    
-    try {
-      const {data, success} = await getCardProps(value)
-      setProgress(66)
-      
-      if (!success) {
-        throw new Error('无法连接到该网页')
-      }
-      
-      setdata({...data, url: value})
-      setProgress(100)
-      setsuccess(true)
-      setshow(true)
-    } catch (error) {
-      toast({
-        title: "无法连接到该网页",
-        description: "请检查网址是否正确",
-        action: <ToastAction altText="确认">确认</ToastAction>
-      })
-    } finally {
-      setIsLoading(false)
-    }
-  }
   const [Tip,changeTip]=useState([{
-    text:'默认模式',
-    bol:true
+    text:'Seo建议',
+    Open:true
   },{
-    text:'宣传文案',
-    bol:false
+    text:'网页预览',
+    Open:false
   },{
     text:'纯净模式',
-    bol:false
-  },{
-    text:'页面预览',
-    bol:true
-  },{
-    text:'SEO建议',
-    bol:true
-  }])
-  const changeTipModle=({I,text,bol})=>{
-        let newTip=Tip.map((e,index)=>{
-          if (index===I) {
-            e.bol=!bol
-          }
-          return e
-        }) 
-        changeTip([...newTip])
+    Open:false
+},
+{
+  text:'生成封面',
+  Open:false
+},
+{
+  text:"智能摘要",
+  Open:false
+},
+{
+  text:"智能标签",
+  Open:false
+},
+{
+  text:"网页生成",
+  Open:false
+}
+])
+const changeTipModle = ({I, text, Open}) => {
+  if (text === "纯净模式") {
+    // 当点击纯净模式时，只开启纯净模式，其他全部关闭
+    changeTip(Tip.map(e => ({
+      ...e,
+      Open: e.text === "纯净模式"
+    })));
+  } else {
+    // 其他模式的正常切换逻辑
+
+    let newTip = Tip.map((e, index) => {
+      if (index === I) {
+        e.Open = !Open;
+      }if (e.text === "纯净模式") {
+        e.Open = false;
         
       }
+      return e;
+    });
+    changeTip([...newTip]);
+  }
+};
   return (
     <div>
       
@@ -102,26 +124,14 @@ export default function Home() {
         <div className="relative max-w-2xl mx-auto">
           <Input 
             onKeyDown={async e=>{
-              if ((e.code==='Enter'||e.key==='Enter')&&isURL(value)) {  
-                setProgress(33)
-                const {data,success}= await getCardProps(value)
-                setProgress(66)
-                if (!success) {
-                  setProgress(0)
-                  toast({
-                    title: "无法连接到该网页",
-                    description: "请检查网址是否正确",
-                    action: (
-                      <ToastAction altText="确认">确认</ToastAction>
-                    ),
-                  })
-                } else{
-                  await setdata({...data,url:value})
-                  setProgress(100)
-                  setsuccess(true)
-                  await setshow(true)
-                }
+              console.log(e);
+              if ((e.code==='Enter'||e.key==='Enter')&&isURL(value)) { 
+              console.log(value);
+               
+               setData(Data)
+               setshow(true)
               }
+            
             }}
             onChange={(event)=>{
               setvalue(event.target.value)
@@ -137,9 +147,9 @@ export default function Home() {
               return (
                 <Button
                   key={index}
-                  variant={e.bol ? 'default' : 'outline'}
+                  variant={e.Open ? 'default' : 'outline'}
                   onClick={()=>changeTipModle({I:index,...e})}
-                  className={`px-6 py-2 text-sm font-medium transition-all duration-200 ${e.bol ? 'bg-gradient-to-r from-indigo-500 to-purple-500 text-white hover:from-indigo-600 hover:to-purple-600' : 'hover:bg-gray-50 dark:hover:bg-gray-800'}`}
+                  className={`px-6 py-2 text-sm font-medium transition-all duration-200 ${e.Open ? 'bg-gradient-to-r from-indigo-500 to-purple-500 text-white hover:from-indigo-600 hover:to-purple-600' : 'hover:bg-gray-50 dark:hover:bg-gray-800'}`}
                 >
                   {e.text}
                 </Button>
@@ -158,8 +168,9 @@ export default function Home() {
   <FullscreenPanel 
   isOpen={show}
   data={Data}
+  url={value}
   onClose={()=>{
-    setdata('null')
+   
     setshow(false)
   }}
   ></FullscreenPanel>

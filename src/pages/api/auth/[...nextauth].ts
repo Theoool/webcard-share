@@ -3,14 +3,25 @@ import GithubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
 import CredentialsProvider from "next-auth/providers/credentials";
 
+
 export  const authOptions: NextAuthOptions = {
   session:{
     strategy:"jwt"
+
+  },
+  jwt:{
+    secret:process.env.JWT_SECRET,
+    maxAge:15*24*30*60
   },
   callbacks:{
     async signIn({ account, profile,user }) {
-      
-      
+      if (account?.provider === 'credentials') {
+       
+        if (!user.accessToken) return false;
+        account.accesstoken=user.accessToken
+        account.refreshtoken=user.refreshToken
+        return true;
+      }
       if (account?.provider === 'github' || account?.provider === 'google') {
         const res:any = await fetch(`${process.env.NESTJS_URL}/auth/callback`, {
           method: 'POST',
@@ -28,11 +39,12 @@ export  const authOptions: NextAuthOptions = {
         account.refreshtoken=res.refreshToken
         
         if (!res.accessToken) return false
-      }else if(user && 'accessToken' in user && 'refreshToken' in user){
-        // account = account || {};
+      }else if(user){
         account!.accesstoken = (user as any).accessToken;
         account!.refreshtoken = (user as any).refreshToken;
       }
+
+   
       return true
     },
     async jwt({ token, account,}:any) {
@@ -56,56 +68,73 @@ export  const authOptions: NextAuthOptions = {
       credentials: {
         email: { label: "邮箱", type: "email", placeholder: "请输入邮箱" },
         password: { label: "密码", type: "password", placeholder: "请输入密码" },
-        token: { label: "Token", type: "text" } // 添加 token 字段
+        token: { label: "Token", type: "text" }
       },
       async authorize(credentials) {
         try {
-          console.log(credentials);
-          
-          // 如果是邮箱验证token登录
+          // 添加请求超时处理
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 5000);
+
+          // Token 验证逻辑
           if (credentials?.token) {
-            const res = await fetch(`${process.env.NESTJS_URL}/auth/verify?token=${credentials?.token}`, {
+            const verifyRes = await fetch(`${process.env.NESTJS_URL}/auth/verify?token=${credentials.token}`, {
               method: 'GET',
-              headers: { 'Content-Type': 'application/json' }
+              headers: { 'Content-Type': 'application/json' },
+              signal: controller.signal
             });
-            const {data} = await res.json();
-            console.log("user",data);
-            if (res.ok && data) {
-              return {
-                id: data.user.id,
-                email: data.user.email,
-                name: data.user.username,
-                image: data.user.image,
-                accessToken: data.accessToken,
-                refreshToken: data.refreshToken
-              };
-            }
+            
+            if (!verifyRes.ok) throw new Error('Token 验证失败');
+            
+            const { data } = await verifyRes.json();
+            return {
+              id: data.user.id,
+              email: data.user.email,
+              name: data.user.username,
+              image: data.user.image,
+              accessToken: data.accessToken,
+              refreshToken: data.refreshToken
+            };
           }
-          
-          // 常规邮箱密码登录
-          const res = await fetch(`${process.env.NESTJS_URL}/auth/login`, {
+
+          // 邮箱密码登录逻辑
+          const loginRes = await fetch(`${process.env.NESTJS_URL}/auth/login`, {
             method: 'POST',
             body: JSON.stringify({
               email: credentials?.email,
               password: credentials?.password,
+              rememberMe:true
             }),
-            headers: { 'Content-Type': 'application/json' }
+            headers: { 'Content-Type': 'application/json' },
+            signal: controller.signal
           });
-          const user = await res.json();
-          if (res.ok && user) {
-            return {
-              id: user.id,
-              email: user.email,
-              name: user.name,
-              image: user.image,
-              accessToken: user.accessToken,
-              refreshToken: user.refreshToken
-            };
+
+          clearTimeout(timeoutId);
+
+          if (!loginRes.ok) {
+            const errorData = await loginRes.json();
+            throw new Error(errorData.message || '登录失败');
           }
-          return null;
+
+          const {user,accessToken,refreshToken} = await loginRes.json();
+          console.log(user);
+          
+          return {
+            id: user.id,
+            email: user.email,
+            name: user.username, // 添加默认用户名
+            image: user.image || null,
+            accessToken: accessToken,
+            refreshToken:refreshToken
+          };
+
         } catch (error) {
-          console.error('登录失败:', error);
-          return null;
+          console.error('认证错误:', error);
+          // 更精确的错误处理
+          // if (error!.name === 'AbortError') {
+            // throw new Error('请求超时，请检查网络连接');
+          // }
+          throw error; // 将错误传递给 NextAuth
         }
       }
     }),
@@ -127,6 +156,8 @@ export  const authOptions: NextAuthOptions = {
   pages: {
     signIn: '/login',
     signOut: '/login',
+    error: '/auth/error',
+    verifyRequest: '/login/EmailVerification',
    },
 
   debug:true,
