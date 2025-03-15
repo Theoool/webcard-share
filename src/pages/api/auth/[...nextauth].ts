@@ -67,58 +67,36 @@ export  const authOptions: NextAuthOptions = {
       name: "Credentials",
       credentials: {
         email: { label: "邮箱", type: "email", placeholder: "请输入邮箱" },
-        password: { label: "密码", type: "password", placeholder: "请输入密码" },
-        token: { label: "Token", type: "text" }
+        code: { label: "密码", type: "text", placeholder: "请输入密码" },
+        
       },
       async authorize(credentials) {
         try {
           // 添加请求超时处理
           const controller = new AbortController();
           const timeoutId = setTimeout(() => controller.abort(), 5000);
-
-          // Token 验证逻辑
-          if (credentials?.token) {
-            const verifyRes = await fetch(`${process.env.NESTJS_URL}/auth/verify?token=${credentials.token}`, {
-              method: 'GET',
-              headers: { 'Content-Type': 'application/json' },
-              signal: controller.signal
-            });
-            
-            if (!verifyRes.ok) throw new Error('Token 验证失败');
-            
-            const { data } = await verifyRes.json();
-            return {
-              id: data.user.id,
-              email: data.user.email,
-              name: data.user.username,
-              image: data.user.image,
-              accessToken: data.accessToken,
-              refreshToken: data.refreshToken
-            };
-          }
-
           // 邮箱密码登录逻辑
           const loginRes = await fetch(`${process.env.NESTJS_URL}/auth/login`, {
             method: 'POST',
             body: JSON.stringify({
               email: credentials?.email,
-              password: credentials?.password,
+              code: credentials?.code,
               rememberMe:true
             }),
             headers: { 'Content-Type': 'application/json' },
             signal: controller.signal
-          });
-
+          })
+       
           clearTimeout(timeoutId);
 
           if (!loginRes.ok) {
-            const errorData = await loginRes.json();
-            throw new Error(errorData.message || '登录失败');
-          }
-
+              const errorData = await loginRes.json();
+            throw new Error('登录失败');
+          
+          }else{
+            
           const {user,accessToken,refreshToken} = await loginRes.json();
           console.log(user);
-          
           return {
             id: user.id,
             email: user.email,
@@ -127,13 +105,12 @@ export  const authOptions: NextAuthOptions = {
             accessToken: accessToken,
             refreshToken:refreshToken
           };
+          }
+
 
         } catch (error) {
           console.error('认证错误:', error);
-          // 更精确的错误处理
-          // if (error!.name === 'AbortError') {
-            // throw new Error('请求超时，请检查网络连接');
-          // }
+        
           throw error; // 将错误传递给 NextAuth
         }
       }
