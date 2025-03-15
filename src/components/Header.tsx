@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/command"
 import React from "react";
 import { Button } from "./ui/button";
+import { DialogTitle } from "./ui/dialog";
 
 const RouterList=[{
   title:'主页',
@@ -36,7 +37,7 @@ const RouterList=[{
 },
 {
   title:"我的收藏夹",
-  href:'/mymarkbox/markboxs'
+  href:'/markboxs'
 },
 {
   title:'广场',
@@ -44,7 +45,24 @@ const RouterList=[{
 },{
   title:'我的页面',
   href:'/me'
-}]
+},
+{
+  title:"工具",
+  href:'/Theo'
+},
+{
+  title:"文档转网页",
+  href:'/Theo'
+},
+{
+  title:"SEO报告",
+  href:'/Theo/Seo'
+},
+{
+  title:"封面宣传",
+  href:'/Theo/Cover'
+},
+]
 
 
 export function CommandDialogDemo() {
@@ -71,6 +89,7 @@ export function CommandDialogDemo() {
         </kbd>
       </Button>
       <CommandDialog open={open} onOpenChange={setOpen}>
+        <DialogTitle className="sr-only">快捷导航菜单</DialogTitle>
         <CommandInput placeholder="Type a command or search..." />
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
@@ -121,18 +140,19 @@ export default function Home() {
   const { data: session, } = useSession();
   const router= useRouter()
   return (
-   <nav className="flex p-2  w-full text-black   gap-2  z-50 h-14  text-md sm:text-xl  justify-between   items-center font-bold  rounded-full ">
+   <nav className="flex p-2  w-full text-black fixed top-0    gap-2  z-50 h-14  text-md sm:text-xl
+     justify-between   items-center font-bold  rounded-full ">
     <div className=" gap-10 ml-10 hidden md:flex">
      <Link href="/" className="dark:text-primary  underline-offset-4  hover:underline"  >主页</Link>
      <Link href="/mymarkbox" className="dark:text-primary  underline-offset-4  hover:underline"  >我的收藏</Link>
      <Link href="/home" className="dark:text-primary      underline-offset-4  hover:underline"  >广场</Link>
+     <Link href="/Theo" className="dark:text-primary      underline-offset-4  hover:underline"  >工具</Link>
     </div>
     <div className="md:hidden"><DarkModeBtn ></DarkModeBtn>
     </div>
         <div className="  w-full  flex-1 md:w-auto md:hidden md:flex-none"><CommandDialogDemo></CommandDialogDemo></div>
     <div className=" mr-2 sm:mr-10  flex gap-2 items-center " >
     <div className="  w-full  flex-1 md:w-auto  hidden md:flex"><CommandDialogDemo></CommandDialogDemo></div>
-
      <DarkModeBtn></DarkModeBtn>
       {
          session?<div className=" flex  items-center gap-2" onClick={()=>router.push('/me')}>
@@ -145,12 +165,6 @@ export default function Home() {
         onClick={()=>router.push('/login')}
          className=" border-0 cursor-pointer text-sm font-serif dark:text-white">Login</Button> 
       }
-       
-    
-        
-      
-
-     
       </div>
    </nav>
   )

@@ -19,3 +19,14 @@ interface CardProps {
   };
   dis?:boolean
 }
+interface TipModel{
+  text:string
+  Open:boolean
+  template:React.ReactNode
+}
+interface TheoProject{
+   url:string,
+   name:string,
+   icon:React.Node,
+   tag:string
+}

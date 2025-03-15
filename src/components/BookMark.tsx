@@ -8,7 +8,7 @@ import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { ComboboxDemo } from "./combobox";
 import { Badge } from "./ui/badge";
-import { useCard } from '@/contexts/card-context';
+
 import { useRouter } from "next/navigation";
 export const  BookMark=({meta,bol=true,onDelete,matchesbol=true,container=true})=>{
   const [expandedId, setExpandedId] = useState(null);
@@ -20,7 +20,7 @@ export const  BookMark=({meta,bol=true,onDelete,matchesbol=true,container=true})
   const SetIdFirst=(id)=>{
     SetID(id);
   }
-  const {setdata}=useCard()
+ 
   const {matches, matchesAny, matchesAll} = useMediaQueries({
     screen: 'screen',
     width: '(max-width: 768px)'
@@ -82,27 +82,25 @@ export const  BookMark=({meta,bol=true,onDelete,matchesbol=true,container=true})
         },
         body: JSON.stringify(meta),
       });
-    if (!data.ok) {
-     
+    if (!data.ok) { 
        toast({
         title: data.statusText,
         description: 'Something went wrong!',
       });
-     
       return true
     }
     onDelete(meta.id);
     toast({
-      title: 'Success',
-      description: 'Card delete successfully!',
+      title: '删除成功',
+      description: '卡片已经被扔掉了!',
     });
   }
   return    <motion.div
   layout
   style={{'viewTransitionName':`${meta.id}`}}
   key={meta.id}
-  className="bg-gray-100 dark:bg-black
-    dark:shadow-white dark:shadow-sm 
+  className="
+   border dark:border-[#27272a] dark:shadow-md 
     grid-cols-subgrid
     [&:has([data-expanded='true'])]:z-50
     p-4 rounded-lg shadow-lg cursor-pointer relative overflow-visible"
@@ -127,7 +125,6 @@ export const  BookMark=({meta,bol=true,onDelete,matchesbol=true,container=true})
     transition: { duration: 0.2 }
   }}
 >
-  
   <div className="flex items-center z-0 justify-between gap-4" onClick={() => {
     if (!Delete) {
       Setshow(true)
@@ -136,7 +133,7 @@ export const  BookMark=({meta,bol=true,onDelete,matchesbol=true,container=true})
   }}>
     <Favicon url={meta.url} className="w-8 h-8" />
     <div>
-      <span className="text-lg font-medium text-gray-900 dark:text-gray-100">
+      <span className="text-lg line-clamp-2 font-medium text-gray-900 dark:text-gray-100">
         {meta.title}
       </span>
     </div>
@@ -206,7 +203,7 @@ export const  BookMark=({meta,bol=true,onDelete,matchesbol=true,container=true})
             {session && <ComboboxDemo title={'我的合集'} ID={ID} Clickfunction={SetIdFirst} />}
             {session && <Bookmark onClick={updatacard} className="w-5 h-5 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100" />}
             {session && <Maximize onClick={()=>{
-              setdata(meta);
+              
               router.push(`/mymarkbox/${meta.id}`)
             }} className="w-5 h-5 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100" />}
           </div>
@@ -240,6 +237,7 @@ export const  BookMark=({meta,bol=true,onDelete,matchesbol=true,container=true})
         }}
         className="mt-4 overflow-hidden"
       >
+        
         <div className="space-y-3 z-40">
           <p className="text-sm text-gray-600 dark:text-gray-300">
             {meta.content || '暂无描述'}
@@ -266,8 +264,8 @@ export const  BookMark=({meta,bol=true,onDelete,matchesbol=true,container=true})
             {session && <ComboboxDemo title={'我的合集'} ID={ID} Clickfunction={SetIdFirst} />}
             {session && <Bookmark onClick={updatacard} className="w-5 h-5 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100" />}
             {session && <Maximize onClick={()=>{
-              setdata(meta);
-              router.push(`/router/${meta.id}`)
+            
+              router.push(`/mymarkbox/${meta.id}`)
             }} className="w-5 h-5 text-gray-600 dark:text-gray-300 hover:text-gray-800  dark:hover:text-gray-100" />}
           </div>
         </div>

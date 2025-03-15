@@ -2,88 +2,64 @@
 import { useEffect, useState } from "react";
 import { FullscreenPanel } from "@/components/three";
 import { Button } from "@/components/ui/button";
-import {getCardProps} from '@/lib/card/router'
-import { useToast } from "@/hooks/use-toast"
-import { ToastAction } from "@/components/ui/toast"
+
 import { DeviconNextjs, DeviconNestjs, LogosDockerIcon, LogosMicrosoftEdge } from "@/components/icon/icon";
 import ScrollText from "@/components/home/ScrolText";
 
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
-function isURL(str) {
-  // 定义匹配 http:// 或 https:// 开头的 URL 的正则表达式
-  const regex = /^(https?:\/\/)[^\s/$.?#].[^\s]*$/;
-  return regex.test(str);
+import { Interface } from "readline";
+import SeoParser from "@/components/SeoParser";
+import Aicard from "@/components/AIcomponents/AIcard";
+import CoverParser from "@/components/AIcomponents/CoverParser";
+import { isURL } from "@/lib/utils";
+
+interface TipModel{
+  text:string
+  Open:boolean
+  template:React.ReactNode
 }
 
-interface DataModel {
-  //Seo建议
-  SeoOpen:boolean
-  //网页预览
-  WebOpen:boolean
-  //纯净模式
-  promotionalOpen:boolean
-  //宣传文案
-  pristine:boolean
-  //生成封面
-  coverOpen:boolean
-  //智能摘要
-  summaryOpen:boolean
-  //智能标签
-  tagOpen:boolean
-  //网页生成
-  HtmlOpen:boolean
-}
 export default function Home() {
   const [value,setvalue]=useState('')
   const [show,setshow]=useState(false)
   const [success,setsuccess]=useState(false)
-  const [Data,setData]=useState<DataModel>({
-    //Seo建议
-    SeoOpen:false,
-    //网页预览
-    WebOpen:false,
-    //纯净模式
-    promotionalOpen:false,
-    //宣传文案
-    pristine:true,
-    //生成封面
-    coverOpen:true,
-    //智能摘要
-    summaryOpen:false,
-    //智能标签
-    tagOpen:false,
-    //网页生成
-    HtmlOpen:false
-  })
+ 
   const [progress, setProgress] = useState(0)
 
-  const [Tip,changeTip]=useState([{
+  const [Tip,changeTip]=useState<TipModel[]>([{
     text:'Seo建议',
-    Open:true
+    Open:true,
+    template:<SeoParser url={value}></SeoParser>
   },{
     text:'网页预览',
-    Open:false
+    Open:false,
+    template:<div>1</div>
   },{
     text:'纯净模式',
-    Open:false
-},
-{
-  text:'生成封面',
-  Open:false
-},
-{
-  text:"智能摘要",
-  Open:false
-},
-{
-  text:"智能标签",
-  Open:false
-},
-{
-  text:"网页生成",
-  Open:false
-}
+    Open:false,
+    template:<div>2</div>
+  },{
+    text:'宣传文案',
+    Open:false,
+    template:<div>3</div>
+  },{
+    text:'生成封面',
+    Open:false,
+    template:<CoverParser url={value}></CoverParser>
+  },{
+    text:"智能摘要",
+    Open:false,
+    template:<Aicard url={value}></Aicard>
+  },{
+    text:"智能标签",
+    Open:false,
+    template:<div>4</div>
+  },{
+    text:"网页生成",
+    Open:false,
+    template:<div>8</div>
+  }
 ])
 const changeTipModle = ({I, text, Open}) => {
   if (text === "纯净模式") {
@@ -94,7 +70,6 @@ const changeTipModle = ({I, text, Open}) => {
     })));
   } else {
     // 其他模式的正常切换逻辑
-
     let newTip = Tip.map((e, index) => {
       if (index === I) {
         e.Open = !Open;
@@ -107,6 +82,35 @@ const changeTipModle = ({I, text, Open}) => {
     changeTip([...newTip]);
   }
 };
+useEffect(() => {
+  if (value) {
+    changeTip(prevTip => prevTip.map(item => ({
+      ...item,
+      template: (() => {
+        switch(item.text) {
+          case 'Seo建议':
+            return <SeoParser url={value} />;
+          case '网页预览':
+            return <div>1</div>;
+          case '纯净模式':
+            return <div>2</div>;
+          case '宣传文案':
+            return <div>3</div>;
+          case '生成封面':
+            return <CoverParser url={value} />;
+          case '智能摘要':
+            return <Aicard url={value} />;
+          case '智能标签':
+            return <div>4</div>;
+          case '网页生成':
+            return <div>8</div>;
+          default:
+            return null;
+        }
+      })()
+    })));
+  }
+}, [value]);
   return (
     <div>
       
@@ -118,7 +122,7 @@ const changeTipModle = ({I, text, Open}) => {
             <span className="block mt-2 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent font-normal">打造你的数字世界</span>
           </h1>
           <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            一键提取网页精华，优化分析内容，智能整理分类，与世界分享你的发现
+            一键提取网页精华，优化分析<span style={{'viewTransitionName':`markbox`}} className=" text-green-300">书签</span>，整理分类<span style={{'viewTransitionName':`markboxs`}} className=" text-green-300">收藏</span>，与世界分享你的发现
           </p>
         </div>
         <div className="relative max-w-2xl mx-auto">
@@ -128,8 +132,10 @@ const changeTipModle = ({I, text, Open}) => {
               if ((e.code==='Enter'||e.key==='Enter')&&isURL(value)) { 
               console.log(value);
                
-               setData(Data)
-               setshow(true)
+             
+              setTimeout(() => {
+                setshow(true)
+              }, 500);
               }
             
             }}
@@ -139,10 +145,10 @@ const changeTipModle = ({I, text, Open}) => {
             type="text"
             value={value}
             placeholder="输入网址，开始你的发现之旅"
-            className="h-14 text-base w-full rounded-lg border-gray-200 dark:border-gray-700 shadow-sm transition-all duration-200 focus:ring-2 focus:ring-indigo-500 dark:bg-gray-800 dark:text-gray-100"
+            className="h-14 text-base w-full rounded-xl border-indigo-100 dark:border-indigo-900 shadow-md transition-all duration-300 hover:shadow-md focus:ring-2 focus:ring-indigo-500 dark:bg-indigo-950/30 dark:text-gray-100"
           />
 
-          <div className="mt-6 flex flex-wrap justify-center gap-3">
+          <div className="mt-8 flex flex-wrap justify-between gap-4 md:gap-6">
             {Tip.map((e,index)=>{
               return (
                 <Button
@@ -167,7 +173,7 @@ const changeTipModle = ({I, text, Open}) => {
 
   <FullscreenPanel 
   isOpen={show}
-  data={Data}
+  data={Tip}
   url={value}
   onClose={()=>{
    

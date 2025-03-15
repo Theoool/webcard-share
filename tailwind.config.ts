@@ -65,7 +65,7 @@ export default {
   		fontFamily: {
   			Roboto: 'var(--font-card-Roboto)',
 			
-					sans: ['var(--font-inter)'], // 使用 CSS 变量
+					// sans: ['var(--font-inter)'], // 使用 CSS 变量
 					mono: ['var(--font-roboto-mono)', 'monospace'],
 			
   		},

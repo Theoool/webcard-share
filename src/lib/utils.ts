@@ -63,7 +63,11 @@ export function downloadBookmarks(bookmarks: Bookmark[], fileName: string, forma
   link.click();
   window.URL.revokeObjectURL(url);
 }
-
+export function isURL(str) {
+  // 定义匹配 http:// 或 https:// 开头的 URL 的正则表达式
+  const regex = /^(https?:\/\/)[^\s/$.?#].[^\s]*$/;
+  return regex.test(str);
+}
 // 防抖函数
 export function debounce(func: (...args: any[]) => void, wait: number) {
   let timeout: NodeJS.Timeout | null = null;

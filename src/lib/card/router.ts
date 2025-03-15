@@ -1,12 +1,8 @@
 import { toast } from "@/hooks/use-toast";
-import { useSession} from "next-auth/react";
-
-
-
-
 const getCardProps = async (url: string) => {
   try {
-    const response = await fetch('http://localhost:3000/Card/url', {
+    console.log('发起请求到Card/meta，URL:', url);
+    const response = await fetch('http://localhost:3000/Card/meta', {
       mode: 'cors',
       method: 'POST',
       headers: {
@@ -14,20 +10,24 @@ const getCardProps = async (url: string) => {
       },
       body: JSON.stringify({ url:url }),
     });
+    
     if (!response.ok) {
+      console.error('请求失败，状态码:', response.status);
       return {
         success: false,
         error: `HTTP error! status: ${response.status}`
       };
     }
+    
+    const jsonData = await response.json();
+    console.log('成功获取数据:', jsonData);
+    
     return {
       success: true,
-      data: await response.json(),
+      data: jsonData,
     };
   } catch (error) {
-   
     console.error('Fetch failed:', error);
-   
     return { 
       success: false,
       error: error instanceof Error ? error.message : 'Unknown error'
@@ -57,8 +57,17 @@ const addCard=async (data:carddata,session:any) => {
       body: JSON.stringify({...data}),
     }).then(()=>response.json())
     if (!response.ok) {
+      toast({
+        title: "Uh oh! 发生了一些错误.",
+        description: "There was a problem with your request.",
+             })
       throw new Error(`HTTP error! status: ${response.status}`);
     }
+    toast({
+      title: "创建成功了呀",
+      description: "There was a problem with your request.",
+      duration:2000
+     })
     return {
       success: true,
       data: response.json(),
@@ -73,7 +82,7 @@ const addCard=async (data:carddata,session:any) => {
 
 }
 
- const PostCreate= async (data,token)=>{
+const PostCreate= async (data,token)=>{
      const res=await fetch(`http://localhost:3000/UserFavorites/createFavorite`,{
       mode: 'cors',
       method: 'POST',
@@ -87,8 +96,7 @@ const addCard=async (data:carddata,session:any) => {
        toast({
         title: "Uh oh! 发生了一些错误.",
         description: "There was a problem with your request.",
-        // action: <ToastAction altText="Try again" onClick={()=>PostCreate(data,token)}>Try again</ToastAction>,
-      })
+             })
     }else{
      toast({
         title: "创建成功",

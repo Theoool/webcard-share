@@ -1,11 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
-import Card from "@/components/card/index";
-import { Skeleton } from "@/components/ui/skeleton"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import SeoParser from "./SeoParser";
-import CoverParser from "./AIcomponents/CoverParser";
-
+import { useEffect } from "react";
 const containerVariants = {
   open: {
     opacity: 1,
@@ -38,31 +34,28 @@ const backdropVariants = {
   }
 };
 
-interface DataModel {
-  //Seo建议
-  SeoOpen:boolean
-  //网页预览
-  WebOpen:boolean
-  //纯净模式
-  promotionalOpen:boolean
-  //宣传文案
-  pristine:boolean
-  //封面图
-  coverOpen:boolean
-  //智能摘要
-  summaryOpen:boolean
-  //智能标签
-  tagOpen:boolean
-  //网页生成
-  HtmlOpen:boolean
-}
-
 export function FullscreenPanel({ isOpen, onClose, url, data }: {
   isOpen: boolean;
   onClose: () => void;
   url: string,
-  data: DataModel
+  data: TipModel[]
 }) {
+  // 控制页面滚动
+  useEffect(() => {
+    if (isOpen) {
+      // 禁止页面滚动
+      document.body.style.overflow = 'hidden';
+    } else {
+      // 恢复页面滚动
+      document.body.style.overflow = '';
+    }
+    
+    // 组件卸载时恢复滚动
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
+  
   return (
     <AnimatePresence>
       {isOpen && (
@@ -103,7 +96,19 @@ export function FullscreenPanel({ isOpen, onClose, url, data }: {
               </div>
               <div className="p-6 md:p-8">
                 <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
-                  {/* 网页预览模块 */}
+              {
+                data.map((e,index)=>{
+               return e.Open?<motion.div key={e.text}
+                    className=" bg-gray-50 dark:bg-gray-800/50 rounded-2xl overflow-hidden shadow-lg border border-gray-200/30 dark:border-gray-700/30"
+                    initial={{ scale: 0.95, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ delay: 0.15 }}
+                  >
+                    {/* {e.text} */}
+                   {e.template}
+                  </motion.div>:null
+                })
+              }
                   {/* {data.WebOpen && (
                     <div className="xl:col-span-1 space-y-8">
                       <motion.div 
@@ -122,67 +127,6 @@ export function FullscreenPanel({ isOpen, onClose, url, data }: {
                     </div>
                   )} */}
 
-                  {/* 卡片预览模块 */}
-                  {data.pristine  && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.25 }}
-                      className="transform-gpu xl:col-span-1"
-                    >
-                      1
-                      {/* <Card url={url}/> */}
-                    </motion.div>
-                  )}
-
-                  {/* SEO建议模块 */}
-                  {data.SeoOpen && (
-                    <motion.div 
-                      className="cardboxshow bg-gray-50 dark:bg-gray-800/50 p-6 rounded-2xl border border-gray-200/30 dark:border-gray-700/30 shadow-lg xl:col-span-1"
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.3 }}
-                    >
-
-                      <SeoParser url={url} />
-                    </motion.div>
-                  )}
-                  {/* SEO建议模块 */}
-                  {data.coverOpen && (
-                    <motion.div 
-                      className="cardboxshow bg-gray-50 dark:bg-gray-800/50 p-6 rounded-2xl border border-gray-200/30 dark:border-gray-700/30 shadow-lg xl:col-span-1"
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.3 }}
-                    >
-
-                      <CoverParser url={url} />
-                    </motion.div>
-                  )}
-
-                  {/* 智能摘要模块 */}
-                  {data.summaryOpen && (
-                    <motion.div 
-                      className="bg-gray-50 dark:bg-gray-800/50 p-6 rounded-2xl border border-gray-200/30 dark:border-gray-700/30 shadow-lg xl:col-span-1"
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.35 }}
-                    >
-                      智能摘要内容
-                    </motion.div>
-                  )}  
-
-                  {/* 智能标签模块 */}
-                  {data.tagOpen && (
-                    <motion.div 
-                      className="bg-gray-50 dark:bg-gray-800/50 p-6 rounded-2xl border border-gray-200/30 dark:border-gray-700/30 shadow-lg xl:col-span-1"
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.4 }}
-                    >
-                      智能标签内容
-                    </motion.div>
-                  )}
                 </div>
               </div>
             </ScrollArea>

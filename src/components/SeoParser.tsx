@@ -126,7 +126,7 @@ const SeoParser = ({ url }: SeoParserProps) => {
             {error}
           </div>
         ) : (
-          <div className="text-gray-500">请输入 URL 以开始分析</div>
+          <Skeleton className="text-gray-500">请输入 URL 以开始分析</Skeleton>
         )}
       </div>
     </div>
