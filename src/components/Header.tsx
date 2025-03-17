@@ -9,6 +9,7 @@ import {
   Calculator,
   Calendar,
   CreditCard,
+  File,
   Settings,
   Smile,
   User,
@@ -106,7 +107,7 @@ export function CommandDialogDemo() {
                     router.push(item.href)
                   
                 }}>
-                  <Smile />
+                  <File />
                   <span>{item.title}</span>
                 </CommandItem>
               
@@ -150,16 +151,15 @@ export default function Home() {
     </div>
     <div className="md:hidden"><DarkModeBtn ></DarkModeBtn>
     </div>
-        <div className="  w-full  flex-1 md:w-auto md:hidden md:flex-none"><CommandDialogDemo></CommandDialogDemo></div>
-    <div className=" mr-2 sm:mr-10  flex gap-2 items-center " >
-    <div className="  w-full  flex-1 md:w-auto  hidden md:flex"><CommandDialogDemo></CommandDialogDemo></div>
+    <div className=" mr-2 sm:mr-10 flex-1 md:flex-none  flex gap-2 items-center " >
+    <div className="w-full flex-1 md:w-auto"><CommandDialogDemo></CommandDialogDemo></div>
      <DarkModeBtn></DarkModeBtn>
       {
          session?<div className=" flex  items-center gap-2" onClick={()=>router.push('/me')}>
-          <Avatar className=' rounded-xl size-7 sm:size-8'>
+          <Avatar style={{'viewTransitionName':`Avatar`}} className=' rounded-xl size-7 sm:size-8'>
         <AvatarImage className=" rounded-full" src={session.user?.image as string} alt={session.user?.name as string} />
         <AvatarFallback>CN</AvatarFallback>
-      </Avatar> <span className="mr-2  hidden md:block sm:block  dark:text-primary "
+      </Avatar> <span className="mr-2 text-sm  hidden md:block sm:block  dark:text-primary "
           >{session?.user?.name}</span> 
           </div>: <Button variant={'outline'}
         onClick={()=>router.push('/login')}

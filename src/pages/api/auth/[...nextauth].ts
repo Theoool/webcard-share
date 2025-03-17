@@ -76,7 +76,9 @@ export  const authOptions: NextAuthOptions = {
           const controller = new AbortController();
           const timeoutId = setTimeout(() => controller.abort(), 5000);
           // 邮箱密码登录逻辑
-          const loginRes = await fetch(`${process.env.NESTJS_URL}/auth/login`, {
+          console.log(credentials);
+          
+          const loginRes = await fetch(`${process.env.NEXT_PUBLIC_NESTJS_API_URL}/auth/login`, {
             method: 'POST',
             body: JSON.stringify({
               email: credentials?.email,
@@ -86,17 +88,20 @@ export  const authOptions: NextAuthOptions = {
             headers: { 'Content-Type': 'application/json' },
             signal: controller.signal
           })
+          
        
           clearTimeout(timeoutId);
 
           if (!loginRes.ok) {
               const errorData = await loginRes.json();
-            throw new Error('登录失败');
+              console.log('登录失败',errorData);
+              
+            throw new Error('登录失败',errorData);
           
           }else{
             
           const {user,accessToken,refreshToken} = await loginRes.json();
-          console.log(user);
+          
           return {
             id: user.id,
             email: user.email,

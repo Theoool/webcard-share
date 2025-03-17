@@ -52,7 +52,8 @@ export function ComboboxDemo({ title, ID, Clickfunction = (id) => {} }) {
   }
 
   return (
-    <Popover open={open && !isLoading} onOpenChange={setOpen}>
+    <div>
+       <Popover open={open && !isLoading} onOpenChange={setOpen} >
       <PopoverTrigger asChild>
         <Button
           variant="outline"
@@ -62,11 +63,11 @@ export function ComboboxDemo({ title, ID, Clickfunction = (id) => {} }) {
         >
           {value
             ? data.data.find((framework) => framework.title === value)?.title
-            : "Select framework..."}
+            : "选择合适的收藏夹..."}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
+      <PopoverContent className="w-[200px] p-0 relative z-[100]">
         <Command>
           <CommandInput placeholder="Search framework..." />
           <CommandList>
@@ -76,7 +77,10 @@ export function ComboboxDemo({ title, ID, Clickfunction = (id) => {} }) {
                 <CommandItem
                   key={framework.id}
                   value={framework.title}
+
                   onSelect={(currentValue) => {
+                    console.log("currentValue", currentValue);
+                    
                     setValue(currentValue === value ? "" : currentValue);
                     Clickfunction(framework.id);
                     setOpen(false);
@@ -96,5 +100,6 @@ export function ComboboxDemo({ title, ID, Clickfunction = (id) => {} }) {
         </Command>
       </PopoverContent>
     </Popover>
+    </div>
   );
 }

@@ -237,7 +237,25 @@ export const  BookMark=({meta,bol=true,onDelete,matchesbol=true,container=true})
         }}
         className="mt-4 overflow-hidden"
       >
-        
+         {meta.image && (
+        <div className="relative flex justify-center">
+          <img
+            className="md:h-[10rem] w-full md:w-auto ease-linear object-cover"
+            referrerPolicy="no-referrer"
+            loading="lazy"
+            src={meta.image}
+            alt="Content"
+            onError={(e) => {
+              // 图片加载失败时移除图片元素
+              e.currentTarget.style.display = 'none';
+            }}
+          />
+          {/* 添加备用内容 */}
+          <div className="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-gray-800" style={{ display: 'none' }}>
+            <span className="text-gray-400">图片无法加载</span>
+          </div>
+        </div>
+      )}
         <div className="space-y-3 z-40">
           <p className="text-sm text-gray-600 dark:text-gray-300">
             {meta.content || '暂无描述'}

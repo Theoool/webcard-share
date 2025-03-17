@@ -29,7 +29,7 @@ export default function Home() {
 
   const [Tip,changeTip]=useState<TipModel[]>([{
     text:'Seo建议',
-    Open:true,
+    Open:false,
     template:<SeoParser url={value}></SeoParser>
   },{
     text:'网页预览',
@@ -37,7 +37,7 @@ export default function Home() {
     template:<div>1</div>
   },{
     text:'纯净模式',
-    Open:false,
+    Open:true,
     template:<div>2</div>
   },{
     text:'宣传文案',

@@ -46,10 +46,9 @@ export default function RootLayout({
       <ViewTransitions>
        
         <html lang="en" className={`${inter.variable}`}>
-          <body className="bg-[#f8f9fa] dark:bg-black flex flex-col">
+          <body className="bg-[#f8f9fa]  dark:bg-black flex flex-col">
             <Header></Header> 
-            <main className="flex-1  w-full mt-14  min-h-screen">
-            
+            <main className="flex-2    w-full pt-14  min-h-screen">
               <Toaster></Toaster>     
               <QueryClientProvider>
                 {children}

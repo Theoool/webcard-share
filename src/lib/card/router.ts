@@ -42,7 +42,6 @@ interface carddata{
   title:string,
   url:string,
   content:string
-
 }
 
 const addCard=async (data:carddata,session:any) => { 
@@ -65,6 +64,45 @@ const addCard=async (data:carddata,session:any) => {
     }
     toast({
       title: "创建成功了呀",
+      description: "There was a problem with your request.",
+      duration:2000
+     })
+    return {
+      success: true,
+      data: response.json(),
+    };
+  } catch (error) {
+    return { 
+      success: false,
+      error: error
+    };
+  }
+
+
+}
+const SaveCards=async ({url,UserFavoriteId,session}) => { 
+  try {
+    const response = await fetch('http://localhost:3000/Card/SaveCards', {
+      mode: 'cors',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${session}`,
+      },
+      body: JSON.stringify({
+        url,
+        UserFavoriteId,
+      }),
+    }).then(()=>response.json())
+    if (!response.ok) {
+      toast({
+        title: "Uh oh! 发生了一些错误.",
+        description: "There was a problem with your request.",
+             })
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    toast({
+      title: "全部创建成功",
       description: "There was a problem with your request.",
       duration:2000
      })
@@ -104,6 +142,7 @@ const PostCreate= async (data,token)=>{
       })
       return data
     }
-  }
+}
+
   
-export { getCardProps,addCard,PostCreate}
+export { getCardProps,addCard,PostCreate,SaveCards}

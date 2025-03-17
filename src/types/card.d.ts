@@ -8,7 +8,7 @@ interface CardProps {
   };
   // 内容部分
   content: {
-    imageUrl: string;
+    image: string;
     text: string;
     tags?:string[]
   };

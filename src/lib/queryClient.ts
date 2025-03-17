@@ -3,7 +3,7 @@ import { QueryClient } from '@tanstack/react-query';
 import { signOut } from 'next-auth/react';
 
 const fetchApi = async (url: string, options: RequestInit = {}) => {
-  const response = await fetch(`http://localhost:3000${url}`, options);
+  const response = await fetch(`${process.env.NEXT_PUBLIC_NESTJS_API_URL}${url}`, options);
   if (!response.ok) throw { status: response.status, message: response.statusText };
   
   return await response.json();
@@ -40,7 +40,7 @@ export const queryClient = new QueryClient({
 
             isRefreshing = true;
             try {
-              const res = await fetch('http://localhost:3000/auth/refreshtoken', {
+              const res = await fetch(`${process.env.NEXT_PUBLIC_NESTJS_API_URL}auth/refreshtoken`, {
                 mode: 'cors',
                 method: 'POST',
                 headers: {

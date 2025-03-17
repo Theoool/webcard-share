@@ -4,6 +4,7 @@ import { Bookmark, Share, Star } from "lucide-react";
 import { useSession } from "next-auth/react";
 import React from "react";
 import { ComboboxDemo } from "../combobox";
+import HoverText from "../HoverText";
 
 
 function Footer({ content}) {
@@ -23,13 +24,10 @@ function Footer({ content}) {
       )
     }
   return (
-    <div className="flex justify-between h-5 mt-2 items-center">
-      <div className="text-[1.2rem] text-light flex gap-5">
-        {/* <span> {source}</span> */}
-        {/* <span > {time}</span> */}
-      </div>
+    <div className="flex justify-end  h-5 mt-2 items-center">
+     
     <ComboboxDemo Clickfunction={changeID} title={'我的合集'}  ID={''}/>
-    <Bookmark onClick={()=>add()}></Bookmark>
+   <HoverText text="保存书签"> <Bookmark className="icon" onClick={()=>add()}></Bookmark></HoverText>
     </div>
   );
 }
