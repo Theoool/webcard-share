@@ -64,7 +64,7 @@ export default {
   		},
   		fontFamily: {
   			Roboto: 'var(--font-card-Roboto)',
-			
+		   	wenkai: ['"LXGW WenKai"', 'sans-serif','Inter'],
 					// sans: ['var(--font-inter)'], // 使用 CSS 变量
 					mono: ['var(--font-roboto-mono)', 'monospace'],
 			

@@ -1,5 +1,5 @@
 import { toast } from "@/hooks/use-toast";
-const getCardProps = async (url: string) => {
+const getCardProps = async (url: string, selectedModel: string) => {
   try {
     console.log('发起请求到Card/meta，URL:', url);
     const response = await fetch('http://localhost:3000/Card/meta', {

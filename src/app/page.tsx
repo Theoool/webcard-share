@@ -8,7 +8,7 @@ import ScrollText from "@/components/home/ScrolText";
 
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
-import { Interface } from "readline";
+
 import SeoParser from "@/components/SeoParser";
 import Aicard from "@/components/AIcomponents/AIcard";
 import CoverParser from "@/components/AIcomponents/CoverParser";
@@ -23,10 +23,7 @@ interface TipModel{
 export default function Home() {
   const [value,setvalue]=useState('')
   const [show,setshow]=useState(false)
-  const [success,setsuccess]=useState(false)
- 
   const [progress, setProgress] = useState(0)
-
   const [Tip,changeTip]=useState<TipModel[]>([{
     text:'Seo建议',
     Open:false,

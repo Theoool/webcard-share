@@ -45,8 +45,8 @@ export default function RootLayout({
     <SessionWrapper>
       <ViewTransitions>
        
-        <html lang="en" className={`${inter.variable}`}>
-          <body className="bg-[#f8f9fa]  dark:bg-black flex flex-col">
+        <html lang="en" className={`${inter.variable}`}  >
+          <body className="bg-[#f8f9fa] font-wenkai  dark:bg-black flex flex-col">
             <Header></Header> 
             <main className="flex-2    w-full pt-14  min-h-screen">
               <Toaster></Toaster>     
