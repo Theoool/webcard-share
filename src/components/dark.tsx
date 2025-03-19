@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
     const root = window.document.documentElement;
     const initialIsDark = localStorage.getItem("isDarkMode") === "true";
     setIsDark(initialIsDark);
-    root.classList.toggle("dark", !initialIsDark);
+    root.classList.toggle("dark", initialIsDark);
     
   },[]);
   const toggleDark=(event?: MouseEvent|any) =>{
@@ -21,12 +21,10 @@ import { useEffect, useState } from "react";
       if (!isAppearanceTransition) {
         setIsDark(!isDark)
         handleThemeChange()
-      isDark
         return
       }
-      const x = event.clientX
-      const y = event.clientY
-      console.log(x,y);
+      const x = event?.clientX || window.innerWidth / 2
+      const y = event?.clientY || window.innerHeight / 2
       
       //获得网页大小
       const endRadius = Math.hypot(
@@ -54,8 +52,8 @@ import { useEffect, useState } from "react";
               
             },
             {
-              duration: 300,
-              easing: 'ease-out',
+              duration: 400,
+              easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
               pseudoElement: isDark
                 ? '::view-transition-old(root)'
                 : '::view-transition-new(root)',
@@ -67,20 +65,18 @@ import { useEffect, useState } from "react";
   const handleThemeChange = () => {
     const root = window.document.documentElement;
     const newIsDark = !isDark;
-    root.classList.toggle("dark", isDark);
-    toggleDark
-    setIsDark(newIsDark);
+    root.classList.toggle("dark", newIsDark);
     localStorage.setItem("isDarkMode", String(newIsDark));
   };
   return (
     <div
-    className=" hover:text-yellow-500 hover:dark:text-green-400 transition-colors"
+    className="cursor-pointer hover:text-yellow-500 hover:dark:text-green-400 transition-all duration-300"
       onClick={(e)=>toggleDark(e)}
     >
       {isDark ?  <SunIcon
-      className="icon"
+      className="icon transition-transform duration-300 hover:rotate-12"
       ></SunIcon>: <MoonIcon
-      className="icon"
+      className="icon transition-transform duration-300 hover:rotate-12"
       ></MoonIcon>
       }
     </div>

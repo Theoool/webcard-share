@@ -46,7 +46,7 @@
     "framer-motion": "^11.15.0",
     "http-proxy": "^1.18.1",
     "lucide-react": "^0.469.0",
-    "next": "15.1.7",
+    "next": "15.2.3",
     "next-auth": "^4.24.11",
     "next-view-transitions": "^0.3.4",
     "nodemailer": "^6.10.0",
@@ -62,7 +62,8 @@
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7",
     "undici": "^7.4.0",
-    "vaul": "^1.1.2"
+    "vaul": "^1.1.2",
+    "zustand": "^5.0.3"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

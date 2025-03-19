@@ -28,7 +28,7 @@ const SeoParser = ({ url }: SeoParserProps) => {
       setError(null);
       
       try {
-        const response = await fetch(`http://localhost:3000/search/cards/Cover?url=${encodeURIComponent(url)}`);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_NESTJS_API_URL}/search/cards/Cover?url=${encodeURIComponent(url)}`);
         if (!response.ok) {
           throw new Error(`生成失败: ${response.statusText}`);
         }

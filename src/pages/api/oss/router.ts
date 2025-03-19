@@ -1,5 +1,5 @@
 export const getStaticProps = async (file:any) => {
-  const result = await fetch('http://localhost:3000/api/Card/cardController_postCardmeta',{
+  const result = await fetch('${process.env.NEXT_PUBLIC_NESTJS_API_URL}/api/Card/cardController_postCardmeta',{
       body:JSON.stringify({
         filename: file.name,
       }),

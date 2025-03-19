@@ -1,14 +1,53 @@
 import { toast } from "@/hooks/use-toast";
-const getCardProps = async (url: string, selectedModel: string) => {
+const getCardProps = async (url: string, {model,apikey,BaseURl}) => {
   try {
-    console.log('发起请求到Card/meta，URL:', url);
-    const response = await fetch('http://localhost:3000/Card/meta', {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_NESTJS_API_URL}search/cards/meta`, {
       mode: 'cors',
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'x-ai-model':model,
+        'x-api-key':apikey,
+        'x-ai-baseurl':BaseURl,
       },
       body: JSON.stringify({ url:url }),
+    });
+    
+    if (!response.ok) {
+      console.error('请求失败，状态码:', response.status);
+      return {
+        success: false,
+        error: `HTTP error! status: ${response.status}`
+      };
+    }
+    
+    const jsonData = await response.json();
+    console.log('成功获取数据:', jsonData);
+    
+    return {
+      success: true,
+      data: jsonData,
+    };
+  } catch (error) {
+    console.error('Fetch failed:', error);
+    return { 
+      success: false,
+      error: error instanceof Error ? error.message : 'Unknown error'
+    };
+  }
+};
+const getNomCardProps = async (url: string, {model,apikey,BaseURl}) => {
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_NESTJS_API_URL}Card/NomCard?url=${url}`, {
+      mode: 'cors',
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-ai-model':model,
+        'x-api-key':apikey,
+        'x-ai-baseurl':BaseURl,
+      },
+     
     });
     
     if (!response.ok) {
@@ -46,7 +85,7 @@ interface carddata{
 
 const addCard=async (data:carddata,session:any) => { 
   try {
-    const response = await fetch('http://localhost:3000/Card', {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_NESTJS_API_URL}Card`, {
       mode: 'cors',
       method: 'POST',
       headers: {
@@ -62,11 +101,7 @@ const addCard=async (data:carddata,session:any) => {
              })
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    toast({
-      title: "创建成功了呀",
-      description: "There was a problem with your request.",
-      duration:2000
-     })
+   
     return {
       success: true,
       data: response.json(),
@@ -82,7 +117,7 @@ const addCard=async (data:carddata,session:any) => {
 }
 const SaveCards=async ({url,UserFavoriteId,session}) => { 
   try {
-    const response = await fetch('http://localhost:3000/Card/SaveCards', {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_NESTJS_API_URL}Card/SaveCards`, {
       mode: 'cors',
       method: 'POST',
       headers: {
@@ -121,7 +156,7 @@ const SaveCards=async ({url,UserFavoriteId,session}) => {
 }
 
 const PostCreate= async (data,token)=>{
-     const res=await fetch(`http://localhost:3000/UserFavorites/createFavorite`,{
+     const res=await fetch(`${process.env.NEXT_PUBLIC_NESTJS_API_URL}UserFavorites/createFavorite`,{
       mode: 'cors',
       method: 'POST',
       headers:{
@@ -145,4 +180,4 @@ const PostCreate= async (data,token)=>{
 }
 
   
-export { getCardProps,addCard,PostCreate,SaveCards}
+export { getCardProps,getNomCardProps,addCard,PostCreate,SaveCards}

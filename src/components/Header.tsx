@@ -10,6 +10,7 @@ import {
   Calendar,
   CreditCard,
   File,
+  List,
   Settings,
   Smile,
   User,
@@ -28,6 +29,16 @@ import {
 import React from "react";
 import { Button } from "./ui/button";
 import { DialogTitle } from "./ui/dialog";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer"
 
 const RouterList=[{
   title:'主页',
@@ -137,6 +148,49 @@ export function CommandDialogDemo() {
     </div>
   )
 }
+
+function MobileNav() {
+  const [open, setOpen] = React.useState(false)
+  const router = useRouter()
+
+  return (
+    <Drawer open={open} onOpenChange={setOpen}>
+      <DrawerTrigger asChild>
+        <Button variant="ghost" size="icon" className="md:hidden">
+          <List className="h-5 w-5 dark:text-white" />
+        </Button>
+      </DrawerTrigger>
+      <DrawerContent>
+        <DrawerHeader>
+          <DrawerTitle>导航菜单</DrawerTitle>
+          <DrawerDescription>快速访问网站各个部分</DrawerDescription>
+        </DrawerHeader>
+        <div className="grid gap-1 px-4">
+          {RouterList.map((item, index) => (
+            <Button
+              key={index}
+              variant="ghost"
+              className="justify-start"
+              onClick={() => {
+                router.push(item.href)
+                setOpen(false)
+              }}
+            >
+              <File className="mr-2 h-4 w-4" />
+              <span>{item.title}</span>
+            </Button>
+          ))}
+        </div>
+        <DrawerFooter>
+          <DrawerClose asChild>
+            <Button variant="outline">关闭</Button>
+          </DrawerClose>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
+  )
+}
+
 export default function Home() {
   const { data: session, } = useSession();
   const router= useRouter()
@@ -149,7 +203,8 @@ export default function Home() {
      <Link href="/home" className="dark:text-primary      underline-offset-4  hover:underline"  >广场</Link>
      <Link href="/Theo" className="dark:text-primary      underline-offset-4  hover:underline"  >工具</Link>
     </div>
-    <div className="md:hidden"><DarkModeBtn ></DarkModeBtn>
+    <div className="md:hidden">
+      <MobileNav />
     </div>
     <div className=" mr-2 sm:mr-10 flex-1 md:flex-none  flex gap-2 items-center " >
     <div className="w-full flex-1 md:w-auto"><CommandDialogDemo></CommandDialogDemo></div>

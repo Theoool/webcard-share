@@ -13,10 +13,7 @@ interface CardProps {
     tags?:string[]
   };
   // Footer 部分
-  footer: {
-    source: string;
-    time: string;
-  };
+ 
   dis?:boolean
 }
 interface TipModel{

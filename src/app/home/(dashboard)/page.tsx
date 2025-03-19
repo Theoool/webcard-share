@@ -3,11 +3,25 @@ import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { BookMark } from '@/components/BookMark';
 import { useInView } from 'react-intersection-observer';
 import { useEffect, useState } from 'react';
+import { SearchBox } from "@/components/SearchBox";
+import { Search } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function MyFavorites() {
   const [page, setPage] = useState(1);
   const pageSize = 12;
   const { ref, inView } = useInView();
+  const router = useRouter();
+  const [textIndex, setTextIndex] = useState(0);
+  const searchTexts = ["读一些技术文章", "关于AI的一些应用","找一些有趣的网站"];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTextIndex((prevIndex) => (prevIndex + 1) % searchTexts.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
 
   const { data, error, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
     queryKey: ['/Card/new'],
@@ -31,6 +45,31 @@ export default function MyFavorites() {
 
   return (
     <div className="w-full h-auto md:p-10 p-2 relative">
+      <div className="flex justify-center mb-6" style={{'viewTransitionName':`sarch`}}>
+        <motion.button
+          onClick={() => router.push('/home/semantic-search')}
+          className="flex items-center gap-2 px-6 py-3 rounded-full bg-white dark:bg-gray-800 text-black dark:text-white border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-lg transition-all duration-300"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.98 }}
+          
+        >
+
+          <Search className="w-4 h-4"  />
+          <AnimatePresence mode="wait">
+            <motion.span
+              key={textIndex}
+              initial={{ y: 10, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: -10, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="font-medium"
+            >
+              {searchTexts[textIndex]}
+            </motion.span>
+          </AnimatePresence>
+        </motion.button>
+      </div>
+      
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {data?.pages.map((page) =>
           page.data.map((meta, index) => (

@@ -95,38 +95,41 @@ export function FullscreenPanel({ isOpen, onClose, url, data }: {
                 </motion.button>
               </div>
               <div className="p-6 md:p-8">
-                <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 auto-rows-auto gap-8">
               {
-                data.map((e,index)=>{
-               return e.Open?<motion.div key={e.text}
-                    className=" bg-gray-50 dark:bg-gray-800/50 rounded-2xl overflow-hidden shadow-lg border border-gray-200/30 dark:border-gray-700/30"
-                    initial={{ scale: 0.95, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    transition={{ delay: 0.15 }}
+                data.length === 0 ? (
+                  <motion.div 
+                    className="col-span-full flex flex-col items-center justify-center py-12 text-gray-500 dark:text-gray-400"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.5 }}
                   >
-                    {/* {e.text} */}
-                   {e.template}
-                  </motion.div>:null
-                })
-              }
-                  {/* {data.WebOpen && (
-                    <div className="xl:col-span-1 space-y-8">
+                    <p>暂无可显示的内容</p>
+                  </motion.div>
+                ) : (
+                  data.map((e, index) => {
+                    if (!e.Open) return null;
+                    return (
                       <motion.div 
-                        className="aspect-[16/9] bg-gray-50 dark:bg-gray-800/50 rounded-2xl overflow-hidden shadow-lg border border-gray-200/30 dark:border-gray-700/30"
-                        initial={{ scale: 0.95, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        transition={{ delay: 0.15 }}
+                        key={e.text}
+                        className="bg-gray-50 dark:bg-gray-800/50 rounded-2xl overflow-hidden shadow-lg border border-gray-200/30 dark:border-gray-700/30 h-full"
+                        initial={{ scale: 0.95, opacity: 0, y: 20 }}
+                        animate={{ scale: 1, opacity: 1, y: 0 }}
+                        exit={{ scale: 0.95, opacity: 0, y: -20 }}
+                        transition={{ 
+                          duration: 0.4, 
+                          delay: index * 0.05, // 交错动画效果
+                          ease: [0.4, 0, 0.2, 1] // 使用贝塞尔曲线实现更平滑的动画
+                        }}
+                        layout // 添加布局动画
+                        whileHover={{ y: -5, transition: { duration: 0.2 } }} // 悬停效果
                       >
-                        <iframe 
-                          referrerPolicy="no-referrer"  
-                          className="w-full h-full" 
-                          src={url}
-                          title="网页预览"
-                        />
+                       {e.text} {e.template}
                       </motion.div>
-                    </div>
-                  )} */}
-
+                    );
+                  })
+                )
+              }
                 </div>
               </div>
             </ScrollArea>

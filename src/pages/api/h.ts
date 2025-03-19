@@ -16,7 +16,7 @@ export default async function GET(req:NextApiRequest,res:NextApiResponse) {
   })
  
   
-  const data= await fetch(`http://localhost:3000/UserFavorites/GetUserFavorite/${id}`,{
+  const data= await fetch(`${process.env.NEXT_PUBLIC_NESTJS_API_URL}/UserFavorites/GetUserFavorite/${id}`,{
     mode: 'cors',
     method: 'GET',
   }).then(res=>res.json())

@@ -8,6 +8,7 @@ import {CardProvider} from '@/contexts/card-context'
 import {ViewTransitions} from 'next-view-transitions'
 import "./globals.css";
 import { motion } from "framer-motion";
+import SplashCursor from "@/components/home/SplashCursor";
 
 
 // 1. 配置主字体
@@ -46,6 +47,7 @@ export default function RootLayout({
       <ViewTransitions>
        
         <html lang="en" className={`${inter.variable}`}  >
+       
           <body className="bg-[#f8f9fa] font-wenkai  dark:bg-black flex flex-col">
             <Header></Header> 
             <main className="flex-2    w-full pt-14  min-h-screen">

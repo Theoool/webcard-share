@@ -51,8 +51,10 @@ export default function Page() {
         <div className="relative max-w-2xl mx-auto">
           <Input 
             onKeyDown={async e => {
+              
               if ((e.code === 'Enter' || e.key === 'Enter') && isURL(url)) {
                 handleSubmit()
+                setUrl('')
               }
             }}
             onChange={(event) => {

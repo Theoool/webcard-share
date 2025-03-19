@@ -27,7 +27,7 @@ export function LoginForm({
   const [loginStep, setLoginStep] = useState<'methods' | 'email' | 'verification'|"ok"|"error">('methods')
   const [isLoading, setIsLoading] = useState(false)
   const SendEmail = async ({email}) => {
-    const result = await fetch(`http://localhost:3000/auth/send-verification`, {
+    const result = await fetch(`${process.env.NEXT_PUBLIC_NESTJS_API_URL}/auth/send-verification`, {
       method: 'POST',
       headers:{
         'Content-Type': 'application/json',

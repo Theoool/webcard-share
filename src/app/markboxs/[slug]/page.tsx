@@ -138,7 +138,7 @@ export default function Page() {
   }, [cards]);
 
   const handleDelete = async (id) => {
-    const data = await fetch(`http://localhost:3000/Card/delete/${id}`, {
+    const data = await fetch(`${process.env.NEXT_PUBLIC_NESTJS_API_URL}Card/delete/${id}`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${session?.accessToken}`,

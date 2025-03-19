@@ -4,6 +4,7 @@ import { useState, startTransition, useEffect, useRef } from "react";
 import { Skeleton } from "./ui/skeleton";
 import ReactMarkdown from "react-markdown";
 import { debounce } from "@/lib/utils";
+import useSettingsModleStore from "@/Store/counter-store"
 
 type SeoParserProps = {
   url: string;
@@ -14,23 +15,34 @@ const SeoParser = ({ url }: SeoParserProps) => {
   const [data, setData] = useState<string>(""); // 存储流式数据的状态
   const [isLoading, setIsLoading] = useState<boolean>(false); // 加载状态
   const [error, setError] = useState<string | null>(null); // 错误状态
-
-  // 使用 useEffect 监听 url 变化并触发流式请求
+  const { model, apikey, BaseURl} = useSettingsModleStore();
+  const prevUrlRef = useRef<string>('');
+  
   useEffect(() => {
+    
+    if (!url || url === prevUrlRef.current) return;
+    prevUrlRef.current = url;
     if (!url) return; // 如果没有 url，则不执行
-
+  
+ 
     const fetchStream = async () => {
-      setIsLoading(true); // 开始加载
-      setData(""); // 重置数据
-      setError(null); // 重置错误
-
+      setIsLoading(true); 
+      setData(""); 
+      setError(null); 
       try {
         const response = await fetch(
           `http://localhost:3000/search/cards/parse-md?url=${encodeURIComponent(url)}`
-        );
+        ,{
+          headers:{
+            'x-ai-model':model,
+            'x-api-key':apikey,
+            'x-ai-baseurl':BaseURl,
+            }
+        });
 
         if (!response.ok) {
-          throw new Error(`解析失败: ${response.statusText}`);
+          const res=await response.json()
+          throw new Error(`解析失败: ${res.message}`);
         }
 
         if (!response.body) {
@@ -50,7 +62,7 @@ const SeoParser = ({ url }: SeoParserProps) => {
           const chunk = decoder.decode(value, { stream: true });
           console.log("收到数据块:", chunk);
 
-          // 使用 startTransition 逐步追加数据
+          // 使用 startTransition 加数据
           startTransition(() => {
             setData((prev) => prev + chunk);
           });
@@ -59,17 +71,13 @@ const SeoParser = ({ url }: SeoParserProps) => {
         console.error("流式读取错误:", err);
         setError((err as Error).message || "未知错误");
       } finally {
-        setIsLoading(false); // 结束加载
+        setIsLoading(false); 
       }
     };
 
-    fetchStream(); // 执行流式请求
+    fetchStream();
 
-    // 清理函数，确保组件卸载时取消请求（可选）
-    return () => {
-      // 如果需要取消流，可以在这里关闭 reader，但 fetch API 不直接支持
-    };
-  }, [url]); // 依赖 url，变化时重新触发
+  }, [url]); 
 
   useEffect(() => {
     const container = containerRef.current;
@@ -111,7 +119,7 @@ const SeoParser = ({ url }: SeoParserProps) => {
       <div className="h-full space-y-4 p-4">
         <h2 className="text-lg font-semibold mb-4">SEO 分析报告</h2>
         {data ? (
-          <div className="bg-[#141419] dark:text-white/50 backdrop-blur-sm rounded-lg border p-4 shadow-sm transition-all duration-200 hover:shadow-md" ref={containerRef}>
+          <div className="dark:bg-[#141419] dark:text-white/50 backdrop-blur-sm rounded-lg border p-4 shadow-sm transition-all duration-200 hover:shadow-md" ref={containerRef}>
             <ReactMarkdown>{data}</ReactMarkdown>
           </div>
         ) : isLoading ? (

@@ -1,13 +1,14 @@
 "use client";
 
-import { useState, startTransition, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Skeleton } from "../ui/skeleton";
-import Image from "next/image";
+
+import { toast } from "@/hooks/use-toast";
+import useSettingsModleStore from "@/Store/counter-store";
 
 type SeoParserProps = {
   url: string;
 };
-
 const SeoParser = ({ url }: SeoParserProps) => {
   const [data, setData] = useState({
     url: '',
@@ -17,25 +18,40 @@ const SeoParser = ({ url }: SeoParserProps) => {
   const [error, setError] = useState<string | null>(null);
   // 移除不必要的 isFirstRender 状态
   const prevUrlRef = useRef<string>(''); // 添加 ref 来跟踪上一次的 url
-
+  const { model, apikey, BaseURl} = useSettingsModleStore();
+ 
   useEffect(() => {
+    console.log("prevUrlRef.current:", prevUrlRef.current);
+    console.log("prevUrlRef.url:", url);
+    
     if (!url || url === prevUrlRef.current) return;
     prevUrlRef.current = url;
-  
+
     const controller = new AbortController();
     const fetchStream = async () => {
+
       setIsLoading(true);
       setError(null);
-      
       try {
-        const response = await fetch(`http://localhost:3000/search/cards/Cover?url=${encodeURIComponent(url)}`);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_NESTJS_API_URL}/search/cards/Cover?url=${encodeURIComponent(url)}`,{
+          headers:{
+            'x-ai-model':model,
+            'x-api-key':apikey,
+            'x-ai-baseurl':BaseURl,
+            }
+        });
         if (!response.ok) {
+          const res = await response.json();
+          toast({
+            title: '生成失败',
+            description:res.message
+          })
           throw new Error(`生成失败: ${response.statusText}`);
-        }
-        
+        }  
         const res = await response.json();
-        console.log('API Response:', res); // 添加详细日志
-        
+       toast({
+        title: '生成成功',
+       })
         if (!res.data) {
           throw new Error('返回数据格式错误');
         }
@@ -78,7 +94,7 @@ const SeoParser = ({ url }: SeoParserProps) => {
   return (
     <div className="h-full overflow-hidden">
       <div className="h-full space-y-4 p-4">
-        <h2 className="text-lg font-semibold mb-4">宣传封面</h2>
+        <h2 className="text-lg font-semibold mb-4">{'宣传封面'}</h2>
         {data ? (
           <div>
             {data.url && (

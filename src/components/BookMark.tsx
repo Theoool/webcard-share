@@ -36,7 +36,7 @@ export const  BookMark=({meta,bol=true,onDelete,matchesbol=true,container=true})
       return;
     }
     if (bol) {
-      data =await fetch(`http://localhost:3000/Card/updata/${meta.id}`, {
+      data =await fetch(`${process.env.NEXT_PUBLIC_NESTJS_API_URL}/Card/updata/${meta.id}`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${session?.accessToken}`,
@@ -45,7 +45,7 @@ export const  BookMark=({meta,bol=true,onDelete,matchesbol=true,container=true})
         body: JSON.stringify(meta),
       });
     }else {
-      data =await fetch(`http://localhost:3000/Card`, {
+      data =await fetch(`${process.env.NEXT_PUBLIC_NESTJS_API_URL}/Card`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${session?.accessToken}`,
@@ -74,7 +74,7 @@ export const  BookMark=({meta,bol=true,onDelete,matchesbol=true,container=true})
       });
       return false;
     }
-     const data =await fetch(`http://localhost:3000/Card/delete/${meta.id}`, {
+     const data =await fetch(`${process.env.NEXT_PUBLIC_NESTJS_API_URL}/Card/delete/${meta.id}`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${session?.accessToken}`,

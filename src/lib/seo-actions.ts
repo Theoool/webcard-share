@@ -1,9 +1,6 @@
 "use server";
 
 import 'server-only';
-
-import type { ReadableStream } from 'stream/web';
-
 export const parseSeoAction = async (url: string):Promise<any> => {
   try {
     const response = await fetch(
@@ -11,6 +8,9 @@ export const parseSeoAction = async (url: string):Promise<any> => {
       {
         headers: {
           'Content-Type': 'application/json',
+          'x-ai-model':'deepseek-v3',
+          'x-api-key':'sk-e5e26eca85fc44ce8b4d825c9a2ce1c4',
+          'x-ai-baseurl':'https://dashscope.aliyuncs.com/compatible-mode/v1',
         },
         cache: 'no-store'
       }

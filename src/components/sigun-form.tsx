@@ -22,7 +22,7 @@ export function SignupForm({
   const [isLoading, setIsLoading] = useState(false)
 
   const SendEmail = async ({email}) => {
-    const result = await fetch(`http://localhost:3000/auth/send-verification`, {
+    const result = await fetch(`${process.env.NEXT_PUBLIC_NESTJS_API_URL}/auth/send-verification`, {
       method: 'POST',
       headers:{
         'Content-Type': 'application/json',
@@ -35,7 +35,7 @@ export function SignupForm({
   };
 
   const verifyCode = async ({verificationCode}) => {
-    const result = await fetch(`http://localhost:3000/auth/verify/?code=${verificationCode}`, {
+    const result = await fetch(`${process.env.NEXT_PUBLIC_NESTJS_API_URL}/auth/verify/?code=${verificationCode}`, {
       method: 'POST',
       headers:{
         'Content-Type': 'application/json',
@@ -47,7 +47,7 @@ export function SignupForm({
     return result.json()
   };
   const Signup = async ({email,username,image}) => {
-    const result = await fetch(`http://localhost:3000/auth/signup`, {
+    const result = await fetch(`${process.env.NEXT_PUBLIC_NESTJS_API_URL}/auth/signup`, {
       method: 'POST',
       headers:{
         'Content-Type': 'application/json',

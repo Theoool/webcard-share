@@ -9,10 +9,10 @@ import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import SyntaxHighlighter from 'react-syntax-highlighter';
-
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
-
+import useSettingsModleStore from '@/Store/counter-store';
+import { Select, SelectTrigger, SelectContent, SelectGroup, SelectLabel, SelectItem } from '@radix-ui/react-select';
 export function UploadPage() {
   const [file, setFile] = useState<File | null>(null);
   const [htmlResult, setHtmlResult] = useState('');
@@ -22,8 +22,10 @@ export function UploadPage() {
   const [dragActive, setDragActive] = useState(false);
   const [fileType, setFileType] = useState<'pdf' | 'md' | 'url'>('pdf');
   const [url, setUrl] = useState('');
+  const [selectedRole, setSelectedRole] = useState<string>('');
   const { toast } = useToast();
-  // const { theme } = useTheme();
+  const { model, apikey, BaseURl} = useSettingsModleStore();
+ 
 
   useEffect(() => {
     GlobalWorkerOptions.workerSrc = `${process.env.NEXT_PUBLIC_BASE_PATH || ''}/js/pdf.worker.js`;
@@ -125,7 +127,9 @@ export function UploadPage() {
   };
 
   const downloadHTML = () => {
-    const blob = new Blob([htmlResult], { type: 'text/html' });
+    const blob = new Blob([htmlResult.includes('```html') 
+      ? htmlResult.split('```html')[1].split('```')[0].trim() 
+      : htmlResult], { type: 'text/html' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -163,10 +167,14 @@ export function UploadPage() {
         setMdContent(text);
       }
       
-      const response = await fetch('http://localhost:3000/search/cards/Htmlcode', {
+      const response = await fetch('${process.env.NEXT_PUBLIC_NESTJS_API_URL}/search/cards/Htmlcode', {
         method: 'POST',
         mode: 'cors',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json',
+          'x-ai-model': model,
+          'x-api-key': apikey,
+          'x-ai-baseurl': BaseURl,
+         },
         body: JSON.stringify({ 
           text,
           fileType // 将文件类型传递给后端
@@ -194,6 +202,8 @@ export function UploadPage() {
   };
 
   const handleUrlSubmit = async () => {
+    console.log("输出",model, apikey, BaseURl);
+    
     if (!url) {
       toast({
         title: "请输入URL",
@@ -219,18 +229,27 @@ export function UploadPage() {
     const progressInterval = setInterval(() => {
       setProgress(prev => Math.min(prev + 10, 90));
     }, 500);
+    
 
+  
     try {
-      const response = await fetch('http://localhost:3000/search/cards/Htmlcode', {
-        method: 'POST',
-        mode: 'cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
+     
+      const response = await fetch('${process.env.NEXT_PUBLIC_NESTJS_API_URL}/search/cards/Htmlcode', {
+        method: 'POST', // 必须指定请求方法
+        headers: {   
+          'x-ai-model': model,
+          'x-api-key': apikey,
+          'x-ai-baseurl': BaseURl,
+          'Content-Type': 'application/json' // 必须包含Content-Type
+        },
+        body: JSON.stringify({  // 必须包含请求体
           url,
+          model: model,
+          apikey: apikey,
+          baseurl: BaseURl,
           fileType: 'url'
         }),
       });
-      
       const data = await response.json();
       setHtmlResult(data.data.html);
       setProgress(100);
@@ -259,14 +278,67 @@ export function UploadPage() {
           上传文件或输入URL，用<span className=' font-bold mx-1 text-blue-500 dark:text-purple-600'>LLM模型</span>帮你转换为格式化的 HTML 内容
         </p>
       </div>
-
+     
+      {/* 角色选择器 - 简化设计 */}
+      <div className="w-full max-w-3xl mx-auto">
+        <div className="flex items-center justify-end gap-3 px-2">
+          <div className="flex items-center gap-2 text-muted-foreground">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-70">
+              <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            <span className="text-xs font-medium">AI角色:</span>
+          </div>
+          
+          <Select onValueChange={setSelectedRole} defaultValue="general" >
+            <SelectTrigger className="w-[160px] h-8 bg-transparent border-0 hover:bg-accent/30 focus:ring-0 shadow-none text-sm font-normal">
+              <div className="flex items-center gap-2">
+                <div className={cn(
+                  "h-2 w-2 rounded-full",
+                 "bg-emerald-500"
+                )}></div>
+                <span className="truncate">
+                   通用模式
+                </span>
+              </div>
+            </SelectTrigger>
+            {/* <SelectContent className="min-w-[200px] bg-white/20">
+              <SelectGroup>
+                <SelectItem value="general" className="flex items-center py-1.5">
+                  <div className="flex items-center gap-2">
+                    <div className="h-2 w-2 rounded-full bg-gray-400"></div>
+                    <span>通用模式</span>
+                  </div>
+                </SelectItem>
+                <SelectItem value="frontend" className="flex items-center py-1.5">
+                  <div className="flex items-center gap-2">
+                    <div className="h-2 w-2 rounded-full bg-blue-500"></div>
+                    <span>前端开发专家</span>
+                  </div>
+                </SelectItem>
+                <SelectItem value="designer" className="flex items-center py-1.5">
+                  <div className="flex items-center gap-2">
+                    <div className="h-2 w-2 rounded-full bg-purple-500"></div>
+                    <span>UX设计顾问</span>
+                  </div>
+                </SelectItem>
+                <SelectItem value="fullstack" className="flex items-center py-1.5">
+                  <div className="flex items-center gap-2">
+                    <div className="h-2 w-2 rounded-full bg-emerald-500"></div>
+                    <span>全栈工程师</span>
+                  </div>
+                </SelectItem>
+              </SelectGroup>
+            </SelectContent> */}
+          </Select>
+        </div>
+      </div>
       <Tabs defaultValue="upload" className="w-full">
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="upload">文件上传</TabsTrigger>
           <TabsTrigger value="url">URL输入</TabsTrigger>
           <TabsTrigger value="result" disabled={!htmlResult}>转换结果</TabsTrigger>
         </TabsList>
-        
         <TabsContent value="upload" className="space-y-6">
           <motion.div
             className={cn(

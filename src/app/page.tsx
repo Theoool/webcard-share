@@ -13,6 +13,7 @@ import SeoParser from "@/components/SeoParser";
 import Aicard from "@/components/AIcomponents/AIcard";
 import CoverParser from "@/components/AIcomponents/CoverParser";
 import { isURL } from "@/lib/utils";
+import SplashCursor from "@/components/home/SplashCursor";
 
 interface TipModel{
   text:string
@@ -24,38 +25,23 @@ export default function Home() {
   const [value,setvalue]=useState('')
   const [show,setshow]=useState(false)
   const [progress, setProgress] = useState(0)
-  const [Tip,changeTip]=useState<TipModel[]>([{
+  const [Tip,changeTip]=useState<TipModel[]>([
+    {
+      text:"智能卡片",
+      Open:false,
+      template:<Aicard url={value}></Aicard>
+    },{
     text:'Seo建议',
     Open:false,
     template:<SeoParser url={value}></SeoParser>
   },{
-    text:'网页预览',
-    Open:false,
-    template:<div>1</div>
-  },{
     text:'纯净模式',
     Open:true,
-    template:<div>2</div>
+    template:<Aicard url={value} AI={false}></Aicard>
   },{
-    text:'宣传文案',
+    text:'宣传封面',
     Open:false,
-    template:<div>3</div>
-  },{
-    text:'生成封面',
-    Open:false,
-    template:<CoverParser url={value}></CoverParser>
-  },{
-    text:"智能摘要",
-    Open:false,
-    template:<Aicard url={value}></Aicard>
-  },{
-    text:"智能标签",
-    Open:false,
-    template:<div>4</div>
-  },{
-    text:"网页生成",
-    Open:false,
-    template:<div>8</div>
+    template:<CoverParser url={value} />
   }
 ])
 const changeTipModle = ({I, text, Open}) => {
@@ -87,20 +73,14 @@ useEffect(() => {
         switch(item.text) {
           case 'Seo建议':
             return <SeoParser url={value} />;
-          case '网页预览':
-            return <div>1</div>;
           case '纯净模式':
-            return <div>2</div>;
+            return <Aicard url={value} AI={false} />;
           case '宣传文案':
             return <div>3</div>;
-          case '生成封面':
+          case '宣传封面':
             return <CoverParser url={value} />;
-          case '智能摘要':
-            return <Aicard url={value} />;
-          case '智能标签':
-            return <div>4</div>;
-          case '网页生成':
-            return <div>8</div>;
+          case '智能卡片':
+            return <Aicard url={value}/>;
           default:
             return null;
         }
@@ -110,14 +90,16 @@ useEffect(() => {
 }, [value]);
   return (
     <div>
-      
+    
     <div className="min-h-screen flex items-center justify-center py-20 px-4">
+    <SplashCursor  /> 
       <div className="max-w-4xl w-full space-y-12">
         <div className="space-y-6 text-center">
           <h1 className="text-4xl md:text-5xl font-light tracking-tight">
             <span className="block">发现、分享、连接</span>
             <span className="block mt-2 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent font-normal">打造你的数字世界</span>
           </h1>
+         
           <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
             一键提取网页精华，优化分析<span style={{'viewTransitionName':`markbox`}} className=" text-green-300">书签</span>，整理分类<span style={{'viewTransitionName':`markboxs`}} className=" text-green-300">收藏</span>，与世界分享你的发现
           </p>
