@@ -73,7 +73,7 @@ export function debounce(func: (...args: any[]) => void, wait: number) {
   let timeout: NodeJS.Timeout | null = null;
   const debounced = (...args: any[]) => {
     if (timeout) clearTimeout(timeout);
-    timeout = setTimeout(() => func.apply(undefined, args), wait);
+    timeout = setTimeout(() => func(...args), wait);
   };
   debounced.cancel = () => timeout && clearTimeout(timeout);
   return debounced;

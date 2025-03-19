@@ -269,7 +269,7 @@ const CardFooter: React.FC<{
 };
 
 // 主卡片组件
-const Card: React.FC<{ cardData: CardData,AI?:Boolean }> = ({ cardData,AI=open}) => {
+const Card: React.FC<{ cardData: CardData,AI?:boolean }> = ({ cardData,AI=open}) => {
   const { data: session } = useSession();
   let summaryText, keywordsList,keywordsText;
   // 解析摘要和关键词

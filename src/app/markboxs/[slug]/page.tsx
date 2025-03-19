@@ -73,6 +73,23 @@ export default function Page() {
       setCards(data.card);
     }
   }, [data]);
+  const handleDelete = async (id) => {
+    const data = await fetch(`${process.env.NEXT_PUBLIC_NESTJS_API_URL}Card/delete/${id}`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${session?.accessToken}`,
+        'Content-Type': 'application/json',
+      },
+    });
+    if (!data.ok) { 
+      toast({
+        title: data.statusText,
+        description: 'Something went wrong!',
+      });
+      return true
+    }
+    setCards(cards.filter(card => card.id !== id));
+  };
 
   // 添加WebSocket监听
   useEffect(() => {
@@ -135,25 +152,9 @@ export default function Page() {
         socket.off('progress');
       };
     }
-  }, [cards]);
+  }, [cards,handleDelete]);
 
-  const handleDelete = async (id) => {
-    const data = await fetch(`${process.env.NEXT_PUBLIC_NESTJS_API_URL}Card/delete/${id}`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${session?.accessToken}`,
-        'Content-Type': 'application/json',
-      },
-    });
-    if (!data.ok) { 
-      toast({
-        title: data.statusText,
-        description: 'Something went wrong!',
-      });
-      return true
-    }
-    setCards(cards.filter(card => card.id !== id));
-  };
+ 
   const handleDeleteID = (id) => {
     setCards(cards.filter(card => card.id !== id));
   };
@@ -369,7 +370,7 @@ export default function Page() {
                 onImportSuccess={async (items) => {
                   if (items && items.length > 0) {
                     const newCards = items.map(item => item.url);
-                    let res = await SaveCards({url: newCards, UserFavoriteId: router!.slug, session: session?.accessToken})
+                    const res = await SaveCards({url: newCards, UserFavoriteId: router!.slug, session: session?.accessToken})
                     if (res.success) {
                       toast({
                         title: "导入成功",

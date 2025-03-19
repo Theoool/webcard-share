@@ -1,5 +1,5 @@
 
-import useSettingsModleStore from "@/stores/counter-store";
+import useSettingsModleStore from "@/Store/counter-store";
 // AI 服务提供商基础 URL 映射
 interface BaseURLMap {
   [key: string]: string;

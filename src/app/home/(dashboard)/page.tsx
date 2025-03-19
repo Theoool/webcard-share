@@ -1,9 +1,8 @@
 'use client'
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery,  } from "@tanstack/react-query";
 import { BookMark } from '@/components/BookMark';
 import { useInView } from 'react-intersection-observer';
 import { useEffect, useState } from 'react';
-import { SearchBox } from "@/components/SearchBox";
 import { Search } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -21,7 +20,7 @@ export default function MyFavorites() {
       setTextIndex((prevIndex) => (prevIndex + 1) % searchTexts.length);
     }, 3000);
     return () => clearInterval(interval);
-  }, []);
+  }, [searchTexts.length]);
 
   const { data, error, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
     queryKey: ['/Card/new'],

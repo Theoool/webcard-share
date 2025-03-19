@@ -54,7 +54,7 @@ const changeTipModle = ({I, text, Open}) => {
     })));
   } else {
     // 其他模式的正常切换逻辑
-    let newTip = Tip.map((e, index) => {
+    const newTip = Tip.map((e, index) => {
       if (index === I) {
         e.Open = !Open;
       }if (e.text === "纯净模式") {

@@ -197,12 +197,13 @@ export default function Home() {
   return (
    <nav className="flex p-2 bg-[#f8f9fa] dark:bg-black w-full text-black fixed top-0    gap-2  z-50 h-14  text-md sm:text-xl
      justify-between   items-center font-bold   ">
-    <div className=" gap-10 ml-10 hidden md:flex">
+    <div className=" text-md gap-5 ml-5 hidden md:flex">
      <Link href="/" className="dark:text-primary  underline-offset-4  hover:underline"  >主页</Link>
      <Link href="/mymarkbox" className="dark:text-primary  underline-offset-4  hover:underline"  >我的收藏</Link>
      <Link href="/home" className="dark:text-primary      underline-offset-4  hover:underline"  >广场</Link>
      <Link href="/Theo" className="dark:text-primary      underline-offset-4  hover:underline"  >工具</Link>
-    </div>
+     {session&&<Link href="设置" className="dark:text-primary      underline-offset-4  hover:underline">设置</Link>}
+      </div>
     <div className="md:hidden">
       <MobileNav />
     </div>
