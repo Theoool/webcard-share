@@ -277,6 +277,12 @@ export function UploadPage() {
         <p className="text-gray-500 dark:text-gray-400">
           上传文件或输入URL，用<span className=' font-bold mx-1 text-blue-500 dark:text-purple-600'>LLM模型</span>帮你转换为格式化的 HTML 内容
         </p>
+        <p className="text-gray-400 0 dark:text-gray-400">
+          简历，个人作品，文章等数据量少的效果较好，所以后期会升级成链式调用，加入多角色处理
+        </p>
+        <p className="text-gray-400 0 dark:text-gray-400">
+          生成质量不稳定，无法处理中大型文件，读取速度慢，生成内容可能不完整，注意token消耗
+        </p>
       </div>
      
       {/* 角色选择器 - 简化设计 */}

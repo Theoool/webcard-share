@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 
 export default function HeroSection() {
   return (
-    <div className="min-h-[80vh] bg-gradient-to-b from-background to-background/80 dark:from-background dark:to-background/90">
+    <div className="min-h-[80vh] bg-gradient-to-b">
       <div className="h-full flex flex-col items-center justify-center px-4 py-16 space-y-6">
         <motion.h1
           initial={{ y: 20, opacity: 0 }}

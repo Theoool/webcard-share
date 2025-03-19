@@ -93,7 +93,7 @@ export function CommandDialogDemo() {
   }, [])
  
   return (
-    <div className="w-full relative ">
+    <div className="w-full relative  ">
     
       <Button onClick={()=>setOpen(true)} className="inline-flex items-center gap-2 whitespace-nowrap transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border border-input hover:bg-accent hover:text-accent-foreground px-4 py-2 relative h-8 w-full justify-start rounded-[0.5rem] bg-muted/50 text-sm font-normal text-muted-foreground shadow-none sm:pr-12 md:w-40 lg:w-56 xl:w-64" >  搜索...  
         <kbd className="pointer-events-none hidden   font-serif md:inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5  text-[10px] font-medium text-muted-foreground opacity-100">
@@ -195,8 +195,8 @@ export default function Home() {
   const { data: session, } = useSession();
   const router= useRouter()
   return (
-   <nav className="flex p-2  w-full text-black fixed top-0    gap-2  z-50 h-14  text-md sm:text-xl
-     justify-between   items-center font-bold  rounded-full ">
+   <nav className="flex p-2 bg-[#f8f9fa] dark:bg-black w-full text-black fixed top-0    gap-2  z-50 h-14  text-md sm:text-xl
+     justify-between   items-center font-bold   ">
     <div className=" gap-10 ml-10 hidden md:flex">
      <Link href="/" className="dark:text-primary  underline-offset-4  hover:underline"  >主页</Link>
      <Link href="/mymarkbox" className="dark:text-primary  underline-offset-4  hover:underline"  >我的收藏</Link>

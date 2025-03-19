@@ -9,6 +9,7 @@ import {ViewTransitions} from 'next-view-transitions'
 import "./globals.css";
 import { motion } from "framer-motion";
 import SplashCursor from "@/components/home/SplashCursor";
+import { Github, Twitter, X } from "lucide-react";
 
 
 // 1. 配置主字体
@@ -58,6 +59,17 @@ export default function RootLayout({
               {modal}
               <div id="modal-root"></div>
             </main>
+            <footer className="flex flex-col items-center justify-center p-2 gap-2 w-full ">
+              欢迎联系我
+            <div className="flex justify-center p-2 gap-4 w-full ">
+            <a href="https://x.com/QIN_KING88"><Twitter ></Twitter></a>
+              <div>微信号:wx2580456922</div>
+              <a href="https://github.com/Theoool/"><Github ></Github></a>
+            </div>
+             <span className="flex gap-2">开源地址：<a href="https://github.com/Theoool/webcard-share"><Github ></Github></a>
+             项目非常不成熟，欢迎提issue,我们一起构建，一起成长！浏览器插件正在开发中
+             </span>
+               </footer>
           </body>
         </html>
        

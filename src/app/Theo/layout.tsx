@@ -39,23 +39,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="flex overflow-hidden min-h-screen bg-gray-50 dark:bg-gray-900">
-      <aside className="w-56 border-r border-gray-200 dark:border-gray-800 flex flex-col h-screen sticky top-0 bg-white dark:bg-gray-950 shadow-sm">
+    <div className="flex overflow-hidden min-h-screen ">
+      <aside className="w-56 border-r border-gray-200 dark:border-gray-800 flex flex-col h-screen sticky top-0  shadow-sm">
         <div className="p-4 border-b border-gray-200 dark:border-gray-800">
           <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100">工具列表</h3>
         </div>
-        <nav className="flex-1 overflow-y-auto py-4 px-3">
+        <nav className="flex-1 overflow-y-auto  py-4 px-3">
           <div className="space-y-1">
-            <TooltipProvider>
+            <TooltipProvider >
               {TheoProjects.map((project) => (
-                <Tooltip key={project.name}>
-                  <TooltipTrigger asChild>
+                <Tooltip  key={project.name}>
+                  <TooltipTrigger className="my-4" asChild>
                     <Link href={project.url}>
                       <div 
                         className={cn(
                           "group flex items-center px-3 py-2 text-sm rounded-md gap-3",
                           "transition-colors duration-150 ease-in-out",
-                          "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800",
+                          "text-gray-700 dark:text-gray-300",
                           "border-l-2 border-transparent hover:border-l-2 hover:border-l-indigo-500"
                         )}
                       >
@@ -69,7 +69,7 @@ export default function RootLayout({
                       </div>
                     </Link>
                   </TooltipTrigger>
-                  <TooltipContent side="right" className="text-xs">
+                  <TooltipContent side="right" className="text-xs text-[#9a9aa2]">
                     {project.name} - {project.tag}
                   </TooltipContent>
                 </Tooltip>

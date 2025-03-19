@@ -14,6 +14,7 @@ import Aicard from "@/components/AIcomponents/AIcard";
 import CoverParser from "@/components/AIcomponents/CoverParser";
 import { isURL } from "@/lib/utils";
 import SplashCursor from "@/components/home/SplashCursor";
+import GradientText from "@/components/GradientText";
 
 interface TipModel{
   text:string
@@ -96,9 +97,18 @@ useEffect(() => {
       <div className="max-w-4xl w-full space-y-12">
         <div className="space-y-6 text-center">
           <h1 className="text-4xl md:text-5xl font-light tracking-tight">
-            <span className="block">发现、分享、连接</span>
-            <span className="block mt-2 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent font-normal">打造你的数字世界</span>
+            <span className="block mb-4">打破信息茧房
+           </span>
+          
+    <GradientText>探索无限可能，重新连接互联网</GradientText>
           </h1>
+          {/* <p
+         
+        
+         className="text-xl md:text-2xl text-muted-foreground text-center max-w-2xl"
+       >
+         探索无限可能，连接知识世界
+       </p> */}
          
           <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
             一键提取网页精华，优化分析<span style={{'viewTransitionName':`markbox`}} className=" text-green-300">书签</span>，整理分类<span style={{'viewTransitionName':`markboxs`}} className=" text-green-300">收藏</span>，与世界分享你的发现
@@ -162,8 +172,8 @@ useEffect(() => {
  
  
     </div>
-    <ScrollText></ScrollText>
-         <div className="w-full py-24 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800">
+    {/* <ScrollText></ScrollText> */}
+         {/* <div className="w-full py-24 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
               <div className="group p-8 bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100 dark:border-gray-700">
@@ -219,7 +229,7 @@ useEffect(() => {
           </div>
 
 
-         </div>
+         </div> */}
        
     </div>
   )

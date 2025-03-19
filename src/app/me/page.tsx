@@ -42,17 +42,11 @@ const UserProfile = ({ session }) => (
       />
     </div>
     <h1 className="text-2xl">{session.user?.name}</h1>
-    <Description className="text-gray-400">Hey, I am Anthony Fu, a fanatical open sourceror.</Description>
-    <div className="m-4 flex gap-4">
+       <div className="m-4 flex gap-4">
       <Link><Button className="bg-white dark:text-black">订阅</Button></Link>
       <Link><Button className="bg-white dark:text-black">邮箱</Button></Link>
     </div>
 
-    <Linkcard />
-    <Linkcard />
-    <Linkcard />
-    <Linkcard />
-    <Linkcard />
     <p className="font-bold mb-4">{session.user?.email}</p>
     <button className="bg-red-600 py-2 px-6 rounded-md" onClick={() => signOut()}>Sign out</button>
   </div>
