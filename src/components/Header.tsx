@@ -195,7 +195,7 @@ export default function Home() {
   const { data: session, } = useSession();
   const router= useRouter()
   return (
-   <nav className="flex p-2 bg-[#f8f9fa] dark:bg-black w-full text-black fixed top-0    gap-2  z-50 h-14  text-md sm:text-xl
+   <nav className="flex p-2 bg-[#f8f9fa] dark:bg-[#0a0a0a] w-full text-black fixed top-0    gap-2  z-50 h-14  text-md sm:text-xl
      justify-between   items-center font-bold   ">
     <div className=" text-md gap-5 ml-5 hidden md:flex">
      <Link href="/" className="dark:text-primary  underline-offset-4  hover:underline"  >主页</Link>

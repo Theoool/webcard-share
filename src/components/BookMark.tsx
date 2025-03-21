@@ -100,18 +100,25 @@ export const  BookMark=({meta,bol=true,onDelete,matchesbol=true,container=true})
   style={{'viewTransitionName':`${meta.id}`}}
   key={meta.id}
   className="
-   border dark:border-[#27272a] dark:shadow-md 
-    grid-cols-subgrid
-    [&:has([data-expanded='true'])]:z-50
-    p-4 rounded-lg shadow-lg cursor-pointer relative overflow-visible"
+   relative overflow-visible
+   bg-gradient-to-br from-white/80 to-white/40 dark:from-gray-900/80 dark:to-gray-900/40
+   backdrop-blur-lg border-[0.5px] border-white/20 dark:border-gray-800/20
+   shadow-[0_8px_30px_rgb(0,0,0,0.12)]
+   dark:shadow-[0_8px_30px_rgba(0,0,0,0.3)]
+   hover:shadow-[0_8px_30px_rgba(0,0,0,0.2)]
+   dark:hover:shadow-[0_8px_30px_rgba(0,0,0,0.4)]
+   transition-all duration-300 ease-out
+   p-4 rounded-xl
+   [&:has([data-expanded='true'])]:z-50
+   transform-gpu"
   initial={{ opacity: 0, y: 20 }}
   animate={{ opacity: 1, y: 0 }}
   exit={{ 
     opacity: 0,
-    scale: 0.9,
-    y: -20,
+    scale: 0.95,
+    y: -10,
     transition: {
-      duration: 0.4,
+      duration: 0.3,
       ease: [0.4, 0, 0.2, 1]
     }
   }}
@@ -125,34 +132,30 @@ export const  BookMark=({meta,bol=true,onDelete,matchesbol=true,container=true})
     transition: { duration: 0.2 }
   }}
 >
-  <div className="flex items-center z-0 justify-between gap-4" onClick={() => {
+  <div className="flex items-center z-0 justify-between gap-4 group" onClick={() => {
     if (!Delete) {
       Setshow(true)
       setExpandedId(expandedId === meta.id ? null : meta.id)
     }
   }}>
-    <Favicon url={meta.url} className="w-8 h-8" />
-    <div>
-      <span className="text-lg line-clamp-2 font-medium text-gray-900 dark:text-gray-100">
+    <Favicon url={meta.url} className="w-8 h-8 rounded-lg shadow-sm transition-transform group-hover:scale-105" />
+    <div className="flex-1">
+      <span className="text-lg line-clamp-2 font-medium bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-600 dark:from-gray-100 dark:to-gray-300">
         {meta.title}
       </span>
     </div>
     {Delete ? (
       <motion.div
-        whileHover={{ scale: 1.2 }}
+        whileHover={{ scale: 1.2, rotate: 10 }}
         whileTap={{ scale: 0.9 }}
       >
         <TrashIcon 
           onClick={(e) => {
             e.preventDefault();
-            const button = e.currentTarget;
-            button.style.transform = 'rotate(10deg)';
-            setTimeout(() => {
-              Deletecard(meta.id);
-            }, 200);
+            Deletecard(meta.id);
           }} 
           size={20} 
-          className='text-sm text-red-500 transition-all duration-200 hover:text-red-600'
+          className='text-sm text-red-500 transition-all duration-200 hover:text-red-600 hover:drop-shadow-lg'
         />
       </motion.div>
     ) : <div></div>}
@@ -166,19 +169,22 @@ export const  BookMark=({meta,bol=true,onDelete,matchesbol=true,container=true})
       exit={{ opacity: 0, y: 10 }}
       transition={{ duration: 0.2 }}
       className="absolute left-0 right-0 top-full mt-2 
-        bg-gray-100/95 dark:bg-black/95
+        bg-gradient-to-br from-gray-100/95 via-gray-50/90 to-white/85
+        dark:from-gray-900/95 dark:via-gray-800/90 dark:to-gray-950/85
         backdrop-blur-sm
-        rounded-lg shadow-xl p-4 max-h-[300px] overflow-y-auto
-        dark:shadow-white dark:shadow-sm
-        border border-gray-200 dark:border-gray-800"
+        rounded-xl shadow-[0_10px_40px_-15px_rgba(0,0,0,0.3)]
+        dark:shadow-[0_10px_40px_-15px_rgba(0,0,0,0.5)]
+        p-6 max-h-[300px] overflow-y-auto
+        border-[0.5px] border-white/30 dark:border-gray-800/30
+        transform-gpu"
       style={{
         width: '100%',
         scrollbarWidth: 'thin',
         scrollbarColor: 'rgba(155, 155, 155, 0.5) transparent'
       }}
     >
-        <div className="space-y-3 z-40">
-          <p className="text-sm text-gray-600 dark:text-gray-300">
+        <div className="space-y-4 z-40">
+          <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
             {meta.content || '暂无描述'}
           </p>
           <div className="flex flex-wrap gap-2">
@@ -186,13 +192,17 @@ export const  BookMark=({meta,bol=true,onDelete,matchesbol=true,container=true})
               <Badge 
                 key={index} 
                 variant="outline" 
-                className="dark:border-gray-600 dark:text-gray-300"
+                className="bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm
+                border-[0.5px] border-gray-200/50 dark:border-gray-700/50
+                text-gray-700 dark:text-gray-300
+                hover:bg-gray-100 dark:hover:bg-gray-700
+                transition-all duration-200"
               >
                 {el}
               </Badge>
             ))}
           </div>
-          <p className="text-sm text-gray-600 dark:text-gray-300">
+          <p className="text-sm text-gray-500 dark:text-gray-400 font-mono">
             {meta.createdAt.split('T')[0]}
           </p>
           <div className="flex gap-4 items-center">

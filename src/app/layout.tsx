@@ -49,7 +49,7 @@ export default function RootLayout({
        
         <html lang="en" className={`${inter.variable}`}  >
        
-          <body className="bg-[#f8f9fa] font-wenkai  dark:bg-black flex flex-col">
+          <body className="bg-[#f8f9fa] font-wenkai  dark:bg-[#0a0a0a] flex flex-col">
             <Header></Header> 
             <main className="flex-2    w-full pt-14  min-h-screen">
               <Toaster></Toaster>     
