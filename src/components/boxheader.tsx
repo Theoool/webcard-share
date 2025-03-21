@@ -25,6 +25,12 @@ interface carddata{
   url:string,
   content:string
 }
+interface FormData{
+  title:string,
+  isPublic:boolean,
+  content:string
+}
+
 
 export default function Header(){
   const pathname = usePathname()
@@ -134,11 +140,6 @@ export function DrawerDialogDemo({children}) {
   )
 }
 
-interface FormData{
-   title:string,
-   isPublic:boolean,
-   content:string
-}
 
 function MarkboxsForm({ className }: React.ComponentProps<"form">) {
   const { data: session } = useSession();

@@ -27,3 +27,9 @@ interface TheoProject{
    icon:React.Node,
    tag:string
 }
+
+interface FormData{
+  title:string,
+  isPublic:boolean,
+  content:string
+}

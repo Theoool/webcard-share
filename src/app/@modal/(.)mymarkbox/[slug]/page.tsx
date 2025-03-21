@@ -21,7 +21,7 @@ interface CardData {
   image: string;
   createdAt: string;
   UserFavorite: {
-    id: any;
+    id: string;
     title: string;
     primaryUserId: string;
   };
@@ -50,14 +50,17 @@ function ModalContent() {
   // 处理跳转到用户页面
   const handleUserClick = () => {
     if (meta?.author) {
-      router.push(`/user/${meta.author.id}`);
+
+      // router.push(`/user/${meta.author.id}`);
     }
   };
 
   // 处理跳转到收藏夹页面
   const handleFavoriteClick = () => {
     if (meta?.UserFavorite) {
-      router.push(`/markboxs/${meta.UserFavorite.id}`);
+      // console.log(meta.UserFavorite.id);
+      window.location.href = `/markboxs/${meta.UserFavorite.id}`;
+      
     }
   };
 
@@ -155,8 +158,9 @@ function ModalContent() {
                       onClick={handleFavoriteClick}
                       className="flex items-center gap-2 hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
                     >
+                      
                       <BookmarkIcon className="w-4 h-4" />
-                      <span>{meta.UserFavorite.title}</span>
+                      <Link href={`/markboxs/${meta.UserFavorite.id}`}>{meta.UserFavorite.title}</Link>
                     </motion.button>
                   )}
                   
