@@ -18,7 +18,7 @@ export function AccountSettings() {
 const handleSaveProfile = async () => {
   try {
     // 保存用户信息到服务器
-    let User =  SaveUsers({ 
+    const User =  SaveUsers({ 
       user: {
         email: session?.user?.email,
         username:name,

@@ -65,7 +65,7 @@ function ModalContent() {
   };
 
   return (
-    <ScrollArea className='h-[calc(90vh-120px)]' style={{'viewTransitionName':`${slug}`}}>
+    <ScrollArea className='h-[calc(90vh-120px)]' style={{'viewTransitionName': slug ? `${slug}` : undefined}}>
       <div className="px-1 py-2">
         {isLoading ? (
           <div className="space-y-4 p-4">
@@ -118,7 +118,7 @@ function ModalContent() {
               <div className="p-5 border-b dark:border-gray-800">
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-3">
-                    <Favicon url={meta?.url!} className="w-8 h-8 rounded-md shadow-sm" />
+                    <Favicon url={meta?.url || ''} className="w-8 h-8 rounded-md shadow-sm" />
                     <h2 className="text-xl font-medium text-gray-900 dark:text-gray-100 line-clamp-1">
                       {meta?.title}
                     </h2>
