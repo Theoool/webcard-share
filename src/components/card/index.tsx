@@ -13,6 +13,7 @@ import HoverText from '../HoverText';
 import { Bookmark } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '../ui/button';
+import { CardDescription } from '../ui/card';
 
 // 定义类型
 interface CardData {
@@ -36,6 +37,7 @@ interface CardState {
   tags: string[];
   isEditingTitle: boolean;
   isEditingTags: boolean;
+  isText:boolean;
   newTagText: string;
   selectedCollectionId: string;
 }
@@ -44,7 +46,9 @@ type CardAction =
   | { type: 'SET_TITLE'; payload: string }
   | { type: 'TOGGLE_TITLE_EDIT' }
   | { type: 'TOGGLE_TAGS_EDIT' }
+  | { type: 'TOGGLE_TEXT_EDIT' }
   | { type: 'SET_NEW_TAG_TEXT'; payload: string }
+  | { type: 'SET_TEXT'; payload: string }
   | { type: 'ADD_TAG'; payload: string }
   | { type: 'REMOVE_TAG'; payload: number }
   | { type: 'SET_COLLECTION_ID'; payload: string };
@@ -58,8 +62,12 @@ function cardReducer(state: CardState, action: CardAction): CardState {
       return { ...state, isEditingTitle: !state.isEditingTitle };
     case 'TOGGLE_TAGS_EDIT':
       return { ...state, isEditingTags: !state.isEditingTags };
+    case 'TOGGLE_TEXT_EDIT':
+      return { ...state, isText: !state.isText };
     case 'SET_NEW_TAG_TEXT':
       return { ...state, newTagText: action.payload };
+    case 'SET_TEXT':
+      return { ...state, text: action.payload };
     case 'ADD_TAG':
       // 确保标签不超过8个字符
       if (action.payload.length > 8) {
@@ -274,13 +282,13 @@ const Card: React.FC<{ cardData: CardData,AI?:boolean }> = ({ cardData,AI=open})
   let summaryText, keywordsList,keywordsText;
   // 解析摘要和关键词
   if (!AI) {
-     summaryText = cardData.meta.description||""
+     summaryText = cardData.meta.description||"暂无描述"
      keywordsText = cardData.meta.keywords||"";
-     keywordsList = keywordsText.split(',').filter((_, index) => index > 0).map(k => k.trim());
+     keywordsList = keywordsText.split(',').filter((_, index) => index > 0).map(k => k.trim())||[cardData.meta.keywords];
     
   }else{
      
-   summaryText = cardData.finalSummary!.split('#关键词')[0].split("摘要内容")[1]?.trim() || '';
+   summaryText = cardData.finalSummary!.split('#关键词')[0].split("摘要内容")[1]?.trim() || '暂无描述';
    keywordsText = cardData.finalSummary!.split('关键词')[1] || '';
    keywordsList = keywordsText.split('丨').filter((_, index) => index > 0).map(k => k.trim());
   
@@ -294,6 +302,7 @@ const Card: React.FC<{ cardData: CardData,AI?:boolean }> = ({ cardData,AI=open})
     image: cardData.meta.image,
     text: summaryText,
     tags: keywordsList,
+    isText:false,
     isEditingTitle: false,
     isEditingTags: false,
     newTagText: '',
@@ -319,7 +328,7 @@ const Card: React.FC<{ cardData: CardData,AI?:boolean }> = ({ cardData,AI=open})
   };
 
   return (
-    <div className="w-full min-h-[15rem] flex flex-col p-4 mt-2 cardboxshow @container rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm">
+    <div className="w-full min-h-[15rem] flex flex-col justify-between p-4 mt-2 cardboxshow @container rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm">
       <CardHeader
         title={state.title}
         url={state.url}
@@ -338,8 +347,25 @@ const Card: React.FC<{ cardData: CardData,AI?:boolean }> = ({ cardData,AI=open})
           />
         )}
 
-        <p className="text-[1rem] leading-6 flex-w whitespace-pre-line">{state.text}</p>
-        
+       {!state.isText?<CardDescription
+
+       onClick={()=>{
+        dispatch({ type: 'TOGGLE_TEXT_EDIT' });
+       }}
+       className="text-[1rem] leading-6 flex-w whitespace-pre-line hover:bg-black/5">{state.text}</CardDescription>
+       :<Input className="text-[1rem] leading-6 flex-w whitespace-pre-line"
+        value={state.text}
+        onKeyDown={(e)=>{
+          if (e.key==='Enter'||e.key==='Tab') {
+            dispatch({ type: 'TOGGLE_TEXT_EDIT' });
+            
+          }
+        }}
+        onChange={(e)=>{
+          dispatch({ type: 'SET_TEXT', payload: e.target.value });
+        }}
+        ></Input>
+      }
         <hr className="w-full my-2 border-gray-200 dark:border-gray-700" />
         
         <CardTags

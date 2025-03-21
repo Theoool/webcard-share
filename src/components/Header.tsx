@@ -202,7 +202,7 @@ export default function Home() {
      <Link href="/mymarkbox" className="dark:text-primary  underline-offset-4  hover:underline"  >我的收藏</Link>
      <Link href="/home" className="dark:text-primary      underline-offset-4  hover:underline"  >广场</Link>
      <Link href="/Theo" className="dark:text-primary      underline-offset-4  hover:underline"  >工具</Link>
-     {session&&<Link href="设置" className="dark:text-primary      underline-offset-4  hover:underline">设置</Link>}
+     {session&&<Link href="/me/settings" className="dark:text-primary      underline-offset-4  hover:underline">设置</Link>}
       </div>
     <div className="md:hidden">
       <MobileNav />

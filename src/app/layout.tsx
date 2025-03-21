@@ -45,7 +45,7 @@ export default function RootLayout({
   return ( 
     <CardProvider >
     <SessionWrapper>
-      <ViewTransitions>
+    <ViewTransitions>
        
         <html lang="en" className={`${inter.variable}`}  >
        
@@ -59,17 +59,46 @@ export default function RootLayout({
               {modal}
               <div id="modal-root"></div>
             </main>
-            <footer className="flex flex-col items-center justify-center p-2 gap-2 w-full ">
-              欢迎联系我
-            <div className="flex justify-center p-2 gap-4 w-full ">
-            <a href="https://x.com/QIN_KING88"><Twitter ></Twitter></a>
-              <div>微信号:wx2580456922</div>
-              <a href="https://github.com/Theoool/"><Github ></Github></a>
-            </div>
-             <span className="flex gap-2">开源地址：<a href="https://github.com/Theoool/webcard-share"><Github ></Github></a>
-             项目非常不成熟，欢迎提issue,我们一起构建，一起成长！浏览器插件正在开发中
-             </span>
-               </footer>
+            <footer className="flex flex-col items-center justify-center py-8 gap-4 w-full">
+              <div className="text-lg font-medium text-gray-600 dark:text-gray-300">
+                让我们一起交流与成长
+              </div>
+              <div className="flex items-center justify-center space-x-6">
+                <a 
+                  href="https://x.com/QIN_KING88" 
+                  className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 transition-colors"
+                  aria-label="Twitter Profile"
+                >
+                  <Twitter className="w-5 h-5" />
+                </a>
+                <div className="text-gray-600 dark:text-gray-400 flex items-center gap-2">
+                  <span className="text-sm">WeChat:</span>
+                  <code className="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded text-sm">wx2580456922</code>
+                </div>
+                <a 
+                  href="https://github.com/Theoool/" 
+                  className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 transition-colors"
+                  aria-label="GitHub Profile"
+                >
+                  <Github className="w-5 h-5" />
+                </a>
+              </div>
+              <div className="flex flex-col items-center text-sm text-gray-500 dark:text-gray-400">
+                <div className="flex items-center gap-2">
+                  <span>查看源代码</span>
+                  <a 
+                    href="https://github.com/Theoool/webcard-share"
+                    className="hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
+                    aria-label="Project Repository"
+                  >
+                    <Github className="w-4 h-4" />
+                  </a>
+                </div>
+                <p className="mt-2 text-center max-w-md">
+                  期待与您一同完善这个项目！欢迎提出建议，浏览器插件开发中 ✨
+                </p>
+              </div>
+            </footer>
           </body>
         </html>
        

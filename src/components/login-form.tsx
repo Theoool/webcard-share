@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { signIn } from "next-auth/react"
+import { signIn, useSession } from "next-auth/react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
 import Link from "next/link"
@@ -26,33 +26,62 @@ export function LoginForm({
   const [verificationCode, setVerificationCode] = useState('')
   const [loginStep, setLoginStep] = useState<'methods' | 'email' | 'verification'|"ok"|"error">('methods')
   const [isLoading, setIsLoading] = useState(false)
+  const [emailError, setEmailError] = useState('')
+  const [codeError, setCodeError] = useState('')
+  const [networkError, setNetworkError] = useState(false)
+  
   const SendEmail = async ({email}) => {
-    const result = await fetch(`${process.env.NEXT_PUBLIC_NESTJS_API_URL}/auth/send-verification`, {
-      method: 'POST',
-      headers:{
-        'Content-Type': 'application/json',
-       
-      },
-      body: JSON.stringify({
-        email}),
-    })
-    return result
+    try {
+      setNetworkError(false)
+      const result = await fetch(`${process.env.NEXT_PUBLIC_NESTJS_API_URL}/auth/send-verification`, {
+        method: 'POST',
+        headers:{
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email}),
+      })
+      
+      if (!result.ok) {
+        const errorData = await result.json().catch(() => ({}));
+        throw new Error(errorData.message || '发送验证码失败');
+      }
+      
+      return result
+    } catch (error) {
+      setNetworkError(true)
+      throw error;
+    }
   };
+  
   const handleEmailSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!email) return
-
+    if (!email) {
+      setEmailError('请输入邮箱地址')
+      return
+    }
+    
+    // 验证邮箱格式
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(email)) {
+      setEmailError('请输入有效的邮箱地址')
+      return
+    }
+    
+    setEmailError('')
+    setNetworkError(false)
     setIsLoading(true)
+    
     try {
-      // 这里应该调用发送验证码的API
-      // 示例: await sendVerificationEmail(email)
-      
-      // 模拟API调用
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      
+      await SendEmail({email})
       setLoginStep('verification')
     } catch (error) {
       console.error('Failed to send verification code:', error)
+      toast({
+        title: '发送验证码失败',
+        description:  '请检查网络连接后重试',
+        variant: 'destructive'
+      })
     } finally {
       setIsLoading(false)
     }
@@ -60,29 +89,50 @@ export function LoginForm({
 
   const handleVerificationSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!verificationCode) return
-
+    if (!verificationCode) {
+      setCodeError('请输入验证码')
+      return
+    }
+    
+    if (verificationCode.length < 6) {
+      setCodeError('验证码长度不正确')
+      return
+    }
+    
+    setCodeError('')
+    setNetworkError(false)
     setIsLoading(true)
+    
     try {
-      // 这里应该验证验证码并登录
       const result = await signIn('credentials', {
         email,
         code: verificationCode,
-        redirect: false,
+        redirect: true,
       })
 
       if (result?.error) {
-       toast({
-         title: '验证失败',
-         description: '验证码错误或服务器错误，请重试',
-       })
+        setCodeError('验证码错误')
+        toast({
+          title: '验证失败',
+          description: '验证码错误或已过期，请重试',
+          variant: 'destructive'
+        })
+        return
       }
+      
+      toast({
+        title: '登录成功',
+        description: '欢迎回来！',
+      })
       setLoginStep('ok')
-
-      // 登录成功，重定向到首页或其他页面
-      // router.push('/')
     } catch (error) {
       console.error('Verification failed:', error)
+      setNetworkError(true)
+      toast({
+        title: '登录失败',
+        description: '网络错误或服务器异常，请稍后重试',
+        variant: 'destructive'
+      })
     } finally {
       setIsLoading(false)
     }
@@ -95,6 +145,8 @@ export function LoginForm({
       setLoginStep('methods')
     }
   }
+ 
+
 
   return (
     <div className={cn("flex flex-col items-center gap-6", className)} {...props}>
@@ -102,7 +154,9 @@ export function LoginForm({
         <div>
           {loginStep === 'methods' && (
             <div className="flex flex-col gap-4">
-              <Button variant="outline" className="w-72 text-[#E3E4E6] bg-[#1e2025] h-12" onClick={() => signIn('github')}>
+              <Button variant="outline" className="w-72 text-[#E3E4E6] bg-[#1e2025] h-12" onClick={() => signIn('github',{
+                redirect:true
+              })}>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="mr-2 h-5 w-5">
                   <path fill="currentColor" d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5c.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34c-.46-1.16-1.11-1.47-1.11-1.47c-.91-.62.07-.6.07-.6c1 .07 1.53 1.03 1.53 1.03c.87 1.52 2.34 1.07 2.91.83c.09-.65.35-1.09.63-1.34c-2.22-.25-4.55-1.11-4.55-4.92c0-1.11.38-2 1.03-2.71c-.1-.25-.45-1.29.1-2.64c0 0 .84-.27 2.75 1.02c.79-.22 1.65-.33 2.5-.33s1.71.11 2.5.33c1.91-1.29 2.75-1.02 2.75-1.02c.55 1.35.2 2.39.1 2.64c.65.71 1.03 1.6 1.03 2.71c0 3.82-2.34 4.66-4.57 4.91c.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2"/>
                 </svg>
@@ -150,16 +204,25 @@ export function LoginForm({
                   name="email"
                   type="email"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => {
+                    setEmail(e.target.value)
+                    setEmailError('')
+                  }}
                   placeholder="your@email.com"
-                  className="h-12"
+                  className={`h-12 ${emailError ? 'border-red-500 focus-visible:ring-red-500' : ''}`}
                   required
                 />
+                {emailError && <p className="text-sm text-red-500">{emailError}</p>}
               </div>
+              
+              {networkError && (
+                <div className="p-3 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 text-sm rounded-md">
+                  网络连接错误，请检查您的网络连接后重试
+                </div>
+              )}
               
               <Button 
                 type="submit" 
-                onClick={()=>SendEmail({email})}
                 className="w-full h-12 bg-[#1e2025] text-[#e3e4e6]"
                 disabled={isLoading || !email}
               >
@@ -195,13 +258,23 @@ export function LoginForm({
                   name="code"
                   type="text"
                   value={verificationCode}
-                  onChange={(e) => setVerificationCode(e.target.value)}
+                  onChange={(e) => {
+                    setVerificationCode(e.target.value)
+                    setCodeError('')
+                  }}
                   placeholder="十位数字验证码"
-                  className="h-12 text-center text-lg tracking-widest"
+                  className={`h-12 text-center text-lg tracking-widest ${codeError ? 'border-red-500 focus-visible:ring-red-500' : ''}`}
                   maxLength={10}
                   required
                 />
+                {codeError && <p className="text-sm text-red-500">{codeError}</p>}
               </div>
+              
+              {networkError && (
+                <div className="p-3 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 text-sm rounded-md">
+                  网络连接错误，请检查您的网络连接后重试
+                </div>
+              )}
               
               <Button 
                 type="submit" 
@@ -241,10 +314,13 @@ export function LoginForm({
         
         </div>
       </div>
-
-      <div className="text-balance w-72 text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 [&_a]:hover:text-primary">
-        点击继续，即表示您同意我们的 <a href="#">服务条款</a>{" "}
-        和 <a href="#">隐私政策</a>。
+      <div className="text-balance w-72 text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 [&_a]:hover:text-black [&_a]:hover:dark:text-primary [&_a]:dark:hover:text-black">
+        <Link href={'/signup'}>还没有账号点击注册</Link>
+      </div>
+      <div className="text-balance w-72 text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 [&_a]:hover:text-black [&_a]:hover:dark:text-primary [&_a]:dark:hover:text-black">
+       
+        点击继续，即表示您同意我们的 <a >服务条款</a>{" "}
+        和 <a >隐私政策</a>。
       </div>
     </div>
   )

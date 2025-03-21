@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from 'react';
 import { BookMark } from '@/components/BookMark';
 import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 
 
 export default function MyFavorites() {
@@ -31,7 +32,8 @@ export default function MyFavorites() {
     setCards(cards.filter(card => card.id !== id));
   };
   if (!session) {
-    return     <Link href={'/mymarkbox'}>登录</Link>
+    return     <div className="w-full    justify-center flex flex-col mt-10 px-4 p-4 items-center"><Button variant={'link'} className="text-black font-wenkai text-3xl  font-bold"><Link href="/login">不要呆住了！😊快去登录！ </Link></Button></div>;
+
   }
  
   if (isLoading) return <div className="w-full h-auto p-10">加载中... 

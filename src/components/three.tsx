@@ -124,7 +124,7 @@ export function FullscreenPanel({ isOpen, onClose, url, data }: {
                         layout // 添加布局动画
                         whileHover={{ y: -5, transition: { duration: 0.2 } }} // 悬停效果
                       >
-                       {e.text} {e.template}
+                      {e.template}
                       </motion.div>
                     );
                   })

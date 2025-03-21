@@ -1,15 +1,29 @@
-import { GalleryVerticalEnd } from "lucide-react"
-
+'use client'
 import { SignupForm } from "@/components/sigun-form"
-import { UploadPage } from "@/components/AIcomponents/Html"
+import { Button } from "@/components/ui/button";
+
+import { useSession } from "next-auth/react";
+import Link from "next/link";
+
+
 
 export default function LoginPage() {
+  const { data: session } = useSession();
   return (
     <div className="    font-serif flex min-h-svh flex-col
-     items-center justify-center gap-6 bg-background p-6 md:p-10  ">
+     items-center justify-center gap-6   p-6 md:p-10  ">
       <div className="flex   max-w-sm flex-col gap-6" style={{'viewTransitionName':`up`}}>
-    
-        <SignupForm  />
+      <div className="text-center mb-4">
+
+          <h1 className="text-2xl font-bold mb-2">欢迎注册</h1>
+          {
+             !session?<p className="text-muted-foreground">注册您的账户继续使用</p>
+             :<Button variant={'link'} className="text-black font-wenkai  font-bold"><Link href="/">您已经登录了，点击返回主页 </Link></Button>
+           }
+         
+        </div>
+        {!session&&<SignupForm  />}
+        
       </div>
     </div>
   )

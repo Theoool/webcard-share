@@ -47,7 +47,7 @@ export function SearchBox() {
     <div className="sticky top-4 z-50 mx-4 mb-4">
       <Command className="rounded-lg shadow-lg border bg-card">
         <div className="flex items-center px-3">
-          <Search className="mr-2 h-4 w-4 opacity-50" />
+          <Search style={{'viewTransitionName':`sarch`}}  className="mr-2 h-4 w-4 opacity-50" />
           <input
             value={state.query}
             onChange={(e) => dispatch({ type: 'SET_QUERY', payload: e.target.value })}

@@ -1,7 +1,7 @@
 import { toast } from "@/hooks/use-toast";
 const getCardProps = async (url: string, {model,apikey,BaseURl}) => {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_NESTJS_API_URL}search/cards/meta`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_NESTJS_API_URL}/search/cards/meta`, {
       mode: 'cors',
       method: 'POST',
       headers: {
@@ -38,7 +38,7 @@ const getCardProps = async (url: string, {model,apikey,BaseURl}) => {
 };
 const getNomCardProps = async (url: string, {model,apikey,BaseURl}) => {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_NESTJS_API_URL}Card/NomCard?url=${url}`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_NESTJS_API_URL}/Card/NomCard?url=${url}`, {
       mode: 'cors',
       method: 'GET',
       headers: {
@@ -84,8 +84,10 @@ interface carddata{
 }
 
 const addCard=async (data:carddata,session:any) => { 
+  console.log("你好hao");
+  
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_NESTJS_API_URL}Card`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_NESTJS_API_URL}/Card`, {
       mode: 'cors',
       method: 'POST',
       headers: {
@@ -101,7 +103,10 @@ const addCard=async (data:carddata,session:any) => {
              })
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-   
+    toast({
+      title: "添加卡片成功",
+      description: "做的非常好，感谢你为这个环境做的贡献",
+           })
     return {
       success: true,
       data: response.json(),
@@ -117,7 +122,7 @@ const addCard=async (data:carddata,session:any) => {
 }
 const SaveCards=async ({url,UserFavoriteId,session}) => { 
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_NESTJS_API_URL}Card/SaveCards`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_NESTJS_API_URL}/Card/SaveCards`, {
       mode: 'cors',
       method: 'POST',
       headers: {
@@ -154,9 +159,32 @@ const SaveCards=async ({url,UserFavoriteId,session}) => {
 
 
 }
+const SaveUsers=async ({user,session}) => { 
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_NESTJS_API_URL}/auth/UpDataUser`, {
+      mode: 'cors',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${session}`,
+      },
+      body: JSON.stringify(user),
+    })
+    const response= await res.json()
+    console.log(response);
+    return response
+  } catch (error) {
+    return { 
+      success: false,
+      error: error
+    };
+  }
+
+
+}
 
 const PostCreate= async (data,token)=>{
-     const res=await fetch(`${process.env.NEXT_PUBLIC_NESTJS_API_URL}UserFavorites/createFavorite`,{
+     const res=await fetch(`${process.env.NEXT_PUBLIC_NESTJS_API_URL}/UserFavorites/createFavorite`,{
       mode: 'cors',
       method: 'POST',
       headers:{
@@ -180,4 +208,4 @@ const PostCreate= async (data,token)=>{
 }
 
   
-export { getCardProps,getNomCardProps,addCard,PostCreate,SaveCards}
+export { getCardProps,getNomCardProps,addCard,PostCreate,SaveCards,SaveUsers}

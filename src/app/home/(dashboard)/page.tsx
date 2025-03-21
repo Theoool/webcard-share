@@ -44,7 +44,7 @@ export default function MyFavorites() {
 
   return (
     <div className="w-full h-auto md:p-10 p-2 relative">
-      <div className="flex justify-center mb-6" style={{'viewTransitionName':`sarch`}}>
+      <div className="flex justify-center mb-6" >
         <motion.button
           onClick={() => router.push('/home/semantic-search')}
           className="flex items-center gap-2 px-6 py-3 rounded-full bg-white dark:bg-gray-800 text-black dark:text-white border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-lg transition-all duration-300"
@@ -53,7 +53,7 @@ export default function MyFavorites() {
           
         >
 
-          <Search className="w-4 h-4"  />
+          <Search className="w-4 h-4"  style={{'viewTransitionName':`sarch`}} />
           <AnimatePresence mode="wait">
             <motion.span
               key={textIndex}

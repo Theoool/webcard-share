@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Description } from "@radix-ui/react-toast";
 import { Favicon } from "favicon-stealer";
-import { Link } from "lucide-react";
+import Link from "next/link";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -30,6 +30,16 @@ const Linkcard = () => {
     </div>
   </div>
 }
+const logout= async ()=>{
+  try {
+    await fetch(`${process.env.NEXT_PUBLIC_NESTJS_API_URL}/auth/logout`) 
+    await signOut({
+      redirect:true
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
 
 const UserProfile = ({ session }) => (
   <div className="w-full h-auto flex flex-col mt-10 px-4 p-4 items-center">
@@ -43,21 +53,20 @@ const UserProfile = ({ session }) => (
     </div>
     <h1 className="text-2xl">{session.user?.name}</h1>
        <div className="m-4 flex gap-4">
-      <Link><Button className="bg-white dark:text-black">订阅</Button></Link>
-      <Link><Button className="bg-white dark:text-black">邮箱</Button></Link>
+      {/* <Link ><Button className="bg-white dark:text-black">订阅</Button></Link> */}
+      {/* <Link><Button className="bg-white dark:text-black">邮箱</Button></Link> */}
     </div>
 
     <p className="font-bold mb-4">{session.user?.email}</p>
-    <button className="bg-red-600 py-2 px-6 rounded-md" onClick={() => signOut()}>Sign out</button>
+    <button className="bg-red-600 py-2 px-6 rounded-md" onClick={() => logout()}>Sign out</button>
   </div>
 );
 
 export default function Home() {
   const { data: session } = useSession();
-  // const router = useRouter();
-  
+
   if (!session) {
-    return null;
+    return <div className="w-full   h-[80vh] justify-center flex flex-col mt-10 px-4 p-4 items-center"><Button variant={'link'} className="text-black font-wenkai text-3xl  font-bold"><Link href="/login">你在做什么? 快去登录！ </Link></Button></div>;
   }
 
   return <UserProfile session={session} />;

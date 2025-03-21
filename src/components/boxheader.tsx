@@ -209,8 +209,7 @@ function MarkboxsForm({ className }: React.ComponentProps<"form">) {
 function CardForm({ className }: React.ComponentProps<"form">) {
   const { data: session } = useSession();
   const path=usePathname()
-  console.log(path?.split('/')[2]);
-  
+  const Router = useRouter()
   const [Form, setFrom] = useState<carddata>({
     title: '',
     image: "",
@@ -239,6 +238,7 @@ function CardForm({ className }: React.ComponentProps<"form">) {
   };
 
   const handleTagInput = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    
     if (e.key === 'Enter' && tagInput.trim()) {
       e.preventDefault();
       setFrom({...Form,tags:[...Form.tags,tagInput.trim()]});
@@ -247,6 +247,7 @@ function CardForm({ className }: React.ComponentProps<"form">) {
   };
 
   const handleSubmit = async () => {
+   
     if (!session) {
       toast({
         title: '未登录',
@@ -255,6 +256,7 @@ function CardForm({ className }: React.ComponentProps<"form">) {
       });
       return;
     }
+   
 
     if (!validateForm()) {
       toast({
@@ -264,10 +266,13 @@ function CardForm({ className }: React.ComponentProps<"form">) {
       });
       return;
     }
-
+   
+    
     try {
+      console.log("你好");
       await addCard(Form, session?.accessToken);
-     
+      Router.push('/markboxs/'+Form.UserFavoriteId)
+      
     } catch (error) {
       toast({
         title: '提交失败',
@@ -356,7 +361,7 @@ function CardForm({ className }: React.ComponentProps<"form">) {
         className="text-white dark:text-black"
         onClick={handleSubmit}
       >
-        保存更改
+        保存卡片
       </Button>
     </div>
   );

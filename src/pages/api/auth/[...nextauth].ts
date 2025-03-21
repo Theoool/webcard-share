@@ -14,7 +14,7 @@ export  const authOptions: NextAuthOptions = {
     maxAge:15*24*30*60
   },
   callbacks:{
-    async signIn({ account, profile,user }) {
+    async signIn({ account,user }) {
       if (account?.provider === 'credentials') {
        
         if (!user.accessToken) return false;
@@ -35,11 +35,20 @@ export  const authOptions: NextAuthOptions = {
             'Content-Type': 'application/json'
           }
         }).then(res=>res.json())
-        account.accesstoken=res.accessToken
-        account.refreshtoken=res.refreshToken
+        
+        // 同步账户信息
+        account.accesstoken = res.accessToken
+        account.refreshtoken = res.refreshToken
+        account.provider = res.provider
+        // 同步用户信息
+        if(res.user) {
+          user.email = res.user.email
+          user.name = res.user.username
+          user.image = res.user.image
+        }
         
         if (!res.accessToken) return false
-      }else if(user){
+      } else if(user) {
         account!.accesstoken = (user as any).accessToken;
         account!.refreshtoken = (user as any).refreshToken;
       }
@@ -47,18 +56,29 @@ export  const authOptions: NextAuthOptions = {
    
       return true
     },
-    async jwt({ token, account,}:any) {
+    async jwt({ token,  trigger,account, session}:any) {
        if (account) {
         token.provider = account.provider
         token.accessToken = account.accesstoken
         token.refreshToken = account.refreshtoken;
        }
+       if (trigger === "update" && session?.name) {
+        // Note, that `session` can be any arbitrary object, remember to validate it!
+        token.name = session.name
+      }
       return token;
     },
-    async session({ session, token }:{session:Session,token:any}) {
+    async session({ session, token ,trigger,newSession}:{session:Session,token:any,trigger?:string,newSession?:any}) {
       session.provider = token.provider
       session.accessToken = token.accessToken;
       session.refreshToken = token.refreshToken;
+      if (trigger === "update" && newSession?.name) {
+        // You can update the session in the database if it's not already updated.
+        // await adapter.updateUser(session.user.id, { name: newSession.name })
+
+        // Make sure the updated value is reflected on the client
+        // session.user?.name = newSession.name
+      }
       return session;
     }
   },
@@ -89,15 +109,10 @@ export  const authOptions: NextAuthOptions = {
             signal: controller.signal
           })
           
-       
           clearTimeout(timeoutId);
-
           if (!loginRes.ok) {
               const errorData = await loginRes.json();
-              console.log('登录失败',errorData);
-              
             throw new Error('登录失败',errorData);
-          
           }else{
             
           const {user,accessToken,refreshToken} = await loginRes.json();
@@ -136,10 +151,10 @@ export  const authOptions: NextAuthOptions = {
    
   ],
   pages: {
-    signIn: '/login',
+    signIn: '/',
     signOut: '/login',
     error: '/auth/error',
-    verifyRequest: '/login/EmailVerification',
+    // verifyRequest: '/login/EmailVerification',
    },
 
   debug:true,

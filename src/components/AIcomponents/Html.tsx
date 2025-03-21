@@ -13,6 +13,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import useSettingsModleStore from '@/Store/counter-store';
 import { Select, SelectTrigger, SelectContent, SelectGroup, SelectLabel, SelectItem } from '@radix-ui/react-select';
+import HtmlPreviewPopup from '../HtmlPreviewPopup';
 export function UploadPage() {
   const [file, setFile] = useState<File | null>(null);
   const [htmlResult, setHtmlResult] = useState('');
@@ -20,6 +21,7 @@ export function UploadPage() {
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [dragActive, setDragActive] = useState(false);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [fileType, setFileType] = useState<'pdf' | 'md' | 'url'>('pdf');
   const [url, setUrl] = useState('');
   const [selectedRole, setSelectedRole] = useState<string>('');
@@ -155,6 +157,7 @@ export function UploadPage() {
     setProgress(0);
     const progressInterval = setInterval(() => {
       setProgress(prev => Math.min(prev + 10, 90));
+      
     }, 500);
 
     try {
@@ -167,7 +170,7 @@ export function UploadPage() {
         setMdContent(text);
       }
       
-      const response = await fetch('${process.env.NEXT_PUBLIC_NESTJS_API_URL}/search/cards/Htmlcode', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_NESTJS_API_URL}/search/cards/Htmlcode`, {
         method: 'POST',
         mode: 'cors',
         headers: { 'Content-Type': 'application/json',
@@ -202,8 +205,8 @@ export function UploadPage() {
   };
 
   const handleUrlSubmit = async () => {
-    console.log("输出",model, apikey, BaseURl);
-    
+   
+   
     if (!url) {
       toast({
         title: "请输入URL",
@@ -339,6 +342,7 @@ export function UploadPage() {
           </Select>
         </div>
       </div>
+     
       <Tabs defaultValue="upload" className="w-full">
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="upload">文件上传</TabsTrigger>
@@ -517,6 +521,20 @@ export function UploadPage() {
                 <div className="flex justify-between items-center">
                   <h2 className="text-xl font-semibold">转换结果</h2>
                   <div className="flex gap-2">
+                  <Button
+        variant={'outline'}
+        className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+        onClick={() => setIsPopupOpen(true)}
+      >
+        显示预览
+      </Button>
+      <HtmlPreviewPopup
+        htmlContent={htmlResult.includes('```html') 
+          ? htmlResult.split('```html')[1].split('```')[0].trim() 
+          : htmlResult}
+        isOpen={isPopupOpen}
+        onClose={() => setIsPopupOpen(false)}
+      />
                     <Button
                       variant="outline"
                       size="sm"

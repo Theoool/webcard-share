@@ -18,41 +18,14 @@ import { useSession } from "next-auth/react";
 import { submitUrls, getSocket } from "@/lib/ws";
 import { motion, AnimatePresence } from "framer-motion";
 
-// 容器动画变体
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: { 
-    opacity: 1,
-    transition: { 
-      staggerChildren: 0.05,
-      delayChildren: 0.1
-    }
-  }
-};
 
-// 子元素动画变体
-const itemVariants = {
-  hidden: { y: 20, opacity: 0 },
-  visible: { 
-    y: 0, 
-    opacity: 1,
-    transition: { type: "spring", stiffness: 300, damping: 24 }
-  }
-};
-
-// 进度条动画变体
-const progressVariants = {
-  initial: { width: 0 },
-  animate: (percentage) => ({
-    width: `${percentage}%`,
-    transition: { duration: 0.5, ease: "easeOut" }
-  })
-};
 
 export default function Page() {
   const {data:session} = useSession()
   const router = useParams()
   const route = useRouter()
+  console.log(router!.slug);
+  
   const { data, error, isLoading } = useQuery<any>({
     queryKey: [`/UserFavorites/GetUserFavorite/${router!.slug}`],
     staleTime: 5 * 60 * 1000,

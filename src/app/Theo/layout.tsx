@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import Link from "next/link";
-import { DramaIcon, Section, Webcam } from "lucide-react";
+import { Brush, FileCode, Globe, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
@@ -20,17 +20,17 @@ const TheoProjects: TheoProject[] = [{
   name:"网页生成",
   tag:"HTML",
   url:"/Theo",
-  icon:<Webcam size={20} ></Webcam>
+  icon:<FileCode size={20} className="text-blue-500" />
 },{
-name:"Seo建议",
-url:"/Theo/Seo",
-tag:"SEO",
-icon:<Section size={20} ></Section>
+  name:"Seo建议",
+  url:"/Theo/Seo",
+  tag:"SEO",
+  icon:<Globe size={20} className="text-green-500" />
 },{
-name:"AI绘画",
-url:"/Theo/Cover",
-tag:"AI",
-icon:<DramaIcon size={20}  ></DramaIcon>
+  name:"AI绘画",
+  url:"/Theo/Cover",
+  tag:"AI",
+  icon:<Brush size={20} className="text-purple-500" />
 }]
 
 export default function RootLayout({
@@ -39,37 +39,48 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="flex overflow-hidden min-h-screen ">
-      <aside className="w-56 border-r border-gray-200 dark:border-gray-800 flex flex-col h-screen sticky top-0  shadow-sm">
-        <div className="p-4 border-b border-gray-200 dark:border-gray-800">
-          <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100">工具列表</h3>
+    <div className="flex overflow-hidden min-h-screen">
+      <aside className="w-16 md:w-72 lg:w-80 transition-all duration-300 ease-in-out border-r border-gray-200 dark:border-gray-800 flex flex-col h-screen sticky top-0  backdrop-blur-sm shadow-lg z-10">
+        <div className="p-6 border-b border-gray-200 dark:border-gray-800">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 flex items-center gap-2">
+            <Sparkles className="h-5 w-5 text-indigo-500 animate-pulse" />
+            <span className="hidden md:inline">工具列表</span>
+          </h3>
         </div>
-        <nav className="flex-1 overflow-y-auto  py-4 px-3">
-          <div className="space-y-1">
-            <TooltipProvider >
+        <nav className="flex-1 overflow-y-auto py-6 px-2 md:px-4">
+          <div className="space-y-3">
+            <TooltipProvider delayDuration={200}>
               {TheoProjects.map((project) => (
-                <Tooltip  key={project.name}>
-                  <TooltipTrigger className="my-4" asChild>
+                <Tooltip key={project.name}>
+                  <TooltipTrigger className="w-full" asChild>
                     <Link href={project.url}>
                       <div 
                         className={cn(
-                          "group flex items-center px-3 py-2 text-sm rounded-md gap-3",
-                          "transition-colors duration-150 ease-in-out",
+                          "group flex items-center px-3 py-3 text-sm rounded-xl gap-3",
+                          "transition-all duration-300 ease-out",
                           "text-gray-700 dark:text-gray-300",
-                          "border-l-2 border-transparent hover:border-l-2 hover:border-l-indigo-500"
+                          "hover:bg-gradient-to-r hover:from-gray-50 hover:to-indigo-50", 
+                          "dark:hover:bg-gradient-to-r dark:hover:from-gray-800/40 dark:hover:to-indigo-900/20",
+                          "border-l-[3px] border-transparent hover:border-l-indigo-500",
+                          "transform hover:translate-x-1 hover:shadow-sm"
                         )}
                       >
-                        <span className="text-gray-500 group-hover:text-indigo-600 dark:text-gray-400 dark:group-hover:text-indigo-400 transition-colors duration-150">
+                        <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-gray-100 dark:bg-gray-800 group-hover:bg-white dark:group-hover:bg-gray-700 transition-colors duration-300 shadow-sm">
                           {project.icon}
+                        </div>
+                        <span className="font-medium group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-all duration-300 hidden md:block">
+                          {project.name}
                         </span>
-                        <span className="font-medium">{project.name}</span>
-                        <span className="ml-auto text-xs px-2 py-0.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400">
+                        <span className="ml-auto text-xs px-2.5 py-1 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 group-hover:bg-white group-hover:text-indigo-600 dark:group-hover:bg-gray-700 dark:group-hover:text-indigo-400 transition-all duration-300 hidden md:block">
                           {project.tag}
                         </span>
                       </div>
                     </Link>
                   </TooltipTrigger>
-                  <TooltipContent side="right" className="text-xs text-[#9a9aa2]">
+                  <TooltipContent 
+                    side="right" 
+                    className="text-xs bg-gray-900 text-gray-100 dark:bg-gray-800 dark:text-white px-3 py-2 rounded-md shadow-xl"
+                  >
                     {project.name} - {project.tag}
                   </TooltipContent>
                 </Tooltip>
@@ -78,7 +89,7 @@ export default function RootLayout({
           </div>
         </nav>
       </aside>
-      <main className="flex-1 p-6 overflow-y-auto">
+      <main className="flex-1 p-4 md:p-8 overflow-y-auto bg-gray-50 dark:bg-gray-900/30">
         {children}
       </main>
     </div>

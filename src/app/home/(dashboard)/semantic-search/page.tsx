@@ -1,20 +1,23 @@
 'use client'
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, use } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { BookMark } from '@/components/BookMark';
-import { Search } from 'lucide-react';
+import { ArrowLeftIcon, Search } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useRouter } from 'next/navigation';
+// import router from 'next/router';
 // 本地缓存搜索结果，减少API调用
 const searchCache = new Map();
 const MAX_QUERY_LENGTH = 100; // 限制查询长度
 
 const fetchSearchResults = async (searchTerm) => {
   if (!searchTerm) return { hits: [], found: 0 };
-  
+ 
   // 截断过长的查询
   const trimmedSearchTerm = searchTerm.slice(0, MAX_QUERY_LENGTH);
+
   
   // 检查缓存中是否有结果
   const cacheKey = trimmedSearchTerm.toLowerCase().trim();
@@ -54,14 +57,14 @@ function useDebounce(value, delay) {
 function SearchComponent() {
   const [searchTerm, setSearchTerm] = useState('');
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
-
+  const router = useRouter();
   // 优化查询策略，增加staleTime和cacheTime减少请求次数
   const { data, isLoading, error } = useQuery({
     queryKey: ['search', debouncedSearchTerm],
     queryFn: () => fetchSearchResults(debouncedSearchTerm),
     enabled: !!debouncedSearchTerm && debouncedSearchTerm.trim().length >= 2, // 至少2个字符才触发搜索
     staleTime: 5 * 60 * 1000, // 5分钟内不重新获取数据
-    cacheTime: 10 * 60 * 1000, // 10分钟内缓存数据
+    cacheTime: 10 * 60 * 2000, // 10分钟内缓存数据
   });
 
   // 清除输入框内容的处理函数
@@ -72,10 +75,11 @@ function SearchComponent() {
   return (
     <div className="w-full h-auto md:p-10 p-4 relative">
       <div className="max-w-3xl mx-auto mb-8">
-        <h1 className="text-2xl font-semibold mb-6 text-center dark:text-gray-100">语义搜索</h1>
+       <h1 onClick={()=>{router.back()}} className="text-2xl font-semibold mb-6 text-center dark:text-gray-100">语义话搜索|网页书签</h1>
+       
         <div className="relative">
-          <div style={{'viewTransitionName':`sarch`}}  className="flex items-center border dark:border-gray-700 rounded-full bg-white dark:bg-gray-800 px-4 py-2 shadow-sm focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-transparent transition-all duration-200">
-            <Search className="w-5 h-5 text-gray-400 mr-2" />
+          <div  className="flex items-center border dark:border-gray-700 rounded-full bg-white dark:bg-gray-800 px-4 py-2 shadow-sm focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-transparent transition-all duration-200">
+            <Search style={{'viewTransitionName':`sarch`}}  className="w-5 h-5 text-gray-400 mr-2" />
             <input
               type="text"
               value={searchTerm}
