@@ -113,6 +113,8 @@ useEffect(() => {
           <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
             一键提取网页精华，优化分析<span style={{'viewTransitionName':`markbox`}} className=" text-green-300">书签</span>，整理分类<span style={{'viewTransitionName':`markboxs`}} className=" text-green-300">收藏</span>，与世界分享你的发现
           </p>
+          <p className="text-sm text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+            每天提供二十次的免费请求,进一步体验，请登录后设置自己的apikey  </p>
         </div>
         <div className="relative max-w-2xl mx-auto">
           <Input 
@@ -134,7 +136,10 @@ useEffect(() => {
             type="text"
             value={value}
             placeholder="输入网址，开始你的发现之旅"
-            className="h-14 text-base w-full rounded-xl border-indigo-100 dark:border-indigo-900 shadow-md transition-all duration-300 hover:shadow-md focus:ring-2 focus:ring-indigo-500 dark:bg-indigo-950/30 dark:text-gray-100"
+            className="h-14 text-base w-full rounded-xl border-indigo-100 dark:border-indigo-900 shadow-md transition-all bg-white duration-300 hover:shadow-md focus:ring-2 focus:ring-borderColor
+            
+            
+            dark:bg-indigo-950/30 dark:text-gray-100"
           />
 
           <div className="mt-8 flex flex-wrap justify-between gap-4 md:gap-6">

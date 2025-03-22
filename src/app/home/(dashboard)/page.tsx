@@ -47,7 +47,7 @@ export default function MyFavorites() {
       <div className="flex justify-center mb-6" >
         <motion.button
           onClick={() => router.push('/home/semantic-search')}
-          className="flex items-center gap-2 px-6 py-3 rounded-full bg-white dark:bg-gray-800 text-black dark:text-white border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-lg transition-all duration-300"
+          className="flex items-center gap-2 px-6 py-3 rounded-full bg-white dark:bg-gray-900/10 text-black dark:text-white border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-lg transition-all duration-300"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.98 }}
           

@@ -164,14 +164,14 @@ export default function Page() {
   };
 
   return (
-    <div className="dark:text-white flex justify-center  min-h-screen">
+    <div className="dark:text-white flex justify-center min-h-screen w-full">
       {isLoading ? (
         <motion.div 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           style={{ 'viewTransitionName': `${router!.id}` }} 
-          className="md:max-w-[40rem] lg:max-w-[40rem] w-full mt-8 gap-2 px-4"
+          className="w-full max-w-[40rem] mt-8 gap-2 px-4 sm:px-6"
         >
           <div className="w-full cursor-pointer text-xl text-center mb-6">
             <Skeleton className="w-36 h-8 mx-auto rounded-md"></Skeleton>
@@ -197,7 +197,7 @@ export default function Page() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
           style={{ 'viewTransitionName': `${router!.id}` }} 
-          className="md:max-w-[40rem] lg:max-w-[40rem] w-full mt-8 gap-2 px-4 pb-12"
+          className="w-full max-w-[40rem] mt-8 gap-2 px-4 sm:px-6 pb-12"
         >
           <motion.h1 
             initial={{ opacity: 0 }}
@@ -336,10 +336,10 @@ export default function Page() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
-            className="flex w-full mt-6 mb-8 justify-between gap-2"
+            className="flex w-full mt-6 mb-8  flex-wrap  sm:flex-row  gap-4  gap-x-10 sm:gap-2 justify-center sm:justify-between"
           >
             <TooltipDemo text={'批量导入'}>
-         <BatchImportButton 
+              <BatchImportButton 
                 onImportSuccess={async (items) => {
                   if (items && items.length > 0) {
                     const newCards = items.map(item => item.url);
@@ -357,7 +357,9 @@ export default function Page() {
                       });
                     }
                   }
-                }} />
+                }} 
+                
+              />
             </TooltipDemo>
             
             <TooltipDemo text={'清理失效连接'}>
@@ -365,7 +367,7 @@ export default function Page() {
                 variant={analyzing ? 'default' : 'outline'} 
                 onClick={handleAnalyze}
                 disabled={analyzing}
-                className={`flex-1 transition-all duration-300 ${analyzing 
+                className={`w-full sm:w-auto transition-all duration-300 ${analyzing 
                   ? 'bg-[#007aff] hover:bg-[#007aff]/90 text-white dark:bg-[#0a84ff] dark:hover:bg-[#0a84ff]/90' 
                   : 'border-[#e5e5e5] dark:border-[#2a2a2a] bg-white dark:bg-[#1a1a1a] hover:bg-[#f5f5f7] dark:hover:bg-[#2a2a2a] text-[#1d1d1f] dark:text-white'}`}
               > 
@@ -381,10 +383,10 @@ export default function Page() {
               <Button
                 onClick={() => route.push(`/api/feed/${router!.id}`)}
                 variant="outline"
-                className="flex-1 border-[#e5e5e5] dark:border-[#2a2a2a] bg-white dark:bg-[#1a1a1a] hover:bg-[#f5f5f7] dark:hover:bg-[#2a2a2a] text-[#1d1d1f] dark:text-white"
+                className="w-full sm:w-auto border-[#e5e5e5] dark:border-[#2a2a2a] bg-white dark:bg-[#1a1a1a] hover:bg-[#f5f5f7] dark:hover:bg-[#2a2a2a] text-[#1d1d1f] dark:text-white"
               >
                 <LucideRss className="text-xl mr-2 text-[#ff9500] dark:text-[#ff9f0a]" />
-                <span>RSS</span>
+                <span>RSS订阅</span>
               </Button>
             </TooltipDemo>
             
@@ -395,10 +397,10 @@ export default function Page() {
                   title: data.title,
                   children: cards
                 }], data.title)}
-                className="flex-1 border-[#e5e5e5] dark:border-[#2a2a2a] bg-white dark:bg-[#1a1a1a] hover:bg-[#f5f5f7] dark:hover:bg-[#2a2a2a] text-[#1d1d1f] dark:text-white"
+                className="w-full sm:w-auto border-[#e5e5e5] dark:border-[#2a2a2a] bg-white dark:bg-[#1a1a1a] hover:bg-[#f5f5f7] dark:hover:bg-[#2a2a2a] text-[#1d1d1f] dark:text-white"
               >
                 <Download className="text-xl mr-2 text-[#1d1d1f] dark:text-white" />
-                <span>导出</span>
+                <span>一键导出</span>
               </Button>
             </TooltipDemo>
           </motion.div>

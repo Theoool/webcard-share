@@ -104,7 +104,7 @@ export function CommandDialogDemo() {
         <DialogTitle className="sr-only">快捷导航菜单</DialogTitle>
         <CommandInput placeholder="Type a command or search..." />
         <CommandList>
-          <CommandEmpty>No results found.</CommandEmpty>
+          <CommandEmpty>没有什么结果返回</CommandEmpty>
           <CommandGroup heading="Suggestions">
             {
               RouterList.map((item,index)=>(
@@ -129,7 +129,7 @@ export function CommandDialogDemo() {
           <CommandGroup heading="Settings">
             <CommandItem>
               <User />
-              <span>Profile</span>
+              <span>个人页面</span>
               <CommandShortcut>⌘P</CommandShortcut>
             </CommandItem>
             <CommandItem>
@@ -139,7 +139,7 @@ export function CommandDialogDemo() {
             </CommandItem>
             <CommandItem>
               <Settings />
-              <span>Settings</span>
+              <span>设置</span>
               <CommandShortcut>⌘S</CommandShortcut>
             </CommandItem>
           </CommandGroup>
@@ -195,14 +195,14 @@ export default function Home() {
   const { data: session, } = useSession();
   const router= useRouter()
   return (
-   <nav className="flex p-2 bg-[#f8f9fa] dark:bg-[#0a0a0a] w-full text-black fixed top-0    gap-2  z-50 h-14  text-md sm:text-xl
+   <nav className="flex p-2 w-full  fixed top-0  text-borderColor  gap-2  z-50 h-14  text-md sm:text-xl
      justify-between   items-center font-bold   ">
     <div className=" text-md gap-5 ml-5 hidden md:flex">
-     <Link href="/" className="dark:text-primary  underline-offset-4  hover:underline"  >主页</Link>
-     <Link href="/mymarkbox" className="dark:text-primary  underline-offset-4  hover:underline"  >我的收藏</Link>
-     <Link href="/home" className="dark:text-primary      underline-offset-4  hover:underline"  >广场</Link>
-     <Link href="/Theo" className="dark:text-primary      underline-offset-4  hover:underline"  >工具</Link>
-     {session&&<Link href="/me/settings" className="dark:text-primary      underline-offset-4  hover:underline">设置</Link>}
+     <Link href="/" className="dark:text-white  underline-offset-4  hover:underline"  >主页</Link>
+     <Link href="/mymarkbox" className="dark:text-white   underline-offset-4  hover:underline"  >我的收藏</Link>
+     <Link href="/home" className="dark:text-white       underline-offset-4  hover:underline"  >广场</Link>
+     <Link href="/Theo" className="dark:text-white       underline-offset-4  hover:underline"  >工具</Link>
+     {session&&<Link href="/me/settings" className="dark:text-white       underline-offset-4  hover:underline">设置</Link>}
       </div>
     <div className="md:hidden">
       <MobileNav />

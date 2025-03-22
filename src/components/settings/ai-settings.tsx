@@ -150,6 +150,7 @@ export function AiSettings() {
                     <Input 
                       id="api-key" 
                       value={apiKey}
+                      // type="password"
                       onChange={(e) => setApiKey(e.target.value)}
                       placeholder={`输入${
                         aiProvider === 'openai' ? 'OpenAI' : 
@@ -186,6 +187,7 @@ export function AiSettings() {
                   <Label htmlFor="embedding-model">Embedding 模型</Label>
                   <div className="relative">
                     <Input 
+                    disabled
                       id="embedding-model" 
                       value={embeddingModel}
                       onChange={(e) => setEmbeddingModel(e.target.value)}
@@ -195,8 +197,9 @@ export function AiSettings() {
                     <Database className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                   </div>
                   <p className="text-xs text-muted-foreground">
+                    暂时不用设置，免费使用 &nbsp; 
                     {aiProvider === 'openai' ? '推荐: text-embedding-ada-002, text-embedding-3-small' : 
-                     aiProvider === 'aliyun' ? '推荐: text-embedding-v1' : 
+                     aiProvider === 'aliyun' ? '推荐: text-embedding-v3' : 
                      aiProvider === 'siliconflow' ? '推荐: bge-large-zh-v1.5' : '输入模型名称'}
                   </p>
                 </div>

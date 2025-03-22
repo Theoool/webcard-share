@@ -49,9 +49,9 @@ const UserProfile = ({ session }) => (
           <Link href="/me/settings">
             <Button 
               variant="outline" 
-              className="w-full py-6 flex flex-col items-center gap-2 hover:bg-primary hover:text-primary-foreground transition-all duration-300"
+              className="w-full py-6 flex flex-col items-center gap-2 hover:bg-[#dd8f9a] hover:text-[#f7e4dd] transition-all duration-300"
             >
-              <Settings className="w-6 h-6" />
+              
               <span>设置</span>
             </Button>
           </Link>
@@ -59,9 +59,9 @@ const UserProfile = ({ session }) => (
           <Link href="/mymarkbox">
             <Button 
               variant="outline" 
-              className="w-full py-6 flex flex-col items-center gap-2 hover:bg-primary hover:text-primary-foreground transition-all duration-300"
+              className="w-full py-6 flex flex-col items-center gap-2 hover:bg-[#dd8f9a] hover:text-[#f7e4dd] transition-all duration-300"
             >
-              <BookMarked className="w-6 h-6" />
+             
               <span>书签</span>
             </Button>
           </Link>
@@ -69,19 +69,19 @@ const UserProfile = ({ session }) => (
           <Link href="/markboxs">
             <Button 
               variant="outline" 
-              className="w-full py-6 flex flex-col items-center gap-2 hover:bg-primary hover:text-primary-foreground transition-all duration-300"
+              className="w-full py-6 flex flex-col items-center gap-2 hover:bg-[#dd8f9a] hover:text-[#f7e4dd] transition-all duration-300"
             >
-              <Share2 className="w-6 h-6" />
+             
               <span>分享</span>
             </Button>
           </Link>
 
           <Button 
             variant="outline" 
-            className="w-full py-6 flex flex-col items-center gap-2 hover:bg-destructive hover:text-destructive-foreground transition-all duration-300"
+            className="w-full py-6 flex flex-col items-center gap-2 hover:bg-[#dd8f9a] hover:text-[#f7e4dd] transition-all duration-300"
             onClick={logout}
           >
-            <LogOut className="w-6 h-6" />
+            
             <span>退出</span>
           </Button>
         </div>

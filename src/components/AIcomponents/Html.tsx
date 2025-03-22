@@ -27,8 +27,7 @@ export function UploadPage() {
   const [selectedRole, setSelectedRole] = useState<string>('');
   const { toast } = useToast();
   const { model, apikey, BaseURl} = useSettingsModleStore();
- 
-
+  const [activeTab, setActiveTab] = useState('pload')
   useEffect(() => {
     GlobalWorkerOptions.workerSrc = `${process.env.NEXT_PUBLIC_BASE_PATH || ''}/js/pdf.worker.js`;
   }, []);
@@ -47,6 +46,7 @@ export function UploadPage() {
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    setActiveTab('input');
     setDragActive(false);
 
     const droppedFile = e.dataTransfer.files[0];
@@ -274,7 +274,7 @@ export function UploadPage() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6 space-y-8">
+    <div className="max-w-4xl  mx-auto p-6 space-y-8">
       <div className="text-center space-y-2">
         <h1 className="text-3xl ">文档转 <code>html</code>网页  </h1>
         <p className="text-gray-500 dark:text-gray-400">
@@ -343,7 +343,7 @@ export function UploadPage() {
         </div>
       </div>
      
-      <Tabs defaultValue="upload" className="w-full">
+      <Tabs defaultValue="upload" value={activeTab}  onValueChange={setActiveTab} className="w-full">
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="upload">文件上传</TabsTrigger>
           <TabsTrigger value="url">URL输入</TabsTrigger>
@@ -420,6 +420,7 @@ export function UploadPage() {
           {file && (
             <div className="space-y-4">
               <Button
+                variant="outline"
                 onClick={handleSubmit}
                 disabled={loading}
                 className="w-full"

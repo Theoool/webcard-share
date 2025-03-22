@@ -8,12 +8,16 @@ import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "@/hooks/use-toast";
-
+import { useQuery } from "@tanstack/react-query";
 export function LinkSettings() {
   const [autoCleanEnabled, setAutoCleanEnabled] = useState(false);
   const [expirationEnabled, setExpirationEnabled] = useState(false);
   const [cleanInterval, setCleanInterval] = useState("30");
-
+  const { data, error, isLoading } = useQuery<any>({
+    queryKey: ['/UserFavorites/getuserall'],
+    staleTime: 5 * 60 * 1000,
+    
+  });
   const handleSaveLinkSettings = () => {
     toast({
       title: "链接管理设置已更新",
@@ -73,18 +77,13 @@ export function LinkSettings() {
               <div className="space-y-2">
                 <Label>选择需要自动清理的收藏夹</Label>
                 <div className="grid grid-cols-2 gap-2 mt-2">
-                  <div className="flex items-center space-x-2">
-                    <Checkbox id="folder1" />
-                    <Label htmlFor="folder1" className="text-sm">我的收藏</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Checkbox id="folder2" />
-                    <Label htmlFor="folder2" className="text-sm">工作链接</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Checkbox id="folder3" />
-                    <Label htmlFor="folder3" className="text-sm">学习资源</Label>
-                  </div>
+                 {data&&data.map((meta) => { 
+                 return <div key={meta.id} className="flex items-center space-x-2">
+                    <Checkbox id={meta.id} />
+                    <Label htmlFor={meta.id} className="text-sm">{meta.title}</Label>
+                  
+                  </div>})
+                 }
                 </div>
               </div>
               

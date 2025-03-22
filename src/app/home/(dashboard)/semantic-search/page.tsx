@@ -78,7 +78,8 @@ function SearchComponent() {
        <h1 onClick={()=>{router.back()}} className="text-2xl font-semibold mb-6 text-center dark:text-gray-100">语义话搜索|网页书签</h1>
        
         <div className="relative">
-          <div  className="flex items-center border dark:border-gray-700 rounded-full bg-white dark:bg-gray-800 px-4 py-2 shadow-sm focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-transparent transition-all duration-200">
+          <div  className="flex items-center border dark:border-gray-700 rounded-full bg-white dark:bg-gray-900/10 px-4 py-2 shadow-sm focus-within:ring-2 
+          focus-within:ring-[#3c3a52] focus-within:border-transparent transition-all duration-200">
             <Search style={{'viewTransitionName':`sarch`}}  className="w-5 h-5 text-gray-400 mr-2" />
             <input
               type="text"

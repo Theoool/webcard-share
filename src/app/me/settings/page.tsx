@@ -115,8 +115,8 @@ console.log(model, apikey, BaseURl,"-------");
         className="space-y-8"
       >
         <div className="flex items-center gap-4">
-          <SettingsIcon className="w-8 h-8 text-primary" />
-          <h1 className="text-3xl font-semibold text-primary">设置</h1>
+          <SettingsIcon size={28} className=" text-borderColor" />
+          <h1 className="text-3xl font-semibold text-borderColor">设置</h1>
         </div>
 
         <Tabs defaultValue="account" value={activeTab} onValueChange={setActiveTab} className="w-full">
