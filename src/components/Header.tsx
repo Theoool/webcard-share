@@ -39,6 +39,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer"
+import Logo from "./logo/logo";
 
 const RouterList=[{
   title:'主页',
@@ -198,6 +199,9 @@ export default function Home() {
    <nav className="flex p-2 w-full  fixed top-0  text-borderColor  gap-2  z-50 h-14  text-md sm:text-xl
      justify-between   items-center font-bold   ">
     <div className=" text-md gap-5 ml-5 hidden md:flex">
+    <Logo></Logo>
+
+
      <Link href="/" className="dark:text-white  underline-offset-4  hover:underline"  >主页</Link>
      <Link href="/mymarkbox" className="dark:text-white   underline-offset-4  hover:underline"  >我的收藏</Link>
      <Link href="/home" className="dark:text-white       underline-offset-4  hover:underline"  >广场</Link>

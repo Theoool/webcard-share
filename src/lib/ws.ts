@@ -70,7 +70,6 @@ export async function submitUrls(urls: string[]) {
   if (typeof window !== 'undefined') {
     getSocket();
   }
-
   try {
     const response = await fetch(`${process.env.NEXT_PUBLIC_NESTJS_API_URL}/url-check?clientId=${clientId}`, {
       method: 'POST',
@@ -85,7 +84,40 @@ export async function submitUrls(urls: string[]) {
     if (typeof window !== 'undefined') {
          (window as any).currentTaskId = result.taskId;
        }
-       
+       // 使用Socket.io的方式发送绑定消息
+       if (socket && socket.connected) {
+         socket.emit('bind-task', result.taskId);
+       }
+   
+    console.log('任务ID:', result.taskId);
+    return result;
+  } catch (error) {
+    console.error('提交任务失败:', error);
+    throw error;
+  }
+}
+// 批量保存卡片
+export async function SaveCards(urls: string[],session,UserFavoriteId) {
+  // 确保在客户端环境中初始化socket
+  if (typeof window !== 'undefined') {
+    getSocket();
+  }
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_NESTJS_API_URL}/Card/SaveCardsAsync`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json',
+        'Authorization': `Bearer ${session}`,
+       },
+      body: JSON.stringify({ url:urls,UserFavoriteId })
+    });
+  
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const result = await response.json();
+    if (typeof window !== 'undefined') {
+         (window as any).currentTaskId = result.taskId;
+       }
        // 使用Socket.io的方式发送绑定消息
        if (socket && socket.connected) {
          socket.emit('bind-task', result.taskId);

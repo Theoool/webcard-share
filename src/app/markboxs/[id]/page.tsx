@@ -12,10 +12,10 @@ import { toast } from "@/hooks/use-toast";
 import { BookMark } from "@/components/BookMark";
 import TooltipDemo from "@/components/TooltipDemo";
 import { downloadBookmarks } from "@/lib/utils";
-import { SaveCards } from "@/lib/card/router";
+// import { SaveCards } from "@/lib/card/router";
 
 import { useSession } from "next-auth/react";
-import { submitUrls, getSocket } from "@/lib/ws";
+import { submitUrls, getSocket,SaveCards } from "@/lib/ws";
 import { motion, AnimatePresence } from "framer-motion";
 
 
@@ -78,7 +78,6 @@ export default function Page() {
         } else if (data.status === 'completed') {
           setTimeout(() => {
             setAnalyzing(false);
-            
             // 处理分析结果，删除失败的URL
             if (data.results) {
               const failedUrls = data.results
@@ -103,13 +102,12 @@ export default function Page() {
                 }
               }
             }
-            
             setProgress(null);
             toast({
               title: "分析完成",
               description: `成功分析 ${data.progress.success} 个URL`,
             });
-            
+            window.location.reload()
           }, 2000);
           setAnalyzing(false);
           setProgress(null);
@@ -141,7 +139,6 @@ export default function Page() {
       });
       return;
     }
-
     try {
       setAnalyzing(true);
       setProgress(null);
@@ -343,19 +340,8 @@ export default function Page() {
                 onImportSuccess={async (items) => {
                   if (items && items.length > 0) {
                     const newCards = items.map(item => item.url);
-                    const res = await SaveCards({url: newCards, UserFavoriteId: router!.id, session: session?.accessToken})
-                    if (res.success) {
-                      toast({
-                        title: "导入成功",
-                        description: `成功导入 ${items.length} 个书签到收藏夹`,
-                      });
-                    } else {
-                      toast({
-                        title: "导入失败",
-                        description: `导入${items.length} 失败书签到收藏夹`,
-                        variant: "destructive"
-                      });
-                    }
+                    const res = await SaveCards( newCards, session?.accessToken,router!.id)
+                   
                   }
                 }} 
                 

@@ -23,7 +23,7 @@ export  const authOptions: NextAuthOptions = {
         return true;
       }
       if (account?.provider === 'github' || account?.provider === 'google') {
-        const res:any = await fetch(`${process.env.NESTJS_URL}/auth/callback`, {
+        const res:any = await fetch(`${process.env.NEXT_PUBLIC_NESTJS_API_URL}/auth/callback`, {
           method: 'POST',
           body: JSON.stringify({
             provider: account.provider,

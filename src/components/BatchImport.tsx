@@ -118,7 +118,16 @@ export function BatchImportDialog({ onImportSuccess }: { onImportSuccess?: (item
 
   // 添加URL输入框
   const addUrlInput = useCallback(() => {
-    setUrlInputs(prev => [...prev, { id: Date.now().toString(), value: '', isValid: false }]);
+    if (urlInputs.length < 10) {
+      setUrlInputs(prev => [...prev, { id: (prev.length + 1).toString(), value: '', isValid: false }]);
+      
+    }else{
+      toast({
+        title: "最多只能添加10个URL",
+        description: "请解析URL后再添加",
+        variant: "destructive"
+      });
+    }
   }, []);
 
   // 删除URL输入框
@@ -303,7 +312,10 @@ export function BatchImportDialog({ onImportSuccess }: { onImportSuccess?: (item
                         )}
                       />
                       <Button
-                        variant="ghost"
+                       
+                        variant={'ghost'}
+                        className='border dark:border-white/10 border-black/30'
+                         
                         size="icon"
                         onClick={() => removeUrlInput(input.id)}
                         disabled={urlInputs.length === 1}
@@ -316,14 +328,19 @@ export function BatchImportDialog({ onImportSuccess }: { onImportSuccess?: (item
                 
                 <Button 
                   variant="outline" 
-                  className="w-full" 
+                  className='border w-full dark:border-white/10 border-black/30'
+                        
+                 
                   onClick={addUrlInput}
                 >
                   <Plus className="mr-2 h-4 w-4" /> 添加URL
                 </Button>
                 
                 <Button 
-                  className="w-full" 
+                variant="outline" 
+                  
+                   className='border w-full dark:border-white/10 border-black/30'
+                  
                   onClick={handleUrlImport}
                   disabled={isLoading || !urlInputs.some(input => input.isValid)}
                 >
@@ -374,6 +391,8 @@ export function BatchImportDialog({ onImportSuccess }: { onImportSuccess?: (item
             取消
           </Button>
           <Button 
+          variant={'ghost'}
+          className='border dark:border-white/10 border-black/30'
             onClick={confirmImport}
             disabled={isLoading || parsedItems.length === 0}
           >

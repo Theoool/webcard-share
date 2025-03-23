@@ -24,9 +24,9 @@ const inter =MA({
 
 
 export const metadata: Metadata = {
-  title: "脱离",
-  description: "脱离 - 智能书签管理平台：集成AI摘要、SEO优化建议、智能标签和语义搜索，轻松导入收藏夹，打破信息茧房。让知识分享更简单，信息获取更高效。发现并连接有价值的网络资源。",
-  icons:"@/public/webcard.png",
+  title: "webcard",
+  description: "webcard - 智能书签管理平台：集成AI摘要、SEO优化建议、智能标签和语义搜索，轻松导入收藏夹，打破信息茧房。让知识分享更简单，信息获取更高效。发现并连接有价值的网络资源。",
+  icons: [ { url: '/globe.svg' },],
   alternates: {
     canonical: 'https://www.theooo.xyz',
     types: {

@@ -27,7 +27,7 @@ export function UploadPage() {
   const [selectedRole, setSelectedRole] = useState<string>('');
   const { toast } = useToast();
   const { model, apikey, BaseURl} = useSettingsModleStore();
-  const [activeTab, setActiveTab] = useState('upload')
+  const [activeTab, setActiveTab] = useState('up')
   useEffect(() => {
     GlobalWorkerOptions.workerSrc = `${process.env.NEXT_PUBLIC_BASE_PATH || ''}/js/pdf.worker.js`;
   }, []);
@@ -455,12 +455,23 @@ export function UploadPage() {
                 customStyle={{
                   margin: 0,
                   borderRadius: '0.5rem',
-                  padding: '1rem',
+                  padding: '1.5rem',
                   fontSize: '0.875rem',
+                  backgroundColor: 'var(--background)',
+                  overflowX: 'auto',
+                  maxWidth: '100%'
                 }}
+                codeTagProps={{
+                  style: {
+                    fontSize: 'inherit',
+                    lineHeight: '1.6',
+                    fontFamily: 'var(--font-mono)'
+                  }
+                }}
+                showLineNumbers
+                wrapLines
+                wrapLongLines
               >
-                
-
                 {mdContent}
               </SyntaxHighlighter>
             </div>
@@ -562,26 +573,32 @@ export function UploadPage() {
                     customStyle={{
                       margin: 0,
                       borderRadius: '0.5rem',
-                      padding: '2rem',
+                      padding: '1.5rem',
                       fontSize: '0.875rem',
-                      boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
+                      backgroundColor: 'var(--background)',
+                      overflowX: 'auto',
+                      maxWidth: '100%',
+                      boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)'
                     }}
                     codeTagProps={{
                       style: {
                         fontSize: 'inherit',
-                        lineHeight: '1.5',
+                        lineHeight: '1.6',
+                        fontFamily: 'var(--font-mono)'
                       }
                     }}
                     lineNumberStyle={{
-                      minWidth: '3em',
+                      minWidth: '3.5em',
                       paddingRight: '1em',
+                      opacity: 0.5
                     }}
-                    showLineNumbers
+                   
                     wrapLines
                     wrapLongLines
                   >
-                    {htmlResult.includes('```html') 
-                      ? htmlResult.split('```html')[1].split('```')[0].trim() 
+                  
+                    {htmlResult.includes('```html')
+                      ? htmlResult.split('```html')[1].split('```')[0].trim()
                       : htmlResult}
                   </SyntaxHighlighter>
                 </div>

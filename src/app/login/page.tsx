@@ -1,5 +1,6 @@
 'use client'
 import { LoginForm } from "@/components/login-form"
+import Logo from "@/components/logo/logo";
 import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
@@ -13,6 +14,9 @@ export default function LoginPage() {
        bg-[#f5e4e0]
       dark:bg-[#0a0a0a]
       flex min-h-svh flex-col items-center justify-center gap-6  p-6 md:p-10">
+      <div className="border p-2 rounded-full border-black/10">
+       <Logo />
+       </div>
         <div className="flex w-full max-w-sm flex-col gap-6">
           <div className="text-center mb-4">
             <h1 className="text-2xl font-bold mb-2">欢迎回来</h1>
