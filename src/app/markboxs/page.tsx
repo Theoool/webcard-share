@@ -6,7 +6,8 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from 'react';
 
 import MarkBooksBox from '@/components/MarkBooksBox';
-import Link from 'next/link';
+import HeaderBox from '@/components/boxheader';
+
 
 export default function MyFavorites() {
   const { data: session } = useSession();
@@ -19,6 +20,8 @@ export default function MyFavorites() {
   if (isLoading) return <div className="w-full h-auto p-10">加载中...</div>;
   if (error) return <div className="w-full h-auto p-10">错误: {JSON.stringify(error)}</div>;
   return (
+   <div>
+     <HeaderBox></HeaderBox>
     <div className="w-full h-auto  md:p-10 p-2 relative">
    
       <div    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  gap-6">
@@ -38,6 +41,7 @@ export default function MyFavorites() {
         //  </ViewTransitions>
         ))}
       </div>
+    </div>
     </div>
   );
 }

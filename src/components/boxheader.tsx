@@ -6,7 +6,7 @@ import { FilePlus, LucideBookOpenText, Trash } from "lucide-react";
 import Link from "next/link";
 import { useMediaQuery } from "@react-hook/media-query";
 import { usePathname, useRouter } from "next/navigation"
-import React, { useState, } from "react";
+import React, { useEffect, useState, } from "react";
 import { Input } from "@/components/ui/input";
 import { clsx as cn, } from "clsx"
 import { Label } from "@/components/ui/label";
@@ -32,10 +32,15 @@ interface FormData{
 }
 
 
-export default function Header(){
+export default function Header({bol=true}:{bol?:boolean}){
   const pathname = usePathname()
   const Router = useRouter()
   const {setdelete,Delete}=useBox()
+  useEffect(() => {
+    
+        setdelete(false)
+    
+  }, [pathname])
   return  <div className="xl:px-20 mt-2 flex  justify-end items-center gap-4  text-xl" >
   <Button className="text-xl text-textfirst " style={{'viewTransitionName':`markbox`}}  variant={'link'}>
     <Link href={'/mymarkbox'}>书签</Link>
@@ -47,22 +52,42 @@ export default function Header(){
       }}
       style={{'viewTransitionName':`markboxs`}}
       >  收藏夹</Button>
-<Button variant={'outline'}
- onClick={(e) => {
-  setdelete(!Delete)
- }}
-
- className={cn(
-  
-  !Delete ? "" : "bg-green-500/20 text-green-200"
+      {bol && (
+  <Button
+    variant={'outline'}
+    onClick={(e) => {
+      setdelete(!Delete);
+    }}
+    className={cn(
+      "relative overflow-hidden transition-all duration-300 transform hover:scale-105 active:scale-95",
+      !Delete 
+        ? "hover:bg-red-500/10 hover:border-red-500/50" 
+        : "bg-green-500/20 text-green-200 hover:bg-green-500/30 border-green-500/50"
+    )}
+  > 
+    <div className="flex items-center p-1 relative z-10"> 
+      <span className={cn(
+        "transition-all duration-300",
+        Delete ? "rotate-12 scale-110" : ""
+      )}>
+        <Trash 
+          className={cn(
+            "icon cursor-pointer transition-all duration-300",
+            Delete ? "text-green-200" : "text-red-400 hover:text-red-500"
+          )} 
+          size={25}
+        />
+      </span>
+    </div>
+    <span className={cn(
+      "absolute inset-0 transition-all duration-500 ease-out",
+      Delete 
+        ? "bg-green-500/10 scale-100" 
+        : "bg-red-500/0 scale-0"
+    )} />
+  </Button>
 )}
-> <div className="flex items-center p-1   "> 
-     {
-     <span><Trash
-    
-     className=" icon cursor-pointer " size={25}></Trash></span>
-     }
-     </div></Button>
+
 
 { pathname&&<DrawerDialogDemo> <div className="flex items-center p-1  ">
      {
@@ -90,10 +115,10 @@ export function DrawerDialogDemo({children}) {
         {/* <DialogOverlay className="fixed inset-0 bg-black/50" /> */}
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>创建文件夹</DialogTitle>
+            <DialogTitle>添加自定义站点</DialogTitle>
             <DialogDescription className="flex items-center">
-             编辑一个新的收藏夹，或者导入一个收藏夹 <Button variant={'link'} >
-              <Link href={'/bolg/2'}  className="flex items-center">方法</Link>
+             编辑一个新的站点 <Button variant={'link'} >
+              {/* <Link   className="flex items-center">方法</Link> */}
              </Button>
             </DialogDescription>
           </DialogHeader>
@@ -255,6 +280,7 @@ function CardForm({ className }: React.ComponentProps<"form">) {
         description: '请先登录后再提交',
         variant: 'destructive'
       });
+      window.location.href = '/login';
       return;
     }
    
@@ -272,13 +298,20 @@ function CardForm({ className }: React.ComponentProps<"form">) {
     try {
       console.log("你好");
       await addCard(Form, session?.accessToken);
-      Router.push('/markboxs/'+Form.UserFavoriteId)
+      toast({
+        title: '添加成功',
+        // description:'创建卡片时发生错误',
+        variant: 'destructive',
+        duration:1000
+      });
+      window.location.href = '/';
       
     } catch (error) {
       toast({
         title: '提交失败',
         description:'创建卡片时发生错误',
-        variant: 'destructive'
+        variant: 'destructive',
+        duration:1000
       });
     }
   };

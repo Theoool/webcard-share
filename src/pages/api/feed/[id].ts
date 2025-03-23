@@ -8,8 +8,8 @@ export default async function GET(req:NextApiRequest,res:NextApiResponse) {
   const feed = new RSS({
     title: 'OpenLink',
     description: 'OpenLink 是一个开源的AI书签管理平台，帮助用户轻松保存、分类和分享网页链接。时常更新一些小玩具,加入我们，共同打造一个高效、安全的链接管理工具！',
-    site_url: 'https://Theool.com', // 你的网站域名
-    feed_url: `http://localhost:8080/api/feed/${id}`, // 尽可能用绝对 URL
+    site_url: 'https://www.Theooo.xyz', // 你的网站域名
+    feed_url: `https://www.Theooo.xyz/api/feed/${id}`, // 尽可能用绝对 URL
     language: 'zh-CN', // 网站语言代码
     // image_url: 'https://yourdomain.com/opengraph-image.png', // 放一个叫 opengraph-image.png 的1200x630尺寸的图片到你的 app 目录下即可
     generator: 'node', // 想写什么就写什么，也可以不提供
