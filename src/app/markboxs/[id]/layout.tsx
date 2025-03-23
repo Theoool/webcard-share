@@ -62,5 +62,5 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default function Layout({ children }: Props) {
-  return children;
+  return <div>children</div>;
 }
