@@ -27,7 +27,7 @@ export function UploadPage() {
   const [selectedRole, setSelectedRole] = useState<string>('');
   const { toast } = useToast();
   const { model, apikey, BaseURl} = useSettingsModleStore();
-  const [activeTab, setActiveTab] = useState('pload')
+  const [activeTab, setActiveTab] = useState('upload')
   useEffect(() => {
     GlobalWorkerOptions.workerSrc = `${process.env.NEXT_PUBLIC_BASE_PATH || ''}/js/pdf.worker.js`;
   }, []);
@@ -187,6 +187,7 @@ export function UploadPage() {
       const data = await response.json();
       setHtmlResult(data.data.html);
       setProgress(100);
+      setActiveTab('result')
       toast({
         title: "转换成功",
         description: `${fileType === 'pdf' ? 'PDF' : 'Markdown'} 已成功转换为 HTML`,
@@ -349,6 +350,7 @@ export function UploadPage() {
           <TabsTrigger value="url">URL输入</TabsTrigger>
           <TabsTrigger value="result" disabled={!htmlResult}>转换结果</TabsTrigger>
         </TabsList>
+
         <TabsContent value="upload" className="space-y-6">
           <motion.div
             className={cn(
@@ -377,7 +379,7 @@ export function UploadPage() {
                   支持 PDF 或 Markdown 文件，最大 10MB
                 </p>
               </div>
-              <div className="flex gap-4">
+              <div className="flex sm:flex-row flex-col gap-4">
                 <Button
                   variant="outline"
                   onClick={() => {

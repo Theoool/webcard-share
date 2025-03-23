@@ -14,6 +14,8 @@ import { Bookmark } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '../ui/button';
 import { CardDescription } from '../ui/card';
+import { toast } from '@/hooks/use-toast';
+import { Textarea } from '../ui/textarea';
 
 // 定义类型
 interface CardData {
@@ -288,7 +290,7 @@ const Card: React.FC<{ cardData: CardData,AI?:boolean }> = ({ cardData,AI=open})
     
   }else{
      
-   summaryText = cardData.finalSummary!.split('#关键词')[0].split("摘要内容")[1]?.trim() || '暂无描述';
+   summaryText = cardData.finalSummary!.split('# 关键词')[0].split("摘要内容")[1]?.trim() || '暂无描述';
    keywordsText = cardData.finalSummary!.split('关键词')[1] || '';
    keywordsList = keywordsText.split('丨').filter((_, index) => index > 0).map(k => k.trim());
   
@@ -320,15 +322,27 @@ const Card: React.FC<{ cardData: CardData,AI?:boolean }> = ({ cardData,AI=open})
         tags: state.tags,
         content: state.text
       };
-      
-      await addCard(cardToSave, session?.accessToken);
+   await addCard(cardToSave, session?.accessToken);
+    
+        toast({
+          title: "添加卡片成功",
+          description: "做的非常好，感谢你为这个环境做的贡献",
+          duration:2000
+               
+        })
+    
     } catch (error) {
+      toast({
+        title: "Uh oh! 发生了一些错误.",
+        description: "There was a problem with your request.",
+        duration:2000      
+      })
       console.error('保存卡片失败:', error);
     }
   };
 
   return (
-    <div className="w-full min-h-[15rem] flex flex-col justify-between p-4 mt-2 cardboxshow @container rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm">
+    <div className="w-full relative min-h-[15rem] flex flex-col justify-between p-4 mt-2 cardboxshow @container rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm">
       <CardHeader
         title={state.title}
         url={state.url}
@@ -341,7 +355,7 @@ const Card: React.FC<{ cardData: CardData,AI?:boolean }> = ({ cardData,AI=open})
       <div className="flex flex-col md:items-center leading-6 gap-2">
         {state.image && (
           <img 
-            className="md:h-[10rem] w-full md:w-auto ease-linear object-cover rounded-md" 
+            className="h-[10rem] w-auto ease-linear object-contain rounded-md" 
             src={state.image} 
             alt={state.title} 
           />
@@ -353,7 +367,7 @@ const Card: React.FC<{ cardData: CardData,AI?:boolean }> = ({ cardData,AI=open})
         dispatch({ type: 'TOGGLE_TEXT_EDIT' });
        }}
        className="text-[1rem] leading-6 flex-w whitespace-pre-line hover:bg-black/5">{state.text}</CardDescription>
-       :<Input className="text-[1rem] leading-6 flex-w whitespace-pre-line"
+       :<Textarea className="text-[1rem] leading-6 flex-w whitespace-pre-line"
         value={state.text}
         onKeyDown={(e)=>{
           if (e.key==='Enter'||e.key==='Tab') {
@@ -364,7 +378,7 @@ const Card: React.FC<{ cardData: CardData,AI?:boolean }> = ({ cardData,AI=open})
         onChange={(e)=>{
           dispatch({ type: 'SET_TEXT', payload: e.target.value });
         }}
-        ></Input>
+        ></Textarea>
       }
         <hr className="w-full my-2 border-gray-200 dark:border-gray-700" />
         

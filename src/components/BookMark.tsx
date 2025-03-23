@@ -148,9 +148,10 @@ export const BookMark = ({ meta, bol = true, onDelete, matchesbol = true, contai
       key={meta.id}
       className="
         relative overflow-visible
-        bg-white dark:bg-gray-900/10
-        border border-borderColor dark:border-gray-800
-        shadow-sm hover:shadow-md
+          bg-white dark:bg-gray-900/10
+           backdrop-blur-sm shadow-lg
+          dark:border dark:border-gray-800
+         hover:shadow-md
         transition-all duration-200 ease-out
         p-4 rounded-lg
         [&:has([data-expanded='true'])]:z-50
@@ -180,8 +181,8 @@ export const BookMark = ({ meta, bol = true, onDelete, matchesbol = true, contai
         onClick={toggleExpand}
       >
         <Favicon url={meta.url} className="w-8 h-8 rounded-md shadow-sm" />
-        <div className="flex-1">
-          <span className="text-base font-medium line-clamp-2 text-gray-800 dark:text-gray-200">
+        <div className="flex-1 min-w-0"> {/* 添加 min-width-0 防止移动端文本溢出 */}
+          <span className="text-base font-medium line-clamp-2 text-gray-800 dark:text-gray-200 break-all">
             {meta.title}
           </span>
         </div>
@@ -215,6 +216,7 @@ export const BookMark = ({ meta, bol = true, onDelete, matchesbol = true, contai
               className="absolute left-0 right-0 top-full mt-1
                 bg-white dark:bg-gray-900/10
                 rounded-lg shadow-lg
+                backdrop-blur-sm
                 p-4 max-h-[280px] overflow-y-auto
                 border border-gray-100 dark:border-gray-800
                 z-10"
@@ -257,7 +259,9 @@ export const BookMark = ({ meta, bol = true, onDelete, matchesbol = true, contai
                   opacity: { duration: 0.1 }
                 }
               }}
-              className="mt-3 pt-3 border-t border-gray-100 dark:border-gray-800 overflow-hidden"
+              className="mt-3 pt-3
+              backdrop-blur-sm
+              border-t border-gray-100 dark:border-gray-800 overflow-hidden"
             >
               <CardContent 
                 meta={meta} 
@@ -277,7 +281,6 @@ export const BookMark = ({ meta, bol = true, onDelete, matchesbol = true, contai
   );
 };
 
-// 抽取卡片内容为单独组件以避免重复
 const CardContent = ({ meta, session, ID, setIdFirst, updateCard, copyCardInfo, router, showImage = false }) => {
   return (
     <div className="space-y-3">
@@ -296,7 +299,9 @@ const CardContent = ({ meta, session, ID, setIdFirst, updateCard, copyCardInfo, 
         </div>
       )}
       
-      <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
+      <p className="text-sm text-gray-600 dark:text-gray-300 
+       
+      leading-relaxed">
         {meta.content || '暂无描述'}
       </p>
       

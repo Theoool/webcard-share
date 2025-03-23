@@ -114,17 +114,32 @@ export function LoginForm({
         setCodeError('验证码错误')
         toast({
           title: '验证失败',
-          description: '验证码错误或已过期，请重试',
+          description: result.error,
           variant: 'destructive'
         })
         return
-      }
-      
-      toast({
-        title: '登录成功',
-        description: '欢迎回来！',
+      }else{
+        toast({
+          title: '登录成功',
+          description: '欢迎回来！',
+        })
+        setLoginStep('ok')
+        router.push('/')
+      }        const signInResult = await signIn("credentials", {
+        email,
+        code: verificationCode,
+        redirect: false,
       })
-      setLoginStep('ok')
+      
+      if (signInResult?.error) {
+        throw new Error('自动登录失败，请手动登录')
+      }
+
+      toast({
+        title: '注册成功',
+        description: '欢迎加入我们！',
+      })
+    
     } catch (error) {
       console.error('Verification failed:', error)
       setNetworkError(true)

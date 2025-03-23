@@ -1,16 +1,17 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { Description } from "@radix-ui/react-toast";
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import { motion } from "framer-motion";
-import { Settings, LogOut, Mail, Share2, BookMarked } from "lucide-react";
 import GradientText from "@/components/GradientText";
 
 const logout = async () => {
   try {
-    await fetch(`${process.env.NEXT_PUBLIC_NESTJS_API_URL}/auth/logout`);
+    await fetch(`${process.env.NEXT_PUBLIC_NESTJS_API_URL}/auth/logout`,{
+      method: "POST",
+    });
     await signOut({ redirect: true });
+    window.location.href='/';
   } catch (error) {
     console.log(error);
   }
@@ -32,6 +33,8 @@ const UserProfile = ({ session }) => (
           transition={{ type: "spring", stiffness: 300 }}
         >
           <img
+          referrerPolicy="no-referrer"
+            loading="lazy"
             src={session.user?.image ?? ""}
             alt={session.user?.name ?? ""}
             className="w-full h-full object-cover rounded-full border-4 border-white dark:border-gray-700 shadow-xl"

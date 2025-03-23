@@ -213,13 +213,14 @@ export default function Home() {
       {
          session?<div className=" flex  items-center gap-2" onClick={()=>router.push('/me')}>
           <Avatar style={{'viewTransitionName':`Avatar`}} className=' rounded-xl size-7 sm:size-8'>
-        <AvatarImage className=" rounded-full" src={session.user?.image as string} alt={session.user?.name as string} />
+        <AvatarImage  referrerPolicy="no-referrer"
+            loading="lazy" className=" rounded-full" src={session.user?.image as string} alt={session.user?.name as string} />
         <AvatarFallback>CN</AvatarFallback>
       </Avatar> <span className="mr-2 text-sm  hidden md:block sm:block  dark:text-primary "
           >{session?.user?.name}</span> 
           </div>: <Button variant={'outline'}
-        onClick={()=>router.push('/login')}
-         className=" border-0 cursor-pointer text-sm font-serif dark:text-white">Login</Button> 
+        onClick={()=>router.push('/signup')}
+         className=" border-0 cursor-pointer text-sm font-serif dark:text-white">signup</Button> 
       }
       </div>
    </nav>

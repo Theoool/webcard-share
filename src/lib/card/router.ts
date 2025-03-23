@@ -84,8 +84,7 @@ interface carddata{
 }
 
 const addCard=async (data:carddata,session:any) => { 
-  console.log("你好hao");
-  
+ 
   try {
     const response = await fetch(`${process.env.NEXT_PUBLIC_NESTJS_API_URL}/Card`, {
       mode: 'cors',
@@ -103,10 +102,7 @@ const addCard=async (data:carddata,session:any) => {
              })
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    toast({
-      title: "添加卡片成功",
-      description: "做的非常好，感谢你为这个环境做的贡献",
-           })
+    // throw new Error(`HTTP error! status: ${response.status}`);
     return {
       success: true,
       data: response.json(),

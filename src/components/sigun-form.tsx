@@ -9,6 +9,7 @@ import { useState } from "react"
 import { ArrowLeft, Mail, User, Lock } from "lucide-react"
 import { toast } from "@/hooks/use-toast"
 import Link from "next/link"
+import { motion } from "framer-motion"
 
 export function SignupForm({
   className,
@@ -161,7 +162,22 @@ export function SignupForm({
     try {
       // 验证码验证
       const result = await verifyCode({verificationCode})
-      
+      if (result.data) {
+        const signInResult = await signIn("credentials", {
+          email,
+          code: verificationCode,
+          redirect: false,
+        })
+        if (signInResult?.error) {
+          throw new Error('自动登录失败，请手动登录')
+        }
+        toast({
+          title: '登录成功',
+          description: '你已经注册过了哦，已经为您自动登录',
+        })
+        // 注册成功，重定向到首页
+        router.push('/');
+      }
       if (result.success) {
         setSignupStep('userInfo')
         toast({
@@ -240,12 +256,11 @@ export function SignupForm({
         if (signInResult?.error) {
           throw new Error('自动登录失败，请手动登录')
         }
-       
+
         toast({
           title: '注册成功',
           description: '欢迎加入我们！',
         })
-        
         // 注册成功，重定向到首页
         router.push('/')
       } else {
@@ -458,12 +473,27 @@ export function SignupForm({
                   </div>
                   {usernameError && <p className="text-sm text-red-500">{usernameError}</p>}
                 </div>
-                
+                <div className="space-y-2">
+                <motion.div 
+          style={{'viewTransitionName':`Avatar`}} 
+          className="w-32 h-32 mx-auto relative mb-4"
+          whileHover={{ scale: 1.05 }}
+          transition={{ type: "spring", stiffness: 300 }}
+        >
+          <img
+          referrerPolicy="no-referrer"
+            loading="lazy"
+            src={image}
+           
+            className="w-full h-full object-cover rounded-full border-4 border-white dark:border-gray-700 shadow-xl"
+          />
+        </motion.div>
+        
+                </div>
                 <div className="space-y-2">
                   <Label htmlFor="image">头像URL</Label>
                   <div className="relative">
-                    <Lock className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
-                    <Input
+                          <Input
                       id="image"
                       name="image"
                       type="text"

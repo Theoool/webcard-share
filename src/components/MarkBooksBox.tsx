@@ -7,6 +7,7 @@ import { ButtonD } from "./Button/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Link as Linkhearf } from "next-view-transitions";
 import { Badge } from "./ui/badge";
+import { toast } from "@/hooks/use-toast";
 
 
 
@@ -25,27 +26,30 @@ const LinkView=({url,title})=>{
   </div>
   
 }
- function HoverCardDemo({cards}:{cards:any[]}) {
+ function HoverCardDemo({id}) {
   return (
-    <HoverCard>
-      <HoverCardTrigger asChild>
-        <Button className="  text-[18px] font-mono  "  variant={'link'}>
-          <Link className="block text-textfirst"  />
+   
+        <Button 
+          className="text-[18px] font-mono transition-all duration-200 hover:scale-105 active:scale-95"  
+          variant={'link'}
+          onClick={() => {
+            // 构建分享链接
+            const shareUrl = `www.theooo.xyz/markboxs/${id}`;
+            // 复制到剪贴板
+            navigator.clipboard.writeText(shareUrl).then(() => {
+              toast({
+                title: "复制成功",
+                description: "链接已复制到剪贴板，快去分享吧！",
+                // status: "success",
+                duration: 2000,
+              });
+            }).catch(err => {
+              console.error('复制失败:', err);
+            });
+          }}
+        >
+          <Link className="block text-textfirst hover:text-blue-500" />
         </Button>
-      </HoverCardTrigger>
-     
-      <HoverCardContent className="w-80      border dark:border-[#27272a] z-20 dark:shadow-md shadow-sm rounded-xl  p-2">
-      <ScrollArea className="h-52 w-full rounded-md bg-background ">
-        {
-          cards.map((res)=>{
-            return <LinkView key={res.id} url={res.url} title={res.title}></LinkView>
-          })
-        }
-     
-      </ScrollArea>
-      </HoverCardContent>
-      
-    </HoverCard>
   )
 }
 export default function MarkBooksBox({title,id,user,card,isopen=true}){
@@ -73,7 +77,7 @@ export default function MarkBooksBox({title,id,user,card,isopen=true}){
         <Badge className="bg-green-400">公开</Badge>
        }
        </span>
-      <HoverCardDemo cards={card} />
+      <HoverCardDemo id={id} />
       </div>
     
     </div>

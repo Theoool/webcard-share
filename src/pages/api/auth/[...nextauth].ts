@@ -92,10 +92,10 @@ export  const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         try {
-          // 添加请求超时处理
+         
           const controller = new AbortController();
           const timeoutId = setTimeout(() => controller.abort(), 5000);
-          // 邮箱密码登录逻辑
+          
           console.log(credentials);
           
           const loginRes = await fetch(`${process.env.NEXT_PUBLIC_NESTJS_API_URL}/auth/login`, {
@@ -112,7 +112,8 @@ export  const authOptions: NextAuthOptions = {
           clearTimeout(timeoutId);
           if (!loginRes.ok) {
               const errorData = await loginRes.json();
-            throw new Error('登录失败',errorData);
+           
+              throw new Error('登录失败',errorData.message);
           }else{
             
           const {user,accessToken,refreshToken} = await loginRes.json();

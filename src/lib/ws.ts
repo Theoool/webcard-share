@@ -4,7 +4,7 @@ const clientId = Date.now().toString(); // 生成唯一客户端ID
 
 // 创建WebSocket连接
 const connectWebSocket = (): Socket => {
-  const socket = io("http://localhost:3000", {
+  const socket = io(process.env.NEXT_PUBLIC_NESTJS_API_URL, {
     path: "/ws",
     transports: ['websocket'],
   reconnection: true,

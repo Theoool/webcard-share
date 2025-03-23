@@ -164,7 +164,7 @@ export default function Page() {
                   </Button>
                 </div>
                 <div className="bg-white overflow-auto dark:bg-gray-800 rounded-lg shadow-md ">
-                  <SeoParser url={url} />
+               { <SeoParser url={url} />}
                 </div>
               </motion.div>
             )}

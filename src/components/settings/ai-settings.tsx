@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { AlertDialog, AlertDialogContent, AlertDialogDescription, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
-import { Key, Database, Globe, AlertCircle } from "lucide-react";
+import { Key, Database, Globe, AlertCircle, RefreshCw } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import useSettingsModleStore from "@/Store/counter-store";
 
@@ -32,8 +32,7 @@ export function AiSettings() {
   const [embeddingModel, setEmbeddingModel] = useState("text-embedding-ada-002");
   const [customBaseUrl, setCustomBaseUrl] = useState("");
   const [showApiKeyAlert, setShowApiKeyAlert] = useState(false);
-  
-  const { model, apikey, BaseURl, setModel, setApikey: SETAPI, setBaseURl } = useSettingsModleStore();
+  const { model, apikey, BaseURl, setModel, setApikey: SETAPI, setBaseURl, resetSettings } = useSettingsModleStore();
 
   // 在组件挂载后从 store 加载设置
   useEffect(() => {
@@ -59,25 +58,63 @@ export function AiSettings() {
     }
   }, [model, apikey, BaseURl, SETAPI]);
 
+  // 处理AI功能开关变化
+  const handleAiEnabledChange = (enabled: boolean) => {
+    setIsAiEnabled(enabled);
+    if (!enabled) {
+      // 如果禁用AI功能，重置所有设置
+      resetSettings();
+      setApiKey("");
+      setChatModel("");
+      setCustomBaseUrl("");
+      setAiProvider("openai");
+      toast({
+        title: "AI 设置已重置",
+        description: "所有AI相关设置已被清除",
+      });
+    }
+  };
+
   const handleSaveAiSettings = () => {
     if (isAiEnabled && !apiKey) {
       setShowApiKeyAlert(true);
       return;
     }
     
-    // 设置模型
-    setModel(chatModel);
-    
-    // 设置 API Key
-    SETAPI(apiKey);
-    
-    // 设置基础 URL
-    const baseUrl = aiProvider === 'custom' ? customBaseUrl : baseURLMap[aiProvider];
-    setBaseURl(baseUrl);
-    
+    try {
+      // 设置模型
+      setModel(chatModel);
+      
+      // 设置 API Key
+      SETAPI(apiKey);
+      
+      // 设置基础 URL
+      const baseUrl = aiProvider === 'custom' ? customBaseUrl : baseURLMap[aiProvider];
+      setBaseURl(baseUrl);
+      
+      toast({
+        title: "AI 设置已更新",
+        description: isAiEnabled ? "AI 功能已启用" : "AI 功能已禁用",
+      });
+    } catch (error) {
+      toast({
+        title: "保存设置失败",
+        description: "请检查您的设置并重试",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleResetSettings = () => {
+    resetSettings();
+    setApiKey("");
+    setChatModel("");
+    setCustomBaseUrl("");
+    setAiProvider("openai");
+    setIsAiEnabled(false);
     toast({
-      title: "AI 设置已更新",
-      description: isAiEnabled ? "AI 功能已启用" : "AI 功能已禁用",
+      title: "设置已重置",
+      description: "所有AI设置已恢复默认值",
     });
   };
 
@@ -99,7 +136,7 @@ export function AiSettings() {
               </div>
               <Switch 
                 checked={isAiEnabled} 
-                onCheckedChange={setIsAiEnabled}
+                onCheckedChange={handleAiEnabledChange}
               />
             </div>
 
@@ -150,13 +187,8 @@ export function AiSettings() {
                     <Input 
                       id="api-key" 
                       value={apiKey}
-                      // type="password"
                       onChange={(e) => setApiKey(e.target.value)}
-                      placeholder={`输入${
-                        aiProvider === 'openai' ? 'OpenAI' : 
-                        aiProvider === 'aliyun' ? '阿里云百炼' : 
-                        aiProvider === 'siliconflow' ? '硅基流动' : '自定义'
-                      } API 密钥`}
+                      placeholder={`输入${aiProvider === 'openai' ? 'OpenAI' : aiProvider === 'aliyun' ? '阿里云百炼' : aiProvider === 'siliconflow' ? '硅基流动' : '自定义'} API 密钥`}
                       className="bg-background/50 pr-10"
                     />
                     <Key className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
@@ -187,7 +219,7 @@ export function AiSettings() {
                   <Label htmlFor="embedding-model">Embedding 模型</Label>
                   <div className="relative">
                     <Input 
-                    disabled
+                      disabled
                       id="embedding-model" 
                       value={embeddingModel}
                       onChange={(e) => setEmbeddingModel(e.target.value)}
@@ -204,13 +236,22 @@ export function AiSettings() {
                   </p>
                 </div>
 
-                <Button 
-                variant={'outline'}
-                  onClick={handleSaveAiSettings}
-                  className="w-full "
-                >
-                  保存 AI 设置
-                </Button>
+                <div className="flex gap-2">
+                  <Button 
+                    variant={'outline'}
+                    onClick={handleSaveAiSettings}
+                    className="flex-1"
+                  >
+                    保存 AI 设置
+                  </Button>
+                  <Button
+                    variant={'outline'}
+                    onClick={handleResetSettings}
+                    className="px-3"
+                  >
+                    <RefreshCw className="w-4 h-4" />
+                  </Button>
+                </div>
               </div>
             )}
           </div>
