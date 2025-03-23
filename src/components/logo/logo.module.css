@@ -1,0 +1,45 @@
+.path {
+  stroke-dashoffset: 3px;
+  stroke-dasharray: 350px 0;
+  animation: grow 7s ease forwards infinite;
+  transform-origin: center;
+  stroke: #303030;
+  animation-delay: 0s;
+}
+
+:global(.dark) .path {
+  stroke: #fdfdfd;
+}
+
+@media (prefers-reduced-motion) {
+  .path {
+    animation: none !important;
+    stroke-dasharray: unset !important;
+  }
+}
+
+@keyframes grow {
+  0% {
+    stroke-dashoffset: 1px;
+    stroke-dasharray: 0 350px;
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  40% {
+    stroke-dasharray: 350px 0;
+  }
+
+  /* Moving back */
+  85% {
+    stroke-dasharray: 350px 0;
+  }
+
+  95%,
+  to {
+    stroke-dasharray: 0 350px;
+  }
+}
