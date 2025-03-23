@@ -1,16 +1,17 @@
 
 import { Metadata } from "next";
 
-type Props = {
-  params: { id: string }
-  children: React.ReactNode
-}
+// Update the Props type to match Next.js expectations
+type LayoutProps = {
+  children: React.ReactNode;
+  params: Promise<{ id: string }>;
+};
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  // 从API获取收藏夹数据
-  // console.log(params);
+export async function generateMetadata({ params }: LayoutProps): Promise<Metadata> {
+  // Correctly await the params object
+  const resolvedParams = await params;
+  const favoriteId = resolvedParams.id;
   
-  const favoriteId = (await params).id;
   let title = "收藏夹";
   let description = "智能书签管理平台";
   
@@ -61,6 +62,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default function Layout({ children }: Props) {
-  return <div>children</div>;
+// Update the Layout component to use the correct type
+export default function Layout({ children }: { children: React.ReactNode }) {
+  return <>{children}</>;
 }
