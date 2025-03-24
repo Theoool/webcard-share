@@ -23,15 +23,13 @@ const SeoParser = ({ url }: SeoParserProps) => {
     if (!url || url === prevUrlRef.current) return;
     prevUrlRef.current = url;
     if (!url) return; // 如果没有 url，则不执行
-  
- 
     const fetchStream = async () => {
       setIsLoading(true); 
       setData(""); 
       setError(null); 
       try {
         const response = await fetch(
-          `http://localhost:3000/search/cards/parse-md?url=${encodeURIComponent(url)}`
+          `${process.env.NEXT_PUBLIC_NESTJS_API_URL}/search/cards/parse-md?url=${encodeURIComponent(url)}`
         ,{
           headers:{
             'x-ai-model':model,
@@ -44,7 +42,6 @@ const SeoParser = ({ url }: SeoParserProps) => {
           const res=await response.json()
           throw new Error(`解析失败: ${res.message}`);
         }
-
         if (!response.body) {
           throw new Error("响应体不可用，无法进行流式读取");
         }

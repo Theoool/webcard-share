@@ -62,7 +62,7 @@ export default function SplashCursor({
   PRESSURE_ITERATIONS = 20,
   CURL = 10,
   SPLAT_RADIUS = 0.2,
-  SPLAT_FORCE = 3000,
+  SPLAT_FORCE = 5000,
   SHADING = true,
   COLOR_UPDATE_SPEED = 10,
   BACK_COLOR = { r: 0.5, g: 0, b: 0 },
@@ -1000,7 +1000,7 @@ export default function SplashCursor({
       return Math.floor(input * pixelRatio);
     }
 
-    // -------------------- Simulation Setup --------------------
+  
     updateKeywords();
     initFramebuffers();
 
@@ -1541,7 +1541,7 @@ export default function SplashCursor({
   ]);
 
   return (
-    <div className="fixed top-0 left-0 z-50 pointer-events-none w-full h-full">
+    <div className=" hidden sm:flex sm:fixed top-0 left-0 z-50 pointer-events-none w-full h-full">
       <canvas ref={canvasRef} id="fluid" className="w-screen h-screen block"></canvas>
     </div>
   );

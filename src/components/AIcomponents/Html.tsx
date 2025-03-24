@@ -206,8 +206,6 @@ export function UploadPage() {
   };
 
   const handleUrlSubmit = async () => {
-   
-   
     if (!url) {
       toast({
         title: "请输入URL",
@@ -216,7 +214,6 @@ export function UploadPage() {
       });
       return;
     }
-
     // 简单的URL验证
     const urlPattern = /^(https?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w- ./?%&=]*)?$/;
     if (!urlPattern.test(url)) {
@@ -238,7 +235,7 @@ export function UploadPage() {
   
     try {
      
-      const response = await fetch('${process.env.NEXT_PUBLIC_NESTJS_API_URL}/search/cards/Htmlcode', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_NESTJS_API_URL}/search/cards/Htmlcode`, {
         method: 'POST', // 必须指定请求方法
         headers: {   
           'x-ai-model': model,

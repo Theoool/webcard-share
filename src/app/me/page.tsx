@@ -5,10 +5,14 @@ import { useSession, signOut } from "next-auth/react";
 import { motion } from "framer-motion";
 import GradientText from "@/components/GradientText";
 
-const logout = async () => {
+const logout = async (session) => {
   try {
     await fetch(`${process.env.NEXT_PUBLIC_NESTJS_API_URL}/auth/logout`,{
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      Authorization: `Bearer ${session?.accessToken}`
+      },
     });
     await signOut({ redirect: true });
     window.location.href='/';
@@ -82,7 +86,7 @@ const UserProfile = ({ session }) => (
           <Button 
             variant="outline" 
             className="w-full py-6 flex flex-col items-center gap-2 hover:bg-[#dd8f9a] hover:text-[#f7e4dd] transition-all duration-300"
-            onClick={logout}
+            onClick={()=>logout(session)}
           >
             
             <span>退出</span>

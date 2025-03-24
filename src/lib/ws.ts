@@ -133,7 +133,7 @@ export async function SaveCards(urls: string[],session,UserFavoriteId) {
 
 // 进度条更新函数
 function updateProgressBar(progress: any) {
-  if (!progress) return;
+  // if (!progress) return;
   
   // 记录进度到控制台
   console.log(`处理进度: ${progress.processed}/${progress.total}`);

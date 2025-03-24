@@ -12,12 +12,11 @@ import { toast } from "@/hooks/use-toast";
 import { BookMark } from "@/components/BookMark";
 import TooltipDemo from "@/components/TooltipDemo";
 import { downloadBookmarks } from "@/lib/utils";
-// import { SaveCards } from "@/lib/card/router";
-
 import { useSession } from "next-auth/react";
 import { submitUrls, getSocket,SaveCards } from "@/lib/ws";
 import { motion, AnimatePresence } from "framer-motion";
 import HeaderBox from '@/components/boxheader';
+import { log } from "node:console";
 
 
 
@@ -49,13 +48,16 @@ export default function Page() {
     }
   }, [data]);
   const handleDelete = async (id) => {
-    const data = await fetch(`${process.env.NEXT_PUBLIC_NESTJS_API_URL}Card/delete/${id}`, {
+    const data = await fetch(`${process.env.NEXT_PUBLIC_NESTJS_API_URL}/Card/delete/${id}`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${session?.accessToken}`,
         'Content-Type': 'application/json',
       },
+      // body: JSON.stringify(meta),
     });
+    console.log(data);
+    
     if (!data.ok) { 
       toast({
         title: data.statusText,
@@ -65,69 +67,6 @@ export default function Page() {
     }
     setCards(cards.filter(card => card.id !== id));
   };
-
-  // 添加WebSocket监听
-  useEffect(() => {
-    // 确保在客户端环境中执行
-    if (typeof window !== 'undefined') {
-      const socket = getSocket();
-      
-      // 监听进度更新
-      socket.on('progress', (data) => {
-        if (data.status === 'processing') {
-          setProgress(data.progress);
-         
-        } else if (data.status === 'completed') {
-          setTimeout(() => {
-            setAnalyzing(false);
-            // 处理分析结果，删除失败的URL
-            if (data.results) {
-              const failedUrls = data.results
-                .filter(result => result.success === false)
-                .map(result => result.url);
-                
-              if (failedUrls.length > 0) {
-                // 找出要删除的卡片ID
-                const cardsToDelete = cards.filter(card => 
-                  failedUrls.includes(card.url)||card.title===""
-                ).map(card => card.id);
-                
-                // 删除失败的卡片
-                if (cardsToDelete.length > 0) {
-                  cardsToDelete.forEach(id => handleDelete(id));
-                  
-                  toast({
-                    title: "已清理无效链接",
-                    description: `已从收藏夹中移除 ${cardsToDelete.length} 个无效链接`,
-                  });
-                  route.refresh()
-                }
-              }
-            }
-            setProgress(null);
-            toast({
-              title: "分析完成",
-              description: `成功分析 ${data.progress.success} 个URL`,
-            });
-            window.location.reload()
-          }, 2000);
-          setAnalyzing(false);
-          setProgress(null);
-          toast({
-            title: "分析完成",
-            description: `成功分析所有URL`,
-          });
-        }
-      });
-      
-      // 组件卸载时清理监听器
-      return () => {
-        socket.off('progress');
-      };
-    }
-  }, [cards,handleDelete]);
-
- 
   const handleDeleteID = (id) => {
     setCards(cards.filter(card => card.id !== id));
   };
@@ -161,6 +100,71 @@ export default function Page() {
       });
     }
   };
+
+  // 添加WebSocket监听
+  useEffect(() => {
+    // 确保在客户端环境中执行
+    if (typeof window !== 'undefined') {
+      const socket = getSocket();
+      
+      // 监听进度更新
+      socket.on('progress', (data) => {
+        console.log(data);
+        
+        if (data.status === 'processing') {
+          setProgress(data.progress);
+         
+        } else if (data.status === 'completed') {
+          console.log(data);
+          setTimeout(() => {
+            setAnalyzing(false);
+           
+            if (data.results) {
+              
+              const failedUrls = data.results
+                .filter(result => result.success === false)
+                .map(result => result.url);
+              console.log(failedUrls);
+              if (failedUrls.length > 0) {
+                const cardsToDelete = cards.filter(card => 
+                  failedUrls.includes(card.url)||card.title===""
+                ).map(card => card.id);
+                // 删除失败的卡片
+                if (cardsToDelete.length > 0) {
+                  cardsToDelete.forEach(id => handleDelete(id));
+                  toast({
+                    title: "已清理无效链接",
+                    description: `已从收藏夹中移除 ${cardsToDelete.length} 个无效链接`,
+                  });
+                  route.refresh()
+                }
+              }
+            }
+            setProgress(null);
+            toast({
+              title: "分析完成",
+              description: `成功分析 ${data.progress.success} 个URL`,
+            });
+            // window.location.reload()
+          }, 2000);
+          setAnalyzing(false);
+          setProgress(null);
+          toast({
+            title: "分析完成",
+            description: `成功分析所有URL`,
+          });
+        }
+      });
+      
+      // 组件卸载时清理监听器
+      return () => {
+        socket.off('progress');
+      };
+    }
+  }, [cards,handleDelete,route]);
+
+ 
+ 
 if (data) {
   return (
     <div>
@@ -345,6 +349,7 @@ if (data) {
                    if (items && items.length > 0) {
                      const newCards = items.map(item => item.url);
                      const res = await SaveCards( newCards, session?.accessToken,router!.id)
+                    console.log(res);
                     
                    }
                  }} 
@@ -352,7 +357,8 @@ if (data) {
                />
              </TooltipDemo>}
              
-             {session?.user?.email===data.primaryUser.email&&  <TooltipDemo text={'清理失效连接'}>
+             {session?.user?.email===data.primaryUser.email&& 
+              <TooltipDemo text={'清理失效连接'}>
                <Button 
                  variant={analyzing ? 'default' : 'outline'} 
                  onClick={handleAnalyze}

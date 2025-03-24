@@ -54,7 +54,12 @@ const LinkView=({url,title})=>{
 }
 export default function MarkBooksBox({title,id,user,card,isopen=true}){
    
-  return <div className=" border dark:border-[#27272a] dark:shadow-md shadow-sm rounded-md  p-2"
+  return <div className=" border bg-white/50 dark:bg-black/50 dark:border-borderColor dark:shadow-md shadow-md
+   transition-all duration-200 ease-out
+        p-2 rounded-lg
+        backdrop-blur-xl  
+         hover:scale-101 hover:translate-y-1
+  "
   
   >
   

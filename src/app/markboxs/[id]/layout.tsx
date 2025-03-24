@@ -62,7 +62,7 @@ export async function generateMetadata({ params }: LayoutProps): Promise<Metadat
   };
 }
 
-// Update the Layout component to use the correct type
+
 export default function Layout({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }

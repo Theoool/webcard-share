@@ -3,8 +3,9 @@ import { Link } from "next-view-transitions";
 import { useSession } from "next-auth/react";
 import  DarkModeBtn  from "@/components/dark";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
-import { ButtonD } from "./Button/button";
+
 import { useRouter } from "next/navigation";
+import { QueryClientProvider } from '../lib/QueryClientProvider';
 import {
   Calculator,
   Calendar,
@@ -13,6 +14,7 @@ import {
   List,
   Settings,
   Smile,
+  Tags,
   User,
 } from "lucide-react"
  
@@ -40,6 +42,7 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer"
 import Logo from "./logo/logo";
+import { useQuery } from "@tanstack/react-query";
 
 const RouterList=[{
   title:'主页',
@@ -80,6 +83,8 @@ const RouterList=[{
 
 export function CommandDialogDemo() {
   const [open, setOpen] = React.useState(false)
+  const { data: session } = useSession();
+ 
  const router= useRouter()
   React.useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -88,10 +93,10 @@ export function CommandDialogDemo() {
         setOpen((open) => !open)
       }
     }
- 
     document.addEventListener("keydown", down)
     return () => document.removeEventListener("keydown", down)
   }, [])
+ 
  
   return (
     <div className="w-full relative  ">
@@ -127,22 +132,8 @@ export function CommandDialogDemo() {
             }
           </CommandGroup>
           <CommandSeparator />
-          <CommandGroup heading="Settings">
-            <CommandItem>
-              <User />
-              <span>个人页面</span>
-              <CommandShortcut>⌘P</CommandShortcut>
-            </CommandItem>
-            <CommandItem>
-              <CreditCard />
-              <span>Billing</span>
-              <CommandShortcut>⌘B</CommandShortcut>
-            </CommandItem>
-            <CommandItem>
-              <Settings />
-              <span>设置</span>
-              <CommandShortcut>⌘S</CommandShortcut>
-            </CommandItem>
+          <CommandGroup heading="收藏夹">
+         
           </CommandGroup>
         </CommandList>
       </CommandDialog>

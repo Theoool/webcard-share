@@ -41,7 +41,7 @@ export default function Header({bol=true}:{bol?:boolean}){
         setdelete(false)
     
   }, [pathname])
-  return  <div className="xl:px-20 mt-2 flex  justify-end items-center gap-4  text-xl" >
+  return  <div className="xl:px-20  mt-2 flex justify-center  sm:justify-end items-center gap-4  text-xl" >
   <Button className="text-xl text-textfirst " style={{'viewTransitionName':`markbox`}}  variant={'link'}>
     <Link href={'/mymarkbox'}>书签</Link>
   </Button>
@@ -117,7 +117,7 @@ export function DrawerDialogDemo({children}) {
           <DialogHeader>
             <DialogTitle>添加自定义站点</DialogTitle>
             <DialogDescription className="flex items-center">
-             编辑一个新的站点 <Button variant={'link'} >
+            在这里创建你的新收藏夹，点击保存 <Button variant={'link'} >
               {/* <Link   className="flex items-center">方法</Link> */}
              </Button>
             </DialogDescription>
@@ -143,9 +143,9 @@ export function DrawerDialogDemo({children}) {
       </DrawerTrigger>
       <DrawerContent className="px-4">
         <DrawerHeader className="text-left">
-          <DrawerTitle>创建收藏夹 </DrawerTitle>
+          <DrawerTitle>添加自定义站点 </DrawerTitle>
           <DrawerDescription>
-            在这里创建你的新收藏夹，点击保存
+          编辑一个新的站点
           </DrawerDescription>
         </DrawerHeader>
         {/* <div className="p-2 w-full hover:scale-105 m-2 shadow-inner h-40 flex justify-center items-center bg-white/5 cursor-pointer text-2xl">文件导入</div>
@@ -304,7 +304,7 @@ function CardForm({ className }: React.ComponentProps<"form">) {
         variant: 'destructive',
         duration:1000
       });
-      window.location.href = '/';
+      window.location.reload();
       
     } catch (error) {
       toast({
@@ -318,7 +318,7 @@ function CardForm({ className }: React.ComponentProps<"form">) {
  
 
   return (
-    <div className={cn("grid items-start gap-4", className)} >
+    <div className={cn("grid items-start  gap-4", className)} >
     
      
  

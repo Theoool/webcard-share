@@ -15,6 +15,7 @@ import CoverParser from "@/components/AIcomponents/CoverParser";
 import { isURL } from "@/lib/utils";
 import SplashCursor from "@/components/home/SplashCursor";
 import GradientText from "@/components/GradientText";
+import Link from "next/link";
 
 interface TipModel{
   text:string
@@ -93,28 +94,26 @@ useEffect(() => {
     <div>
     
     <div className="min-h-screen flex items-center justify-center py-20 px-4">
-    <SplashCursor  /> 
+    <SplashCursor   /> 
       <div className="max-w-4xl w-full space-y-12">
         <div className="space-y-6 text-center">
           <h1 className="text-4xl md:text-5xl font-light tracking-tight">
-            <span className="block mb-4">打破信息茧房
+          <GradientText>OpenLink :</GradientText> <span className="block mb-4">智能书签管理与AI摘要工具
            </span>
           
-    <GradientText>探索无限可能，重新连接互联网</GradientText>
+
           </h1>
-          {/* <p
+          <h2 className="text-2xl md:text-5xl font-light tracking-tight">
+    <Link  href={'/home'}>       
+    <GradientText>探索无限可能，重新连接互联网</GradientText></Link>
+          </h2>
          
-        
-         className="text-xl md:text-2xl text-muted-foreground text-center max-w-2xl"
-       >
-         探索无限可能，连接知识世界
-       </p> */}
          
-          <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+          <p className="text-lg m-0 md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
             一键提取网页精华，优化分析<span style={{'viewTransitionName':`markbox`}} className=" text-green-300">书签</span>，整理分类<span style={{'viewTransitionName':`markboxs`}} className=" text-green-300">收藏</span>，与世界分享你的发现
           </p>
-          <p className="text-sm text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            每天提供二十次的免费请求,进一步体验，请登录后设置自己的apikey  </p>
+          <p className="text-sm h-0.5 m-0 text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+            每天提供二十次的免费请求,进一步体验，请<Link href={'/login'} className="text-blue-300 font-bold m-1">登录</Link>后设置自己的apikey  </p>
         </div>
         <div className="relative max-w-2xl mx-auto">
           <Input 
